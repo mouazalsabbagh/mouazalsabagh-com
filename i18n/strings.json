@@ -1,0 +1,111 @@
+{
+  "_meta": {
+    "languages": [
+      "en",
+      "ar"
+    ],
+    "default": "en",
+    "rtl": [
+      "ar"
+    ],
+    "count": 24
+  },
+  "strings": {
+    "nav.home": {
+      "en": "Home",
+      "ar": "الرئيسية"
+    },
+    "nav.about": {
+      "en": "About",
+      "ar": "نبذة عني"
+    },
+    "nav.works": {
+      "en": "Works",
+      "ar": "الأعمال"
+    },
+    "nav.projects": {
+      "en": "Projects",
+      "ar": "المشاريع"
+    },
+    "nav.services": {
+      "en": "Services",
+      "ar": "الخدمات"
+    },
+    "nav.blog": {
+      "en": "Blog",
+      "ar": "المدونة"
+    },
+    "nav.contact": {
+      "en": "Contact",
+      "ar": "تواصل معي"
+    },
+    "btn.view_cv": {
+      "en": "View CV",
+      "ar": "عرض السيرة الذاتية"
+    },
+    "btn.contact_me": {
+      "en": "Contact Me",
+      "ar": "تواصل معي"
+    },
+    "hero.role": {
+      "en": "Senior Art Director & Creative Technologist",
+      "ar": "مدير فني أول وتقني إبداعي"
+    },
+    "section.work_education": {
+      "en": "Work & Education",
+      "ar": "الخبرات والتعليم"
+    },
+    "rec.title": {
+      "en": "Recommendation Letter Generator",
+      "ar": "منشئ خطابات التوصية"
+    },
+    "rec.generate": {
+      "en": "Generate Recommendation Letter",
+      "ar": "إنشاء خطاب التوصية"
+    },
+    "rec.copy": {
+      "en": "Copy to Clipboard",
+      "ar": "نسخ إلى الحافظة"
+    },
+    "rec.print": {
+      "en": "Print / Save PDF",
+      "ar": "طباعة / حفظ PDF"
+    },
+    "rec.edit": {
+      "en": "Edit & Regenerate",
+      "ar": "تعديل وإعادة الإنشاء"
+    },
+    "form.name": {
+      "en": "Your Name",
+      "ar": "الاسم"
+    },
+    "form.email": {
+      "en": "Email",
+      "ar": "البريد الإلكتروني"
+    },
+    "form.message": {
+      "en": "Message",
+      "ar": "الرسالة"
+    },
+    "form.submit": {
+      "en": "Send Message",
+      "ar": "إرسال الرسالة"
+    },
+    "status.new": {
+      "en": "New",
+      "ar": "جديد"
+    },
+    "status.reviewed": {
+      "en": "Reviewed",
+      "ar": "تمت المراجعة"
+    },
+    "status.downloaded": {
+      "en": "Downloaded",
+      "ar": "تم التنزيل"
+    },
+    "footer.rights": {
+      "en": "All Rights Reserved",
+      "ar": "جميع الحقوق محفوظة"
+    }
+  }
+}
