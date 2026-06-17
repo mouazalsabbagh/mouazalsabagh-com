@@ -11,9 +11,9 @@ The secrets are **already in git history and were live on the server**. Moving
 them to a config file does NOT un-expose them. You must invalidate the old ones:
 
 1. **Revoke the Anthropic API key** at <https://console.anthropic.com/settings/keys>
-   (the key `sk-ant-api03-CeSbb-…` in `rec/ai.php`) and generate a new one.
-2. **Rotate the MySQL password** in cPanel → MySQL Databases (the value
-   `CwiA~7oL*pmt` in `rec/collect.php`).
+   (the old `sk-ant-…` key that was hard-coded in `rec/ai.php`) and generate a new one.
+2. **Rotate the MySQL password** in cPanel → MySQL Databases (the old value that
+   was hard-coded in `rec/collect.php`).
 3. **Choose a NEW, different admin password** — it is currently identical to the
    DB password, so one leak compromises both.
 
