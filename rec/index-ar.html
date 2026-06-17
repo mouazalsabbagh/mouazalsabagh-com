@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Mouaz AlSabbagh - Recommendation Letter Generator">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>مولّد خطابات التوصية — معاذ الصباغ</title>
+
+    <!-- Favicon Icon -->
+    <link rel="shortcut icon" href="../assets/images/favicon.webp" type="image/x-icon">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Vendor / template CSS -->
+    <link rel="stylesheet" href="../assets/css/flaticon.min.css">
+    <link rel="stylesheet" href="../assets/css/fontawesome-5.14.0.min.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/nice-select.min.css">
+    <link rel="stylesheet" href="../assets/css/animate.min.css">
+    <link rel="stylesheet" href="../assets/css/slick.min.css">
+    <link rel="stylesheet" href="../assets/css/magnific-popup.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+
+    <!-- Custom Design System -->
+    <link rel="stylesheet" href="../assets/css/design-system.css">
+
+    <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'IBM Plex Sans Arabic', 'Tajawal', var(--font-body), sans-serif;
+      direction: rtl;
+    }
+
+    /* Let global css handle body background */
+    .rec-container { max-width: 8.5in; margin: 0 auto; padding: 0.4in 0.5in; background: var(--bg-deep); min-height: 100vh; position: relative; z-index: 1; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    
+    /* ── FORM HEADER ── */
+    .form-header { margin-bottom: 1.2rem; border-bottom: 1px solid var(--border); padding-bottom: 0.8rem; }
+    .form-header h1 { font-family: 'IBM Plex Sans Arabic', var(--font-heading); font-size: 1.9rem; font-weight: 800; margin-bottom: 0.2rem; color: var(--text-heading); }
+    .form-header .title { font-size: 1.15rem; color: var(--primary); font-weight: 600; margin-bottom: 0.4rem; }
+    .form-header .contact-info { font-size: 0.88rem; display: flex; flex-wrap: wrap; gap: 1rem; color: var(--text-body); }
+    .form-header .contact-info span { display: inline-flex; align-items: center; gap: 0.3rem; direction: rtl; }
+    .form-header .contact-info span .val { direction: ltr; unicode-bidi: embed; }
+
+    /* ── SECTION TITLES ── */
+    .section-title {
+      font-family: 'IBM Plex Sans Arabic', var(--font-heading);
+      font-size: 1.1rem; font-weight: 700;
+      background: var(--bg-card); padding: 0.45rem 0.7rem;
+      margin-bottom: 0.8rem; border-right: 3px solid var(--primary);
+      color: var(--text-heading);
+    }
+
+    section { margin-bottom: 1.4rem; }
+
+    /* ── FORM ELEMENTS ── */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.25rem; }
+    .form-group.full { grid-column: 1 / -1; }
+
+    label { font-size: 0.9rem; font-weight: 700; color: var(--text-heading); }
+    label .required { color: #ef4444; margin-right: 2px; }
+    label .hint { font-weight: 400; color: rgba(255,255,255,0.4); font-size: 0.83rem; margin-right: 0.4rem; }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    input[type="tel"],
+    select,
+    textarea {
+      font-family: 'IBM Plex Sans Arabic', 'Tajawal', sans-serif;
+      font-size: 0.92rem;
+      color: var(--text-heading);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 0.45rem 0.6rem;
+      background: var(--bg-card);
+      transition: border-color 0.15s, box-shadow 0.15s;
+      width: 100%;
+      text-align: right;
+    }
+    input[type="email"], input[type="tel"] { direction: ltr; text-align: left; }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary-dim);
+    }
+    
+    textarea { resize: vertical; min-height: 75px; }
+    select { cursor: pointer; }
+
+    /* ── CHECKBOX GROUP ── */
+    .checkbox-group { display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; margin-top: 0.2rem; }
+    .checkbox-group label {
+      display: flex; align-items: center; gap: 0.4rem;
+      font-weight: 400; font-size: 0.9rem; cursor: pointer; color: var(--text-body);
+    }
+    .checkbox-group input[type="checkbox"] { width: 15px; height: 15px; cursor: pointer; accent-color: var(--primary); }
+
+    /* ── METRICS GRID ── */
+    .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin-bottom: 0.8rem; }
+    .metric-box { background: var(--bg-card); padding: 0.55rem; border-right: 2px solid var(--border); transition: background 0.3s; }
+    .metric-box:hover { background: var(--bg-card-hover); }
+    .metric-value { font-family: 'IBM Plex Sans Arabic', var(--font-heading); font-weight: 800; font-size: 1rem; color: var(--text-heading); }
+    .metric-label { font-size: 0.78rem; color: rgba(255,255,255,0.4); margin-top: 0.1rem; }
+
+    /* ── BUTTONS ── */
+    .btn-generate {
+      display: block; width: 100%;
+      background: var(--primary); color: var(--bg-body);
+      border: none; border-radius: 3px;
+      padding: 0.7rem 1.2rem; font-size: 1.05rem; font-weight: 700;
+      cursor: pointer; transition: all 0.15s; margin-top: 0.4rem;
+      font-family: inherit;
+    }
+    .btn-generate:hover { filter: brightness(1.1); box-shadow: 0 0 15px var(--primary-dim); }
+    .btn-generate:disabled { background: var(--border); color: var(--text-body); cursor: not-allowed; box-shadow: none; filter: none; }
+
+    .btn-copy, .btn-print {
+      display: inline-block; background: var(--bg-card); color: var(--text-heading);
+      border: 1px solid var(--border); border-radius: 3px;
+      padding: 0.45rem 1rem; font-size: 0.9rem; font-weight: 600;
+      cursor: pointer; transition: background 0.15s; font-family: inherit;
+    }
+    .btn-copy:hover, .btn-print:hover { background: var(--bg-card-hover); }
+
+    /* ── OUTPUT ── */
+    #output-section { display: none; margin-top: 1.4rem; }
+    .letter-output {
+      border: 1px solid var(--border); border-radius: 3px;
+      padding: 1.1rem 1.3rem; font-size: 0.95rem; line-height: 2;
+      background: var(--bg-card); white-space: pre-wrap; min-height: 200px;
+      color: var(--text-heading);
+    }
+    .output-actions { display: flex; gap: 0.6rem; margin-top: 0.6rem; }
+
+    /* ── STATUS ── */
+    .status-bar {
+      display: none; font-size: 0.88rem; padding: 0.45rem 0.7rem;
+      border-radius: 3px; margin-top: 0.4rem;
+      border-right: 3px solid var(--border); background: var(--bg-card);
+      color: var(--text-heading);
+    }
+    .status-bar.loading { border-right-color: #f59e0b; color: #fcd34d; }
+    .status-bar.error   { border-right-color: #ef4444; color: #fca5a5; }
+    .status-bar.success { border-right-color: var(--primary); color: var(--primary); }
+
+    /* ── REFERENCE CARD ── */
+    .ref-card {
+      background: var(--bg-card); border-right: 2px solid var(--border);
+      padding: 0.55rem 0.75rem; font-size: 0.88rem; color: var(--text-body); margin-bottom: 0.6rem;
+    }
+    .ref-card strong { color: var(--text-heading); }
+
+    @media print {
+      body { background: white; color: black; }
+      .rec-container { padding: 0.3in; background: white; box-shadow: none; border: none; max-width: none; margin: 0; }
+      #form-section, .lang-switch, .main-header, .main-footer, .preloader, .scroll-top { display: none !important; }
+      #output-section { display: block !important; }
+      .output-actions, .status-bar { display: none !important; }
+      .letter-output { border: none; padding: 0; background: white; color: black; }
+    }
+    </style>
+</head>
+<body class="home-two">
+<div class="page-wrapper">
+
+  <!-- Preloader -->
+  <div class="preloader"></div>
+
+  <!-- GLOBAL HEADER (Ltr forced by bootstrap/theme css, so let's keep nav structure clear) -->
+  <header class="main-header header-two" dir="ltr">
+      <div class="header-upper">
+          <div class="container container-1620 clearfix">
+              <div class="header-inner rel d-flex align-items-center">
+                  <div class="logo-outer">
+                      <div class="logo"><a href="../index.html"><img src="../assets/images/logos/logo.webp" alt="Logo" title="Logo"></a></div>
+                  </div>
+                  <div class="nav-outer clearfix mx-auto">
+                      <nav class="main-menu navbar-expand-lg">
+                          <div class="navbar-header">
+                              <div class="mobile-logo my-15">
+                                  <a href="../index.html"><img src="../assets/images/logos/logo.webp" alt="Logo" title="Logo"></a>
+                              </div>
+                              <button type="button" class="navbar-toggle me-4" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+                                  <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                              </button>
+                          </div>
+                          <div class="navbar-collapse collapse clearfix">
+                              <ul class="navigation clearfix">
+                                  <li><a href="../index.html">Home</a></li>
+                                  <li class="dropdown"><a href="#">Selected Work</a>
+                                      <ul>
+                                          <li><a href="../works.html">Master Gallery</a></li>
+                                          <li><a href="../works.html#value-creation">Macro-Impact &amp; Vision</a></li>
+                                          <li><a href="../works.html#performance-growth">Performance &amp; Growth</a></li>
+                                          <li><a href="../works.html#digital-experience">Digital Experience</a></li>
+                                          <li><a href="../value-acceleration.html">AI &amp; Gaming</a></li>
+                                      </ul>
+                                  </li>
+                                  <li class="dropdown"><a href="#">AI Engine</a>
+                                      <ul>
+                                          <li><a href="../ai-engine.html">Human Engine</a></li>
+                                          <li><a href="../ai-engine.html#innovation-lab">Innovation Lab</a></li>
+                                          <li><a href="../ai-engine.html#ai-pipeline">4-Step AI Pipeline</a></li>
+                                          <li><a href="../ai-engine.html#tech-stack">Tech Stack Matrix</a></li>
+                                          <li><a href="../about.html">professional Timeline</a></li>
+                                      </ul>
+                                  </li>
+                                  <li class="dropdown"><a href="../blog.html">Tafannon blog</a>
+                                      <ul>
+                                          <li><a href="../blog.html">Art &amp; Branding Insights</a></li>
+                                          <li><a href="../blog.html">Thought-Leadership Notes</a></li>
+                                          <li><a href="../blog.html">Editorial Masonry</a></li>
+                                      </ul>
+                                  </li>
+                                  <li class="dropdown"><a href="#">Contact</a>
+                                      <ul>
+                                          <li><a href="../contact.html">Conversion Overlay</a></li>
+                                          <li><a href="../contact.html#email">Email &amp; Phone</a></li>
+                                          <li><a href="../contact.html#social">Social Channels</a></li>
+                                          <li><a href="../contact.html#downloads">Downloads</a></li>
+                                      </ul>
+                                  </li>
+                              </ul>
+                          </div>
+                      </nav>
+                  </div>
+                  <div class="menu-btns">
+                      <a href="../contact.html" class="theme-btn">let,s talk</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </header>
+
+  <main class="pt-120 pb-80">
+    <div class="rec-container">
+
+      <a href="index.html" class="lang-switch" title="Switch to English">English</a>
+
+      <!-- FORM HEADER -->
+      <div class="form-header">
+        <h1>معاذ الصباغ</h1>
+        <div class="title">مدير فني أول ومختص بالتقنية الإبداعية</div>
+        <div class="contact-info">
+          <span><span class="ic">📧</span><span class="val">mo3az.e.s@gmail.com</span></span>
+          <span><span class="ic">📞</span><span class="val">+966 50 175 7969</span></span>
+          <span><span class="ic">🔗</span><span class="val">behance.net/mouazalsabbagh</span></span>
+          <span><span class="ic">💼</span><span class="val">linkedin.com/in/mouazalsabbagh</span></span>
+          <span><span class="ic">📍</span><span class="val" style="direction:rtl">الرياض، السعودية</span></span>
+        </div>
+      </div>
+
+  <!-- ABOUT -->
+  <section>
+    <div class="section-title">طلب خطاب توصية</div>
+    <div class="ref-card">
+      هذا النموذج يساعدك على إنشاء خطاب توصية احترافي ومخصّص لـ <strong>معاذ الصباغ</strong>،
+      مبني على طبيعة علاقتك به ومدة العمل معه والمنصب الذي يتقدّم له.
+      عبّي البيانات تحت، والذكاء الاصطناعي بيكتب لك مسودة الخطاب بصوتك، تقدر تراجعها وتعدّلها وتوقّعها.
+    </div>
+
+    <div class="metrics-grid">
+      <div class="metric-box">
+        <div class="metric-value">+12 سنة</div>
+        <div class="metric-label">خبرة إبداعية</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-value">3 جوائز</div>
+        <div class="metric-label">أثر و MENA Digital</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-value">+250%</div>
+        <div class="metric-label">نمو علامة جاكو</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-value">380 مليار ريال</div>
+        <div class="metric-label">قيمة المشاريع المعروضة</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORM -->
+  <div id="form-section">
+
+    <!-- RECOMMENDER INFO -->
+    <section>
+      <div class="section-title">معلوماتك (الموصّي)</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>الاسم الكامل <span class="required">*</span></label>
+          <input type="text" id="rec-name" title="rec-name" placeholder="مثال: أحمد الراشد" >
+        </div>
+        <div class="form-group">
+          <label>المسمّى الوظيفي <span class="required">*</span></label>
+          <input type="text" id="rec-title" title="rec-title" placeholder="مثال: مدير إبداعي" >
+        </div>
+        <div class="form-group">
+          <label>الشركة / الجهة <span class="required">*</span></label>
+          <input type="text" id="rec-company" title="rec-company" placeholder="مثال: جاكو العربية" >
+        </div>
+        <div class="form-group">
+          <label>البريد الإلكتروني</label>
+          <input type="email" id="rec-email" title="rec-email" placeholder="your@email.com" >
+        </div>
+        <div class="form-group">
+          <label>الجوال / لينكدإن <span class="hint">(اختياري)</span></label>
+          <input type="text" id="rec-contact" title="rec-contact" placeholder="+966 5X XXX XXXX" >
+        </div>
+        <div class="form-group">
+          <label>تاريخ الخطاب</label>
+          <input type="date" id="rec-date" title="rec-date" >
+        </div>
+      </div>
+    </section>
+
+    <!-- RELATIONSHIP -->
+    <section>
+      <div class="section-title">علاقتك بمعاذ</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>صفتك بالنسبة لمعاذ <span class="required">*</span></label>
+          <select id="rel-type" title="Relationship type">
+            <option value="">— اختر —</option>
+            <option value="direct_manager">مدير مباشر / مشرف</option>
+            <option value="senior_leader">قيادة عليا (إدارة تنفيذية / نائب رئيس)</option>
+            <option value="colleague">زميل عمل</option>
+            <option value="client">عميل / شريك</option>
+            <option value="collaborator">متعاون من قسم آخر</option>
+            <option value="mentor">موجّه / أكاديمي</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>مدة العمل معه <span class="required">*</span></label>
+          <select id="rel-duration">
+            <option value="">— اختر —</option>
+            <option value="less_1">أقل من سنة</option>
+            <option value="1_2">سنة إلى سنتين</option>
+            <option value="2_4">سنتين إلى أربع سنوات</option>
+            <option value="4_plus">أكثر من أربع سنوات</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>سياق التعاون <span class="required">*</span>
+            <span class="hint">في أي شركة أو مشروع اشتغلت مع معاذ؟</span>
+          </label>
+          <input type="text" id="rel-context" title="rel-context" placeholder="مثال: جاكو العربية — استراتيجية المحتوى الرياضي وإعادة الهوية ٢٠٢٢–٢٠٢٥" >
+        </div>
+      </div>
+    </section>
+
+    <!-- TARGET ROLE -->
+    <section>
+      <div class="section-title">المنصب المستهدف</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>المسمّى الوظيفي المستهدف <span class="required">*</span></label>
+          <select id="target-role">
+            <option value="">— اختر —</option>
+            <option value="senior_art_director">مدير فني أول</option>
+            <option value="creative_director">مدير إبداعي</option>
+            <option value="head_creative">رئيس قسم الإبداع / العلامة</option>
+            <option value="creative_technologist">مختص بالتقنية الإبداعية</option>
+            <option value="ai_creative">قائد إبداعي للذكاء الاصطناعي</option>
+            <option value="brand_director">مدير علامة تجارية</option>
+            <option value="general">خطاب عام / مفتوح</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>الجهة المستهدفة <span class="hint">(اختياري)</span></label>
+          <input type="text" id="target-company" title="target-company" placeholder="مثال: ليو برنت، أو اتركه فارغ" >
+        </div>
+        <div class="form-group full">
+          <label>المجال / القطاع</label>
+          <select id="target-industry">
+            <option value="">— عام / أي مجال —</option>
+            <option value="advertising">الإعلان والوكالات الإبداعية</option>
+            <option value="tech">التقنية / الذكاء الاصطناعي / المنتجات الرقمية</option>
+            <option value="entertainment">الرياضة والإعلام والترفيه</option>
+            <option value="government">القطاع الحكومي والعام</option>
+            <option value="fintech">التقنية المالية والخدمات المالية</option>
+            <option value="fmcg">السلع الاستهلاكية والعلامات</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- STRENGTHS -->
+    <section>
+      <div class="section-title">نقاط القوة اللي تبي تبرزها <span class="hint-span">(اختر كل ما ينطبق)</span></div>
+      <div class="checkbox-group">
+        <label><input type="checkbox" value="creative_vision" checked> الرؤية الإبداعية والإدارة الفنية</label>
+        <label><input type="checkbox" value="ai_tools" checked> أدوات الذكاء الاصطناعي وأتمتة سير العمل</label>
+        <label><input type="checkbox" value="data_driven" checked> الاستراتيجية الإبداعية المبنية على البيانات</label>
+        <label><input type="checkbox" value="brand_systems"> هندسة أنظمة العلامة التجارية</label>
+        <label><input type="checkbox" value="team_leadership"> قيادة الفريق والإرشاد</label>
+        <label><input type="checkbox" value="campaign_results"> عائد الحملات والأثر القابل للقياس</label>
+        <label><input type="checkbox" value="government_exp"> مشاريع حكومية / رؤية ٢٠٣٠</label>
+        <label><input type="checkbox" value="sports_media"> الرياضة والإنتاج الإعلامي المباشر</label>
+        <label><input type="checkbox" value="cross_functional"> التعاون بين الأقسام</label>
+        <label><input type="checkbox" value="communication"> التواصل والعرض</label>
+      </div>
+    </section>
+
+    <!-- OBSERVATIONS -->
+    <section>
+      <div class="section-title">ملاحظاتك الشخصية <span class="hint-span">(اختياري — يعطي الخطاب مصداقية أكثر)</span></div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>مشروع أو موقف معيّن أثار إعجابك في معاذ
+            <span class="hint">الذكاء الاصطناعي بيدمجها بالخطاب</span>
+          </label>
+          <textarea id="obs-project" title="obs-project" placeholder="مثال: لما أعاد معاذ تصميم هوية علامتنا في الربع الثالث، النظام الجديد قلّل وقت الإنتاج ٤٠٪ وأهّلنا لأول ترشيح لجائزة أثر..."></textarea>
+        </div>
+        <div class="form-group full">
+          <label>صفة شخصية أو قيادية لاحظتها بنفسك</label>
+          <textarea id="obs-character" title="obs-character" rows="2" placeholder="مثال: كان دايم يطوّر أعضاء الفريق المبتدئين، ويحوّل البريفات الغامضة لأنظمة إبداعية واضحة، ويحافظ على هدوئه تحت ضغط مواعيد البث..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>نبرة الخطاب</label>
+          <select id="letter-tone" title="Letter tone">
+            <option value="professional_formal">احترافية ورسمية</option>
+            <option value="warm_professional">ودّية مع احترافية</option>
+            <option value="executive_endorsement">تزكية تنفيذية</option>
+            <option value="client_testimonial">شهادة عميل</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>طول الخطاب</label>
+          <select id="letter-length" title="Letter length">
+            <option value="standard">قياسي (فقرتين إلى ثلاث)</option>
+            <option value="concise">مختصر (فقرتين)</option>
+            <option value="detailed">مفصّل (ثلاث إلى أربع فقرات)</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- GENERATE -->
+    <div id="status" class="status-bar"></div>
+    <button type="button" class="btn-generate" id="btn-gen" onclick="generateLetter()">
+      ✦ إنشاء خطاب التوصية
+    </button>
+
+  </div><!-- /form-section -->
+
+  <!-- OUTPUT -->
+  <div id="output-section">
+    <div class="section-title">خطاب التوصية المُنشأ</div>
+    <div class="letter-output" id="letter-output"></div>
+    <div class="output-actions">
+      <button type="button" class="btn-copy" onclick="copyLetter()">نسخ النص</button>
+      <button type="button" class="btn-print" onclick="window.print()">طباعة / حفظ PDF</button>
+      <button type="button" class="btn-copy me-auto" title="تعديل وإعادة الإنشاء" onclick="resetForm()">→ تعديل وإعادة الإنشاء</button>
+    </div>
+  </div>
+
+  </div><!-- /rec-container -->
+  </main>
+
+<script>
+// ── HELPERS ──────────────────────────────────────────────
+function val(id) { return (document.getElementById(id)?.value || '').trim(); }
+function setStatus(msg, type) {
+  const s = document.getElementById('status');
+  s.textContent = msg; s.className = 'status-bar ' + type; s.style.display = 'block';
+}
+function clearStatus() { document.getElementById('status').style.display = 'none'; }
+function getChecked() {
+  return [...document.querySelectorAll('.checkbox-group input:checked')].map(cb => cb.value);
+}
+
+// ── STRENGTH LABELS (Arabic) ─────────────────────────────
+const strengthMap = {
+  creative_vision:    'الرؤية الإبداعية والإدارة الفنية',
+  ai_tools:           'أدوات الذكاء الاصطناعي وأتمتة سير العمل (Midjourney، Firefly، Gemini)',
+  data_driven:        'الاستراتيجية الإبداعية المبنية على البيانات',
+  brand_systems:      'هندسة أنظمة العلامة التجارية',
+  team_leadership:    'قيادة الفريق والإرشاد',
+  campaign_results:   'عائد الحملات والأثر القابل للقياس',
+  government_exp:     'خبرة المشاريع الحكومية ورؤية ٢٠٣٠',
+  sports_media:       'الإنتاج الرياضي والإعلامي المباشر',
+  cross_functional:   'التعاون بين الأقسام',
+  communication:      'التواصل والعرض التنفيذي',
+};
+
+const roleLabel = {
+  senior_art_director:  'مدير فني أول',
+  creative_director:    'مدير إبداعي',
+  head_creative:        'رئيس قسم الإبداع / العلامة',
+  creative_technologist:'مختص بالتقنية الإبداعية',
+  ai_creative:          'قائد إبداعي للذكاء الاصطناعي',
+  brand_director:       'مدير علامة تجارية',
+  general:              'منصب قيادي إبداعي',
+};
+
+const relLabel = {
+  direct_manager: 'مدير مباشر', senior_leader: 'قيادة عليا', colleague: 'زميل عمل',
+  client: 'عميل / شريك', collaborator: 'متعاون من قسم آخر', mentor: 'موجّه',
+};
+const durationLabel = {
+  less_1: 'أقل من سنة', '1_2': 'سنة إلى سنتين', '2_4': 'سنتين إلى أربع سنوات', '4_plus': 'أكثر من أربع سنوات',
+};
+
+const toneInstruction = {
+  professional_formal:   'نبرة رسمية احترافية بصيغة الغائب',
+  warm_professional:     'نبرة ودّية واحترافية — شخصية ومتحمّسة لكن موثوقة',
+  executive_endorsement: 'نبرة تزكية تنفيذية — موجزة وعالية الثقة وبلغة استراتيجية',
+  client_testimonial:    'بأسلوب شهادة عميل — تركّز على النتائج بدفء',
+};
+
+const lengthInstruction = {
+  standard: 'فقرتين إلى ثلاث فقرات مركّزة (حوالي ٢٥٠ كلمة)',
+  concise:  'فقرتين قصيرتين مؤثرتين (حوالي ١٥٠ كلمة)',
+  detailed: 'ثلاث إلى أربع فقرات موجزة (حوالي ٣٠٠ كلمة، تبقى أقل من ٢٠٠٠ حرف)',
+};
+
+// ── BUILD PROMPT ──────────────────────────────────────────
+function buildPrompt() {
+  const checked   = getChecked().map(k => strengthMap[k]).filter(Boolean);
+  const role      = roleLabel[val('target-role')] || val('target-role') || 'منصب إبداعي قيادي';
+  const company   = val('target-company') ? ` في ${val('target-company')}` : '';
+  const industry  = val('target-industry');
+  const tone      = toneInstruction[val('letter-tone')] || 'نبرة احترافية';
+  const length    = lengthInstruction[val('letter-length')] || 'فقرتين إلى ثلاث فقرات';
+  const obsP      = val('obs-project');
+  const obsC      = val('obs-character');
+  const relCtx    = val('rel-context');
+  const relType   = relLabel[val('rel-type')] || val('rel-type');
+  const duration  = durationLabel[val('rel-duration')] || val('rel-duration');
+  const recDate   = val('rec-date') || new Date().toLocaleDateString('ar-SA');
+
+  return `اكتب خطاب توصية باللغة العربية الفصحى المهنية (لكن بأسلوب سلس وطبيعي، ليس متكلّفاً). الطول: ${length}، بنبرة ${tone}.
+
+الموصّي:
+الاسم: ${val('rec-name')}
+المسمّى: ${val('rec-title')}
+الجهة: ${val('rec-company')}
+البريد: ${val('rec-email') || '[البريد محفوظ]'}
+التاريخ: ${recDate}
+العلاقة بمعاذ: ${relType} لمدة ${duration} في ${relCtx}
+
+الموضوع: معاذ الصباغ — يتقدّم لوظيفة ${role}${company}${industry ? ` (قطاع ${industry})` : ''}
+
+عن معاذ (استخدم هذه الحقائق بشكل طبيعي ضمن النص، لا تسردها كقائمة):
+- الاسم الكامل: معاذ الصباغ
+- المسمّى: مدير فني أول ومختص بالتقنية الإبداعية
+- خبرة تتجاوز ١٢ سنة في الاتصال الحكومي والتقنية المالية والرياضات الإلكترونية والبث الرياضي المباشر
+- منصبه الحالي: مدير فني أول في جاكو العربية
+- خبرات سابقة: فطائمين للاتصال الإبداعي، TMD، عامر العبود، باينهيل العربية
+- الجوائز: جوائز أثر (ذهبية – أفضل حملة حكومية)، جوائز MENA Digital (ذهبية – حملة SMO لرؤية ٢٠٣٠، فضية – إعلانات ETEC الخارجية، برونزية – الخدمات المصرفية الرقمية NDMC)
+- مؤشرات رئيسية: نمو علامة جاكو أكثر من ٢٥٠٪، عرض مشاريع بقيمة ٣٨٠ مليار ريال (واجهة ينبع البحرية)، ٣ جوائز، بنى أنظمة إبداعية قلّلت وقت الإنتاج بشكل كبير
+- مهارات الذكاء الاصطناعي: Midjourney وAdobe Firefly وGemini Pro وGoogle AI Studio — يدمج الذكاء الاصطناعي في سير العمل الإنتاجي فعلياً
+- التقنية: Adobe Creative Suite وAfter Effects وFigma وp5.js وReact وPython وFirebase
+
+نقاط القوة المطلوب إبرازها:
+${checked.length ? checked.map(s => '- ' + s).join('\n') : '- القيادة الإبداعية ودمج الذكاء الاصطناعي والأثر القابل للقياس'}
+
+${obsP ? `ملاحظة شخصية (مشروع/إنجاز):\n${obsP}\n` : ''}
+${obsC ? `ملاحظة شخصية (صفة/قيادة):\n${obsC}\n` : ''}
+
+التنسيق:
+- اجعل الخطاب كاملاً أقل من ٢٠٠٠ حرف (حوالي ٣٠٠ كلمة). كن موجزاً ومؤثراً، كل جملة لها قيمة.
+- ابدأ بالتاريخ ثم تحية رسمية ("إلى من يهمه الأمر" أو "حضرة لجنة التوظيف الموقّرة" إذا كانت الجهة معروفة)
+- اختم بـ "وتفضّلوا بقبول فائق الاحترام،" يتبعها اسم الموصّي ومسمّاه وجهته وبريده
+- لا تستخدم نقاطاً أو تعداداً — فقرات متّصلة فقط
+- لغة محددة وموثوقة ومبنية على تجربة الموصّي المباشرة
+- ركّز على الأثر التجاري والقيادة الإبداعية، لا على الصفات العامة فقط
+
+اكتب الخطاب النهائي فقط — بدون مقدّمات أو ملاحظات أو تعليقات.`;
+}
+
+// ── SAVE SUBMISSION TO DB ─────────────────────────────────
+async function saveSubmission(generatedLetter) {
+  const payload = {
+    rec_name: val('rec-name'), rec_title: val('rec-title'), rec_company: val('rec-company'),
+    rec_email: val('rec-email'), rec_contact: val('rec-contact'), rec_date: val('rec-date'),
+    rel_type: val('rel-type'), rel_duration: val('rel-duration'), rel_context: val('rel-context'),
+    target_role: val('target-role'), target_company: val('target-company'), target_industry: val('target-industry'),
+    strengths: getChecked().join(', '), obs_project: val('obs-project'), obs_character: val('obs-character'),
+    letter_tone: val('letter-tone'), letter_length: val('letter-length'),
+    generated_letter: generatedLetter, lang: 'ar',
+  };
+  const res = await fetch('collect.php?action=save', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
+  });
+  const data = await res.json();
+  if (!data.success) throw new Error(data.error || 'فشل الحفظ');
+  return data.id;
+}
+
+// ── GENERATE ─────────────────────────────────────────────
+async function generateLetter() {
+  const required = ['rec-name','rec-title','rec-company','rel-type','rel-duration','rel-context','target-role'];
+  const missing = required.filter(id => !val(id));
+  if (missing.length) {
+    setStatus('⚠ رجاءً عبّي كل الحقول المطلوبة (المعلّمة بـ *) قبل الإنشاء.', 'error');
+    document.getElementById(missing[0])?.focus();
+    return;
+  }
+
+  const btn = document.getElementById('btn-gen');
+  btn.disabled = true;
+  btn.textContent = '⟳ جاري الإنشاء…';
+  setStatus('جاري كتابة خطاب التوصية — ياخذ حوالي ١٠ إلى ١٥ ثانية…', 'loading');
+
+  try {
+    const prompt = buildPrompt();
+    const response = await fetch('ai.php', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt })
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data?.error?.message || data?.error || ('خطأ ' + response.status));
+
+    const letter = data.content?.map(b => b.text || '').join('').trim();
+    if (!letter) throw new Error('لم يصل رد من الذكاء الاصطناعي');
+
+    document.getElementById('letter-output').textContent = letter;
+    document.getElementById('output-section').style.display = 'block';
+    document.getElementById('output-section').scrollIntoView({ behavior: 'smooth' });
+    clearStatus();
+    setStatus('✓ تم إنشاء الخطاب. جاري حفظ نسخة للسجل…', 'success');
+
+    try {
+      await saveSubmission(letter);
+      setStatus('✓ تم إنشاء الخطاب وحفظه بنجاح. راجعه وعدّله إذا تحب، ثم انسخه أو اطبعه.', 'success');
+    } catch (saveErr) {
+      setStatus('✓ تم إنشاء الخطاب بنجاح. راجعه وعدّله إذا تحب، ثم انسخه أو اطبعه.', 'success');
+      console.warn('Save failed:', saveErr.message);
+    }
+  } catch (err) {
+    setStatus('✗ خطأ: ' + err.message + '. رجاءً حاول مرة ثانية.', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '✦ إنشاء خطاب التوصية';
+  }
+}
+
+// ── COPY ──────────────────────────────────────────────────
+function copyLetter() {
+  const text = document.getElementById('letter-output').textContent;
+  navigator.clipboard.writeText(text)
+    .then(() => setStatus('✓ تم النسخ.', 'success'))
+    .catch(() => setStatus('ما قدرت أنسخ تلقائياً — رجاءً حدّد النص يدوياً.', 'error'));
+}
+
+// ── RESET ─────────────────────────────────────────────────
+function resetForm() {
+  document.getElementById('output-section').style.display = 'none';
+  clearStatus();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.getElementById('rec-date').value = new Date().toISOString().split('T')[0];
+</script>
+    </div>
+  </main>
+
+  <!-- ==========================================
+       GLOBAL FOOTER
+       ========================================== -->
+  <footer class="main-footer footer-two pt-75 rel z-1" class="bg-deep" dir="ltr">
+      <div class="container">
+          <div class="row align-items-center justify-content-between">
+              <div class="col-lg-3 col-md-5">
+                  <div class="footer-widget widget_logo text-center text-md-start wow fadeInUp delay-0-2s">
+                      <div class="logo-outer">
+                          <div class="logo"><a href="../index.html"><img src="../assets/images/logos/logo.webp" alt="Logo" title="Logo"></a></div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-8 col-md-7">
+                  <div class="footer-widget widget_nav_menu me-0 wow fadeInUp delay-0-4s">
+                      <ul>
+                          <li><a href="../works.html">Selected Works</a></li>
+                          <li><a href="#">The AI Engine</a></li>
+                          <li><a href="#">Tafannon Blog</a></li>
+                          <li><a href="../contact.html">Contact</a></li>
+                      </ul>
+                  </div>
+              </div>
+              <div class="col-lg-12">
+                  <hr class="mb-40" class="border-var">
+              </div>
+              <div class="col-xl-6 col-lg-7">
+                  <div class="footer-widget widget_text text-center text-lg-start wow fadeInUp delay-0-2s">
+                      <div class="text pb-20">Integrating Macro-Impact Strategy, Behavioral Economics, and AI-Accelerated Craft to deliver billion-scale growth for visionary entities.</div>
+                  </div>
+              </div>
+              <div class="col-xl-4 col-lg-5">
+                  <div class="footer-widget widget_social text-center text-lg-end wow fadeInUp delay-0-4s">
+                      <div class="social-flow">
+                          <h4>Connect :</h4>
+                          <div class="social-style-one">
+                              <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                              <a href="#" title="Behance"><i class="fab fa-behance"></i></a>
+                              <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-12">
+                  <hr class="mt-0" class="border-var">
+              </div>
+          </div>
+      </div>
+      <div class="footer-bottom pt-10 pb-15">
+          <div class="container">
+              <div class="copyright-text text-center">
+                  <p>Copyright &copy; <span id="copyright-year"></span>, <a href="../index.html" class="text-primary-var">Mouaz AlSabbagh</a>. All Rights Reserved.</p>
+              </div>
+          </div>
+      </div>
+  </footer>
+
+  <!-- Global: Scroll Top Button -->
+  <button type="button" class="scroll-top scroll-to-target" data-target="html" title="Scroll to top"><span class="fas fa-angle-double-up"></span></button>
+
+</div>
+<!--End pagewrapper-->
+
+<!-- JAVASCRIPT -->
+<script src="../assets/js/jquery-3.6.0.min.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+<script src="../assets/js/jquery.nice-select.min.js"></script>
+<script src="../assets/js/wow.min.js"></script>
+<script src="../assets/js/script.js"></script>
+
+<!-- Populate footer copyright year -->
+<script>
+  document.getElementById('copyright-year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

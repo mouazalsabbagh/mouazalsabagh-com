@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Mouaz AlSabbagh - Recommendation Letter Generator">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Recommendation Letter Generator — Mouaz AlSabbagh</title>
+
+    <!-- Favicon Icon -->
+    <link rel="shortcut icon" href="../assets/images/favicon.webp" type="image/x-icon">
+
+    <!-- Vendor / template CSS -->
+    <link rel="stylesheet" href="../assets/css/flaticon.min.css">
+    <link rel="stylesheet" href="../assets/css/fontawesome-5.14.0.min.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/nice-select.min.css">
+    <link rel="stylesheet" href="../assets/css/animate.min.css">
+    <link rel="stylesheet" href="../assets/css/slick.min.css">
+    <link rel="stylesheet" href="../assets/css/magnific-popup.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+
+    <!-- Custom Design System -->
+    <link rel="stylesheet" href="../assets/css/design-system.css">
+
+    <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    /* Let global css handle body */
+    .rec-container { max-width: 8.5in; margin: 0 auto; padding: 0.4in 0.5in; background: var(--bg-deep); min-height: 100vh; position: relative; z-index: 1; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    
+    /* ── FORM HEADER ── */
+    .form-header { margin-bottom: 1.2rem; border-bottom: 1px solid var(--border); padding-bottom: 0.8rem; }
+    .form-header h1 { font-family: var(--font-heading); font-size: 1.8rem; font-weight: 700; margin-bottom: 0.2rem; color: var(--text-heading); }
+    .form-header .title { font-size: 1.1rem; color: var(--primary); font-weight: 600; margin-bottom: 0.4rem; }
+    .form-header .contact-info { font-size: 0.85rem; display: flex; flex-wrap: wrap; gap: 1rem; color: var(--text-body); }
+    .form-header .contact-info span { display: flex; align-items: center; gap: 0.3rem; }
+
+    /* ── SECTION TITLES ── */
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: 1.05rem; font-weight: 700;
+      background: var(--bg-card); padding: 0.4rem 0.6rem;
+      margin-bottom: 0.8rem; border-left: 3px solid var(--primary);
+      color: var(--text-heading);
+    }
+
+    section { margin-bottom: 1.4rem; }
+
+    /* ── FORM ELEMENTS ── */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.25rem; }
+    .form-group.full { grid-column: 1 / -1; }
+
+    label { font-size: 0.85rem; font-weight: 700; color: var(--text-heading); }
+    label .required { color: #ef4444; margin-left: 2px; }
+    label .hint { font-weight: 400; color: rgba(255,255,255,0.4); font-size: 0.8rem; margin-left: 0.4rem; }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    select,
+    textarea {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--text-heading);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 0.4rem 0.5rem;
+      background: var(--bg-card);
+      transition: border-color 0.15s, box-shadow 0.15s;
+      width: 100%;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary-dim);
+    }
+    
+    textarea { resize: vertical; min-height: 70px; }
+    select { cursor: pointer; }
+
+    /* ── CHECKBOX GROUP ── */
+    .checkbox-group { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin-top: 0.2rem; }
+    .checkbox-group label {
+      display: flex; align-items: center; gap: 0.35rem;
+      font-weight: 400; font-size: 0.88rem; cursor: pointer; color: var(--text-body);
+    }
+    .checkbox-group input[type="checkbox"] { width: 14px; height: 14px; cursor: pointer; accent-color: var(--primary); }
+
+    /* ── METRICS GRID ── */
+    .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin-bottom: 0.8rem; }
+    .metric-box { background: var(--bg-card); padding: 0.5rem; border-left: 2px solid var(--border); transition: background 0.3s; }
+    .metric-box:hover { background: var(--bg-card-hover); }
+    .metric-value { font-family: var(--font-heading); font-weight: 700; font-size: 0.95rem; color: var(--text-heading); }
+    .metric-label { font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-top: 0.1rem; }
+
+    /* ── GENERATE BUTTON ── */
+    .btn-generate {
+      display: block; width: 100%;
+      background: var(--primary); color: var(--bg-body);
+      border: none; border-radius: 3px;
+      padding: 0.65rem 1.2rem;
+      font-size: 1rem; font-weight: 700;
+      cursor: pointer; letter-spacing: 0.03em;
+      transition: all 0.15s;
+      margin-top: 0.4rem;
+    }
+    .btn-generate:hover { filter: brightness(1.1); box-shadow: 0 0 15px var(--primary-dim); }
+    .btn-generate:disabled { background: var(--border); color: var(--text-body); cursor: not-allowed; box-shadow: none; filter: none; }
+
+    .btn-copy, .btn-print {
+      display: inline-block;
+      background: var(--bg-card); color: var(--text-heading);
+      border: 1px solid var(--border); border-radius: 3px;
+      padding: 0.4rem 1rem;
+      font-size: 0.88rem; font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-copy:hover, .btn-print:hover { background: var(--bg-card-hover); }
+
+    /* ── OUTPUT AREA ── */
+    #output-section { display: none; margin-top: 1.4rem; }
+
+    .letter-output {
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 1rem 1.2rem;
+      font-size: 0.9rem;
+      line-height: 1.8;
+      background: var(--bg-card);
+      white-space: pre-wrap;
+      min-height: 200px;
+      color: var(--text-heading);
+    }
+
+    .output-actions { display: flex; gap: 0.6rem; margin-top: 0.6rem; }
+
+    /* ── STATUS ── */
+    .status-bar {
+      display: none;
+      font-size: 0.85rem;
+      padding: 0.4rem 0.6rem;
+      border-radius: 3px;
+      margin-top: 0.4rem;
+      border-left: 3px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-heading);
+    }
+    .status-bar.loading { border-left-color: #f59e0b; color: #fcd34d; }
+    .status-bar.error   { border-left-color: #ef4444; color: #fca5a5; }
+    .status-bar.success { border-left-color: var(--primary); color: var(--primary); }
+
+    /* ── REFERENCE CARD ── */
+    .ref-card {
+      background: var(--bg-card);
+      border-left: 2px solid var(--border);
+      padding: 0.5rem 0.7rem;
+      font-size: 0.83rem;
+      color: var(--text-body);
+      margin-bottom: 0.6rem;
+    }
+    .ref-card strong { color: var(--text-heading); }
+
+    @media print {
+      body { background: white; color: black; }
+      .rec-container { padding: 0.3in; background: white; box-shadow: none; border: none; max-width: none; margin: 0; }
+      #form-section, .main-header, .main-footer, .preloader, .scroll-top { display: none !important; }
+      #output-section { display: block !important; }
+      .output-actions, .status-bar { display: none !important; }
+      .letter-output { border: none; padding: 0; background: white; color: black; }
+    }
+    </style>
+</head>
+<body class="home-two">
+<div class="page-wrapper">
+
+  <!-- Preloader -->
+  <div class="preloader"></div>
+
+  <!-- GLOBAL HEADER -->
+  <header class="main-header header-two">
+      <div class="header-upper">
+          <div class="container container-1620 clearfix">
+              <div class="header-inner rel d-flex align-items-center">
+                  <div class="logo-outer">
+                      <div class="logo"><a href="../index.html"><img src="../assets/images/logos/logo.webp" alt="Logo" title="Logo"></a></div>
+                  </div>
+                  <div class="nav-outer clearfix mx-auto">
+                      <nav class="main-menu navbar-expand-lg">
+                          <div class="navbar-header">
+                              <div class="mobile-logo my-15">
+                                  <a href="../index.html"><img src="../assets/images/logos/logo.webp" alt="Logo" title="Logo"></a>
+                              </div>
+                              <button type="button" class="navbar-toggle me-4" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+                                  <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                              </button>
+                          </div>
+                          <div class="navbar-collapse collapse clearfix">
+                              <ul class="navigation clearfix">
+                                  <li><a href="../index.html">Home</a></li>
+                                  <li class="dropdown"><a href="#">Selected Work</a>
+                                      <ul>
+                                          <li><a href="../works.html">Master Gallery</a></li>
+                                          <li><a href="../works.html#value-creation">Macro-Impact &amp; Vision</a></li>
+                                          <li><a href="../works.html#performance-growth">Performance &amp; Growth</a></li>
+                                          <li><a href="../works.html#digital-experience">Digital Experience</a></li>
+                                          <li><a href="../value-acceleration.html">AI &amp; Gaming</a></li>
+                                      </ul>
+                                  </li>
+                                  <li class="dropdown"><a href="#">AI Engine</a>
+                                      <ul>
+                                          <li><a href="../ai-engine.html">Human Engine</a></li>
+                                          <li><a href="../ai-engine.html#innovation-lab">Innovation Lab</a></li>
+                                          <li><a href="../ai-engine.html#ai-pipeline">4-Step AI Pipeline</a></li>
+                                          <li><a href="../ai-engine.html#tech-stack">Tech Stack Matrix</a></li>
+                                          <li><a href="../about.html">professional Timeline</a></li>
+                                      </ul>
+                                  </li>
+                                  <li class="dropdown"><a href="../blog.html">Tafannon blog</a>
+                                      <ul>
+                                          <li><a href="../blog.html">Art &amp; Branding Insights</a></li>
+                                          <li><a href="../blog.html">Thought-Leadership Notes</a></li>
+                                          <li><a href="../blog.html">Editorial Masonry</a></li>
+                                      </ul>
+                                  </li>
+                                  <li class="dropdown"><a href="#">Contact</a>
+                                      <ul>
+                                          <li><a href="../contact.html">Conversion Overlay</a></li>
+                                          <li><a href="../contact.html#email">Email &amp; Phone</a></li>
+                                          <li><a href="../contact.html#social">Social Channels</a></li>
+                                          <li><a href="../contact.html#downloads">Downloads</a></li>
+                                      </ul>
+                                  </li>
+                              </ul>
+                          </div>
+                      </nav>
+                  </div>
+                  <div class="menu-btns">
+                      <a href="../contact.html" class="theme-btn">let,s talk</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </header>
+
+  <main class="pt-120 pb-80">
+    <div class="rec-container">
+
+      <a href="index-ar.html" style="position:absolute;top:1rem;right:1rem;font-size:0.85rem;color:var(--text-body);text-decoration:none;border:1px solid var(--border);padding:0.3rem 0.7rem;border-radius:3px; z-index: 10;" onmouseover="this.style.background='var(--bg-card-hover)';this.style.color='var(--text-heading)'" onmouseout="this.style.background='';this.style.color='var(--text-body)'">العربية</a>
+
+      <!-- FORM HEADER -->
+      <div class="form-header">
+        <h1>Mouaz AlSabbagh</h1>
+        <div class="title">Senior Art Director &amp; Creative Technologist</div>
+        <div class="contact-info">
+          <span>📧 mo3az.e.s@gmail.com</span>
+          <span>📞 +966 50 175 7969</span>
+          <span>🔗 behance.net/mouazalsabbagh</span>
+          <span>💼 linkedin.com/in/mouazalsabbagh</span>
+          <span>📍 Riyadh, Saudi Arabia</span>
+        </div>
+      </div>
+
+  <!-- ABOUT THIS FORM -->
+  <section>
+    <div class="section-title">RECOMMENDATION LETTER REQUEST</div>
+    <div class="ref-card">
+      This form generates a professional, customized recommendation letter for <strong>Mouaz AlSabbagh</strong>
+      based on your relationship, tenure, and the specific role being applied for.
+      Fill in the details below — the AI will draft a letter in your voice that you can review, edit, and sign.
+    </div>
+
+    <!-- KEY METRICS FOR RECOMMENDER REFERENCE -->
+    <div class="metrics-grid">
+      <div class="metric-box">
+        <div class="metric-value">12+ yrs</div>
+        <div class="metric-label">Creative Experience</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-value">3× Award</div>
+        <div class="metric-label">Athar &amp; MENA Digital</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-value">250%+</div>
+        <div class="metric-label">JACO Brand Growth</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-value">SAR 380B</div>
+        <div class="metric-label">Project Value Showcased</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORM -->
+  <div id="form-section">
+
+    <!-- RECOMMENDER INFO -->
+    <section>
+      <div class="section-title">YOUR INFORMATION (RECOMMENDER)</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Full Name <span class="required">*</span></label>
+          <input type="text" id="rec-name" title="rec-name" placeholder="e.g. Ahmed Al-Rashid" >
+        </div>
+        <div class="form-group">
+          <label>Job Title <span class="required">*</span></label>
+          <input type="text" id="rec-title" title="rec-title" placeholder="e.g. Creative Director" >
+        </div>
+        <div class="form-group">
+          <label>Company / Organization <span class="required">*</span></label>
+          <input type="text" id="rec-company" title="rec-company" placeholder="e.g. JACO Arabia" >
+        </div>
+        <div class="form-group">
+          <label>Professional Email</label>
+          <input type="email" id="rec-email" title="rec-email" placeholder="your@email.com" >
+        </div>
+        <div class="form-group">
+          <label>Phone / LinkedIn <span class="hint">(optional)</span></label>
+          <input type="text" id="rec-contact" title="rec-contact" placeholder="+966 5X XXX XXXX or LinkedIn URL" >
+        </div>
+        <div class="form-group">
+          <label>Date of Letter</label>
+          <input type="date" id="rec-date" title="rec-date" >
+        </div>
+      </div>
+    </section>
+
+    <!-- RELATIONSHIP CONTEXT -->
+    <section>
+      <div class="section-title">YOUR RELATIONSHIP WITH MOUAZ</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Your Role in Relation to Mouaz <span class="required">*</span></label>
+          <select id="rel-type" title="Relationship type">
+            <option value="">— Select —</option>
+            <option value="direct_manager">Direct Manager / Supervisor</option>
+            <option value="senior_leader">Senior Leadership (C-Suite / VP)</option>
+            <option value="colleague">Peer / Colleague</option>
+            <option value="client">Client / Partner</option>
+            <option value="collaborator">Cross-functional Collaborator</option>
+            <option value="mentor">Mentor / Academic</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Duration of Working Together <span class="required">*</span></label>
+          <select id="rel-duration">
+            <option value="">— Select —</option>
+            <option value="less_1">Less than 1 year</option>
+            <option value="1_2">1–2 years</option>
+            <option value="2_4">2–4 years</option>
+            <option value="4_plus">4+ years</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Context of Collaboration <span class="required">*</span>
+            <span class="hint">Which company/project did you work with Mouaz on?</span>
+          </label>
+          <input type="text" id="rel-context" title="rel-context" placeholder="e.g. JACO Arabia — sport content strategy &amp; rebranding 2022–2025" >
+        </div>
+      </div>
+    </section>
+
+    <!-- TARGET ROLE -->
+    <section>
+      <div class="section-title">TARGET ROLE / CONTEXT</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Target Role Title <span class="required">*</span></label>
+          <select id="target-role">
+            <option value="">— Select —</option>
+            <option value="senior_art_director">Senior Art Director</option>
+            <option value="creative_director">Creative Director</option>
+            <option value="head_creative">Head of Creative / Brand</option>
+            <option value="creative_technologist">Creative Technologist</option>
+            <option value="ai_creative">AI Creative Lead</option>
+            <option value="brand_director">Brand Director</option>
+            <option value="general">General / Open Letter</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Target Company <span class="hint">(optional)</span></label>
+          <input type="text" id="target-company" title="target-company" placeholder="e.g. Leo Burnett, QSAS, or leave blank" >
+        </div>
+        <div class="form-group full">
+          <label>Industry / Focus Area</label>
+          <select id="target-industry">
+            <option value="">— Any / General —</option>
+            <option value="advertising">Advertising &amp; Creative Agency</option>
+            <option value="tech">Technology / AI / Digital Product</option>
+            <option value="entertainment">Sports, Media &amp; Entertainment</option>
+            <option value="government">Government &amp; Public Sector</option>
+            <option value="fintech">Fintech &amp; Financial Services</option>
+            <option value="fmcg">FMCG &amp; Consumer Brands</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- KEY STRENGTHS TO HIGHLIGHT -->
+    <section>
+      <div class="section-title">STRENGTHS TO HIGHLIGHT <span class="hint-span">(select all that apply)</span></div>
+      <div class="checkbox-group">
+        <label><input type="checkbox" value="creative_vision" checked> Creative Vision &amp; Art Direction</label>
+        <label><input type="checkbox" value="ai_tools" checked> AI Tools &amp; Workflow Automation</label>
+        <label><input type="checkbox" value="data_driven" checked> Data-Driven Creative Strategy</label>
+        <label><input type="checkbox" value="brand_systems"> Brand Systems Architecture</label>
+        <label><input type="checkbox" value="team_leadership"> Team Leadership &amp; Mentorship</label>
+        <label><input type="checkbox" value="campaign_results"> Campaign ROI &amp; Measurable Impact</label>
+        <label><input type="checkbox" value="government_exp"> Government / Vision 2030 Projects</label>
+        <label><input type="checkbox" value="sports_media"> Sports &amp; Live Media Production</label>
+        <label><input type="checkbox" value="cross_functional"> Cross-functional Collaboration</label>
+        <label><input type="checkbox" value="communication"> Communication &amp; Presentation</label>
+      </div>
+    </section>
+
+    <!-- PERSONAL OBSERVATIONS -->
+    <section>
+      <div class="section-title">YOUR PERSONAL OBSERVATIONS <span class="hint-span">(optional — enhances authenticity)</span></div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>A specific project or moment where Mouaz impressed you
+            <span class="hint">The AI will weave this into the letter</span>
+          </label>
+          <textarea id="obs-project" title="obs-project" placeholder="e.g. When Mouaz redesigned our brand identity in Q3, the new system reduced production time by 40% and earned us our first Athar Award nomination..."></textarea>
+        </div>
+        <div class="form-group full">
+          <label>Character or leadership quality you observed directly</label>
+          <textarea id="obs-character" title="obs-character" rows="2" placeholder="e.g. He consistently elevated junior team members, turned ambiguous briefs into precise creative systems, and remained calm under tight broadcast deadlines..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Letter Tone</label>
+          <select id="letter-tone" title="Letter tone">
+            <option value="professional_formal">Professional &amp; Formal</option>
+            <option value="warm_professional">Warm yet Professional</option>
+            <option value="executive_endorsement">Executive Endorsement</option>
+            <option value="client_testimonial">Client Testimonial Style</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Letter Length</label>
+          <select id="letter-length" title="Letter length">
+            <option value="standard">Standard (3–4 paragraphs)</option>
+            <option value="concise">Concise (2 paragraphs)</option>
+            <option value="detailed">Detailed (4–5 paragraphs)</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- GENERATE -->
+    <div id="status" class="status-bar"></div>
+    <button type="button" class="btn-generate" id="btn-gen" onclick="generateLetter()">
+      ✦ Generate Recommendation Letter
+    </button>
+
+  </div><!-- /form-section -->
+
+  <!-- OUTPUT -->
+  <div id="output-section">
+    <div class="section-title">GENERATED RECOMMENDATION LETTER</div>
+    <div class="letter-output" id="letter-output"></div>
+    <div class="output-actions">
+      <button type="button" class="btn-copy" onclick="copyLetter()">Copy to Clipboard</button>
+      <button type="button" class="btn-print" onclick="window.print()">Print / Save PDF</button>
+      <button type="button" class="btn-copy ms-auto" title="Edit and regenerate" onclick="resetForm()">← Edit &amp; Regenerate</button>
+    </div>
+  </div>
+
+  </div><!-- /rec-container -->
+  </main>
+
+<script>
+// ── HELPERS ──────────────────────────────────────────────
+function val(id) { return (document.getElementById(id)?.value || '').trim(); }
+function setStatus(msg, type) {
+  const s = document.getElementById('status');
+  s.textContent = msg; s.className = 'status-bar ' + type; s.style.display = 'block';
+}
+function clearStatus() {
+  const s = document.getElementById('status'); s.style.display = 'none';
+}
+function getChecked() {
+  return [...document.querySelectorAll('.checkbox-group input:checked')].map(cb => cb.value);
+}
+
+// ── STRENGTH LABELS ───────────────────────────────────────
+const strengthMap = {
+  creative_vision:    'Creative Vision &amp; Art Direction',
+  ai_tools:           'AI Tools &amp; Workflow Automation (Midjourney, Firefly, Gemini)',
+  data_driven:        'Data-Driven Creative Strategy',
+  brand_systems:      'Brand Systems Architecture',
+  team_leadership:    'Team Leadership &amp; Mentorship',
+  campaign_results:   'Campaign ROI &amp; Measurable Impact',
+  government_exp:     'Government &amp; Vision 2030 Project Experience',
+  sports_media:       'Sports Broadcasting &amp; Live Media Production',
+  cross_functional:   'Cross-functional Collaboration',
+  communication:      'Communication &amp; Executive Presentation',
+};
+
+const roleLabel = {
+  senior_art_director:  'Senior Art Director',
+  creative_director:    'Creative Director',
+  head_creative:        'Head of Creative / Brand',
+  creative_technologist:'Creative Technologist',
+  ai_creative:          'AI Creative Lead',
+  brand_director:       'Brand Director',
+  general:              'a senior creative leadership position',
+};
+
+const toneInstruction = {
+  professional_formal:      'formal, authoritative, third-person professional tone',
+  warm_professional:        'warm yet professional tone — personal and enthusiastic but still credible',
+  executive_endorsement:    'executive endorsement tone — concise, high-confidence, strategic language',
+  client_testimonial:       'client testimonial style — outcome-focused, first-person warmth',
+};
+
+const lengthInstruction = {
+  standard: '2 to 3 tight paragraphs (around 250 words)',
+  concise:  '2 short, high-impact paragraphs (around 150 words)',
+  detailed: '3 to 4 concise paragraphs (around 300 words, still under 2000 characters)',
+};
+
+// ── BUILD PROMPT ──────────────────────────────────────────
+function buildPrompt() {
+  const checked   = getChecked().map(k => strengthMap[k]).filter(Boolean);
+  const role      = roleLabel[val('target-role')] || val('target-role') || 'a senior creative position';
+  const company   = val('target-company') ? ` at ${val('target-company')}` : '';
+  const industry  = val('target-industry');
+  const tone      = toneInstruction[val('letter-tone')] || 'professional tone';
+  const length    = lengthInstruction[val('letter-length')] || '3 to 4 paragraphs';
+  const obsP      = val('obs-project');
+  const obsC      = val('obs-character');
+  const relCtx    = val('rel-context');
+  const relType   = val('rel-type').replace(/_/g,' ');
+  const duration  = val('rel-duration').replace(/_/g,' ');
+  const recDate   = val('rec-date') || new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+
+  return `Write a recommendation letter in ${length} using a ${tone}.
+
+RECOMMENDER:
+Name: ${val('rec-name')}
+Title: ${val('rec-title')}
+Company: ${val('rec-company')}
+Email: ${val('rec-email') || '[email on file]'}
+Date: ${recDate}
+Relationship to Mouaz: ${relType} for ${duration} at ${relCtx}
+
+SUBJECT: Mouaz AlSabbagh — applying for ${role}${company}${industry ? ` (${industry} industry)` : ''}
+
+ABOUT MOUAZ (use these facts naturally — do not list them, weave them in):
+- Full name: Mouaz AlSabbagh
+- Title: Senior Art Director &amp; Creative Technologist
+- 12+ years experience spanning government communications, fintech, esports, and live sports streaming
+- Current role: Senior Art Director at JACO Arabia
+- Previous: Fitameen Creative Communication, TMD, Amer Al Aboud, Pinehill Arabia (MENA)
+- Awards: Athar Awards (Gold – Best Governmental Campaign), MENA Digital Awards (Gold – SMO Vision 2030 Social Cause Marketing; Silver – ETEC Outdoor Media; Bronze – NDMC Digital Banking)
+- Key metrics: JACO brand growth 250%+, SAR 380B project value showcased (RCJY Yanbu Waterfront), 3× award recognition, built creative systems reducing production time significantly
+- AI skills: Midjourney, Adobe Firefly, Gemini Pro, Google AI Studio — actively integrates AI into production workflows
+- Technical: Adobe Creative Suite, After Effects, Figma, p5.js, React, Python, Firebase
+
+STRENGTHS THE RECOMMENDER WANTS TO HIGHLIGHT:
+${checked.length ? checked.map(s => '- ' + s).join('\n') : '- Creative leadership, AI integration, measurable campaign impact'}
+
+${obsP ? `PERSONAL OBSERVATION (project/achievement):\n${obsP}\n` : ''}
+${obsC ? `PERSONAL OBSERVATION (character/leadership):\n${obsC}\n` : ''}
+
+FORMAT:
+- Keep the entire letter under 2000 characters total (roughly 300 words). Be concise and impactful — every sentence must earn its place.
+- Start with the date and a formal salutation ("To Whom It May Concern" or "Dear Hiring Committee" if company known)
+- End with "Sincerely," followed by the recommender's name, title, company, and email
+- Do NOT use bullet points in the final letter — only flowing paragraphs
+- Keep language specific, credible, and grounded in the recommender's direct experience
+- Focus on business impact and creative leadership, not just soft skills
+
+Write only the final letter — no preamble, no notes, no commentary.`;
+}
+
+// ── SAVE SUBMISSION TO DB ─────────────────────────────────
+async function saveSubmission(generatedLetter) {
+  const payload = {
+    rec_name:         val('rec-name'),
+    rec_title:        val('rec-title'),
+    rec_company:      val('rec-company'),
+    rec_email:        val('rec-email'),
+    rec_contact:      val('rec-contact'),
+    rec_date:         val('rec-date'),
+    rel_type:         val('rel-type'),
+    rel_duration:     val('rel-duration'),
+    rel_context:      val('rel-context'),
+    target_role:      val('target-role'),
+    target_company:   val('target-company'),
+    target_industry:  val('target-industry'),
+    strengths:        getChecked().join(', '),
+    obs_project:      val('obs-project'),
+    obs_character:    val('obs-character'),
+    letter_tone:      val('letter-tone'),
+    letter_length:    val('letter-length'),
+    generated_letter: generatedLetter,
+  };
+
+  const res = await fetch('collect.php?action=save', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  const data = await res.json();
+  if (!data.success) throw new Error(data.error || 'Save failed');
+  return data.id;
+}
+
+// ── GENERATE ─────────────────────────────────────────────
+async function generateLetter() {
+  // Validate required fields
+  const required = ['rec-name','rec-title','rec-company','rel-type','rel-duration','rel-context','target-role'];
+  const missing = required.filter(id => !val(id));
+  if (missing.length) {
+    setStatus('⚠ Please fill in all required fields (marked with *) before generating.', 'error');
+    document.getElementById(missing[0])?.focus();
+    return;
+  }
+
+  const btn = document.getElementById('btn-gen');
+  btn.disabled = true;
+  btn.textContent = '⟳ Generating…';
+  setStatus('Drafting your recommendation letter — this takes about 10–15 seconds…', 'loading');
+
+  try {
+    const prompt = buildPrompt();
+
+    // Call ai.php proxy (same folder) — keeps API key server-side
+    const response = await fetch('ai.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) throw new Error(data?.error?.message || 'API error ' + response.status);
+
+    const letter = data.content?.map(b => b.text || '').join('').trim();
+    if (!letter) throw new Error('Empty response from AI');
+
+    document.getElementById('letter-output').textContent = letter;
+    document.getElementById('output-section').style.display = 'block';
+    document.getElementById('output-section').scrollIntoView({ behavior: 'smooth' });
+    clearStatus();
+    setStatus('✓ Letter generated. Saving a copy for records…', 'success');
+
+    // ── SAVE TO DATABASE ──────────────────────────────────────
+    try {
+      await saveSubmission(letter);
+      setStatus('✓ Letter generated and saved successfully. Review, personalize if needed, then copy or print.', 'success');
+    } catch (saveErr) {
+      // Silent fail — letter still works, just not saved
+      setStatus('✓ Letter generated successfully. Review, personalize if needed, then copy or print.', 'success');
+      console.warn('Save failed (non-critical):', saveErr.message);
+    }
+
+  } catch (err) {
+    setStatus('✗ Error: ' + err.message + '. Please try again.', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '✦ Generate Recommendation Letter';
+  }
+}
+
+// ── COPY ──────────────────────────────────────────────────
+function copyLetter() {
+  const text = document.getElementById('letter-output').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    setStatus('✓ Copied to clipboard.', 'success');
+  }).catch(() => {
+    setStatus('Could not copy automatically — please select text manually.', 'error');
+  });
+}
+
+// ── RESET ─────────────────────────────────────────────────
+function resetForm() {
+  document.getElementById('output-section').style.display = 'none';
+  clearStatus();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Set today's date as default
+document.getElementById('rec-date').value = new Date().toISOString().split('T')[0];
+</script>
+    </div>
+  </main>
+
+  <!-- ==========================================
+       GLOBAL FOOTER
+       ========================================== -->
+  <footer class="main-footer footer-two pt-75 rel z-1" class="bg-deep">
+      <div class="container">
+          <div class="row align-items-center justify-content-between">
+              <div class="col-lg-3 col-md-5">
+                  <div class="footer-widget widget_logo text-center text-md-start wow fadeInUp delay-0-2s">
+                      <div class="logo-outer">
+                          <div class="logo"><a href="../index.html"><img src="../assets/images/logos/logo.webp" alt="Logo" title="Logo"></a></div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-8 col-md-7">
+                  <div class="footer-widget widget_nav_menu me-0 wow fadeInUp delay-0-4s">
+                      <ul>
+                          <li><a href="../works.html">Selected Works</a></li>
+                          <li><a href="#">The AI Engine</a></li>
+                          <li><a href="#">Tafannon Blog</a></li>
+                          <li><a href="../contact.html">Contact</a></li>
+                      </ul>
+                  </div>
+              </div>
+              <div class="col-lg-12">
+                  <hr class="mb-40" class="border-var">
+              </div>
+              <div class="col-xl-6 col-lg-7">
+                  <div class="footer-widget widget_text text-center text-lg-start wow fadeInUp delay-0-2s">
+                      <div class="text pb-20">Integrating Macro-Impact Strategy, Behavioral Economics, and AI-Accelerated Craft to deliver billion-scale growth for visionary entities.</div>
+                  </div>
+              </div>
+              <div class="col-xl-4 col-lg-5">
+                  <div class="footer-widget widget_social text-center text-lg-end wow fadeInUp delay-0-4s">
+                      <div class="social-flow">
+                          <h4>Connect :</h4>
+                          <div class="social-style-one">
+                              <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                              <a href="#" title="Behance"><i class="fab fa-behance"></i></a>
+                              <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-lg-12">
+                  <hr class="mt-0" class="border-var">
+              </div>
+          </div>
+      </div>
+      <div class="footer-bottom pt-10 pb-15">
+          <div class="container">
+              <div class="copyright-text text-center">
+                  <p>Copyright &copy; <span id="copyright-year"></span>, <a href="../index.html" class="text-primary-var">Mouaz AlSabbagh</a>. All Rights Reserved.</p>
+              </div>
+          </div>
+      </div>
+  </footer>
+
+  <!-- Global: Scroll Top Button -->
+  <button type="button" class="scroll-top scroll-to-target" data-target="html" title="Scroll to top"><span class="fas fa-angle-double-up"></span></button>
+
+</div>
+<!--End pagewrapper-->
+
+<!-- JAVASCRIPT -->
+<script src="../assets/js/jquery-3.6.0.min.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+<script src="../assets/js/jquery.nice-select.min.js"></script>
+<script src="../assets/js/wow.min.js"></script>
+<script src="../assets/js/script.js"></script>
+
+<!-- Populate footer copyright year -->
+<script>
+  document.getElementById('copyright-year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

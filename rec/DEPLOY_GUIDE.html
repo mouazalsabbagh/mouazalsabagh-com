@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deployment Guide — Recommendation System</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', sans-serif; line-height: 1.7; color: #333; background: #f4f4f4; }
+.wrap { max-width: 8.5in; margin: 0 auto; padding: 0.5in; background: white; min-height: 100vh; }
+header { border-bottom: 2px solid #000; padding-bottom: 0.8rem; margin-bottom: 1.4rem; }
+h1 { font-size: 1.8rem; font-weight: 700; }
+.subtitle { color: #444; font-size: 1rem; margin-top: 0.2rem; }
+h2 { font-size: 1.05rem; font-weight: 700; background: #f5f5f5; padding: 0.4rem 0.6rem; border-left: 3px solid #000; margin: 1.4rem 0 0.8rem; }
+h3 { font-size: 0.95rem; font-weight: 700; margin: 1rem 0 0.4rem; }
+p { font-size: 0.9rem; margin-bottom: 0.6rem; }
+.step { background: #fff; border: 1px solid #ddd; border-radius: 3px; margin-bottom: 1rem; overflow: hidden; }
+.step-head { display: flex; align-items: center; gap: 0.8rem; padding: 0.6rem 0.8rem; background: #f9f9f9; border-bottom: 1px solid #eee; }
+.step-num { background: #000; color: #fff; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.82rem; font-weight: 700; flex-shrink: 0; }
+.step-title { font-weight: 700; font-size: 0.95rem; }
+.step-body { padding: 0.8rem; font-size: 0.88rem; }
+.step-body ul { padding-left: 1.2rem; margin: 0.4rem 0; }
+.step-body li { margin: 0.3rem 0; }
+code { background: #f0f0f0; padding: 0.1rem 0.4rem; border-radius: 2px; font-family: 'Courier New', monospace; font-size: 0.85rem; }
+pre { background: #1e1e1e; color: #d4d4d4; padding: 0.8rem 1rem; border-radius: 3px; font-size: 0.82rem; overflow-x: auto; margin: 0.5rem 0; line-height: 1.6; }
+pre .comment { color: #6a9955; }
+pre .string { color: #ce9178; }
+pre .keyword { color: #569cd6; }
+.alert { padding: 0.5rem 0.7rem; border-radius: 3px; font-size: 0.85rem; margin: 0.5rem 0; border-left: 3px solid; }
+.alert.warn { background: #fef3c7; border-color: #f59e0b; color: #92400e; }
+.alert.info { background: #dbeafe; border-color: #3b82f6; color: #1e40af; }
+.alert.success { background: #dcfce7; border-color: #16a34a; color: #166534; }
+.file-tree { background: #f9f9f9; border: 1px solid #ddd; border-radius: 3px; padding: 0.8rem 1rem; font-family: 'Courier New', monospace; font-size: 0.85rem; line-height: 1.8; }
+.file-tree .folder { font-weight: 700; }
+.file-tree .note { color: #888; font-style: italic; }
+table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin: 0.5rem 0; }
+th { background: #f5f5f5; padding: 0.4rem 0.6rem; text-align: left; font-weight: 700; border-bottom: 1px solid #ddd; }
+td { padding: 0.4rem 0.6rem; border-bottom: 1px solid #eee; }
+td code { font-size: 0.82rem; }
+.url-box { background: #f0f4ff; border: 1px solid #c7d2fe; border-radius: 3px; padding: 0.5rem 0.8rem; font-family: monospace; font-size: 0.9rem; margin: 0.4rem 0; color: #1e40af; }
+@media print { body { background: white; } .wrap { padding: 0.3in; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Deployment Guide</h1>
+  <div class="subtitle">Recommendation Letter System — HostGator (cPanel) Setup</div>
+  <div style="font-size:0.82rem;color:#666;margin-top:0.4rem">Mouaz AlSabbagh · mo3az.e.s@gmail.com · June 2025</div>
+</header>
+
+<!-- FILE STRUCTURE -->
+<h2>PACKAGE FILES</h2>
+<div class="file-tree">
+<span class="folder">rec-system/</span><br>
+├── <strong>index.html</strong>          <span class="note">← The recommendation form (main page)</span><br>
+├── <strong>ai.php</strong>              <span class="note">← AI proxy: holds Anthropic API key server-side ← NEW</span><br>
+├── <strong>collect.php</strong>         <span class="note">← DB backend: saves submissions + admin dashboard</span><br>
+└── <strong>DEPLOY_GUIDE.html</strong>   <span class="note">← This file (read-only reference)</span>
+</div>
+
+<div class="alert warn" style="margin-top:0.6rem">⚠ <strong>Why ai.php?</strong> Browsers block direct calls to <code>api.anthropic.com</code> (CORS). The proxy runs on your server, holds your API key hidden, and returns results safely to the browser.</div>
+<div class="alert info" style="margin-top:0.4rem">Upload <strong>index.html</strong>, <strong>ai.php</strong>, and <strong>collect.php</strong> to your server. This guide stays local.</div>
+
+<!-- STEP 0 -->
+<h2>STEP-BY-STEP DEPLOYMENT</h2>
+
+<div class="step">
+  <div class="step-head"><div class="step-num">0</div><div class="step-title">Get Your Anthropic API Key (One-time)</div></div>
+  <div class="step-body">
+    <p>The form uses Claude AI to generate letters. You need an API key from Anthropic.</p>
+    <ul>
+      <li>Go to <code>console.anthropic.com</code> → sign in or create a free account</li>
+      <li>Navigate to <strong>Settings → API Keys</strong> → click <strong>Create Key</strong></li>
+      <li>Copy the key — it starts with <code>sk-ant-api03-...</code></li>
+      <li>Open <code>ai.php</code> in a text editor → find line 10 → replace <code>sk-ant-PASTE_YOUR_KEY_HERE</code> with your real key</li>
+    </ul>
+    <pre><span class="keyword">define</span>(<span class="string">'ANTHROPIC_API_KEY'</span>, <span class="string">'sk-ant-api03-xxxxxxxxxxxxxxxxxxxx'</span>); <span class="comment">// ← paste your key here</span></pre>
+    <div class="alert warn">Never share ai.php publicly or commit it to GitHub with your real key inside. The file sits safely on your server — visitors cannot read its PHP source.</div>
+    <div class="alert info">Cost: Anthropic charges per token. A recommendation letter costs roughly $0.003–$0.005 USD per generation (fraction of a cent). New accounts get free credits.</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-head"><div class="step-num">1</div><div class="step-title">Create a MySQL Database in cPanel</div></div>
+  <div class="step-body">
+    <p>Log in to your HostGator cPanel → scroll to <strong>Databases</strong> → click <strong>MySQL Databases</strong>.</p>
+    <ul>
+      <li>Under "Create New Database" → type <code>mouaz_recommendations</code> → click <strong>Create Database</strong></li>
+      <li>Under "MySQL Users" → Create a new user, e.g. <code>mouaz_recuser</code>, set a strong password and note it</li>
+      <li>Under "Add User to Database" → select your user + your database → click <strong>Add</strong></li>
+      <li>In the privileges popup → check <strong>ALL PRIVILEGES</strong> → click Make Changes</li>
+    </ul>
+    <div class="alert warn">HostGator prepends your cPanel username to DB/user names. Your actual DB name will be something like <code>username_mouaz_recommendations</code>. Use that exact string in Step 2.</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-head"><div class="step-num">2</div><div class="step-title">Edit collect.php — Update Database Credentials</div></div>
+  <div class="step-body">
+    <p>Open <code>collect.php</code> in a text editor (Notepad++, VS Code, etc.) and update lines 9–13:</p>
+    <pre><span class="keyword">define</span>(<span class="string">'DB_HOST'</span>, <span class="string">'localhost'</span>);           <span class="comment">// Always localhost on HostGator</span>
+<span class="keyword">define</span>(<span class="string">'DB_NAME'</span>, <span class="string">'cpanelusername_mouaz_recommendations'</span>); <span class="comment">// ← your actual DB name</span>
+<span class="keyword">define</span>(<span class="string">'DB_USER'</span>, <span class="string">'cpanelusername_mouaz_recuser'</span>);          <span class="comment">// ← your actual DB user</span>
+<span class="keyword">define</span>(<span class="string">'DB_PASS'</span>, <span class="string">'YourStrongPassword'</span>);                <span class="comment">// ← the password you set</span>
+<span class="keyword">define</span>(<span class="string">'ADMIN_PASS'</span>, <span class="string">'YourAdminPass2025!'</span>);             <span class="comment">// ← change this too</span></pre>
+    <div class="alert warn">Never upload collect.php with the default <code>CHANGE_THIS_PASSWORD</code> still in it.</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-head"><div class="step-num">3</div><div class="step-title">Choose Where to Host the System</div></div>
+  <div class="step-body">
+    <p>You have two options:</p>
+    <table>
+      <tr><th>Option</th><th>Folder to Upload Into</th><th>URL</th></tr>
+      <tr><td><strong>A — Subfolder</strong> (recommended)</td><td><code>public_html/rec/</code></td><td><code>yourdomain.com/rec/</code></td></tr>
+      <tr><td><strong>B — Subdomain</strong></td><td>Create subdomain <code>rec.yourdomain.com</code> → its folder</td><td><code>rec.yourdomain.com/</code></td></tr>
+    </table>
+    <p style="margin-top:0.5rem">Option A is simpler. Option B looks more professional when sharing the link with recommenders.</p>
+    <div class="alert info">To create a subdomain: cPanel → Domains → Subdomains → type <code>rec</code> → Document Root auto-fills → click Create.</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-head"><div class="step-num">4</div><div class="step-title">Upload Files via cPanel File Manager</div></div>
+  <div class="step-body">
+    <ul>
+      <li>cPanel → <strong>File Manager</strong> → navigate to your chosen folder (e.g. <code>public_html/rec/</code>)</li>
+      <li>Click <strong>Upload</strong> → upload <code>index.html</code> and <code>collect.php</code></li>
+      <li>Verify both files appear in the folder</li>
+    </ul>
+    <p><strong>Alternatively via FTP</strong> (FileZilla): Host = <code>ftp.yourdomain.com</code>, Port = 21, use your cPanel username/password.</p>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-head"><div class="step-num">5</div><div class="step-title">Test the Setup</div></div>
+  <div class="step-body">
+    <p>Visit your URL in a browser — the recommendation form should load:</p>
+    <div class="url-box">https://yourdomain.com/rec/</div>
+    <p>Then test the admin dashboard:</p>
+    <div class="url-box">https://yourdomain.com/rec/collect.php?action=admin</div>
+    <ul>
+      <li>Login with the <code>ADMIN_PASS</code> you set in Step 2</li>
+      <li>It should show "0 submissions" with an empty table (the DB table auto-creates on first visit)</li>
+      <li>Submit a test recommendation via the form — it should appear in the dashboard within seconds</li>
+    </ul>
+    <div class="alert success">If you see the dashboard with stats boxes and no PHP errors, you're live!</div>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-head"><div class="step-num">6</div><div class="step-title">Protect collect.php (Optional but Recommended)</div></div>
+  <div class="step-body">
+    <p>Create a file named <code>.htaccess</code> in the same folder with these rules to block direct browser access to the PHP file except via the form and admin:</p>
+    <pre><span class="comment"># Allow API calls from the form (POST to ?action=save)</span>
+<span class="comment"># The admin page is password-protected via PHP session anyway</span>
+<span class="comment"># This blocks random bots from probing collect.php directly</span>
+&lt;Files <span class="string">"collect.php"</span>&gt;
+    Order Deny,Allow
+    Allow from all
+&lt;/Files&gt;</pre>
+    <div class="alert info">The PHP session-based admin login already provides security. The .htaccess step is optional.</div>
+  </div>
+</div>
+
+<!-- SHARING -->
+<h2>SHARING THE FORM LINK</h2>
+<p>Send this URL to each person you want a recommendation from:</p>
+<div class="url-box">https://yourdomain.com/rec/</div>
+<p>They fill in the form, the AI generates the letter, and a copy is saved to your database automatically. You get an email notification each time.</p>
+
+<!-- ADMIN REFERENCE -->
+<h2>ADMIN DASHBOARD REFERENCE</h2>
+<table>
+  <tr><th>URL</th><th>What It Does</th></tr>
+  <tr><td><code>/collect.php?action=admin</code></td><td>Admin dashboard — view all submissions</td></tr>
+  <tr><td><code>/collect.php?action=export</code></td><td>Download all submissions as CSV</td></tr>
+  <tr><td><code>/collect.php?action=logout</code></td><td>Log out of admin session</td></tr>
+</table>
+
+<h3>Status Workflow</h3>
+<table>
+  <tr><th>Status</th><th>Meaning</th></tr>
+  <tr><td><strong>New</strong></td><td>Just submitted — unreviewed</td></tr>
+  <tr><td><strong>Reviewed</strong></td><td>You've read and evaluated it</td></tr>
+  <tr><td><strong>Downloaded</strong></td><td>You've used or saved the letter</td></tr>
+</table>
+
+<!-- TROUBLESHOOTING -->
+<h2>TROUBLESHOOTING</h2>
+<table>
+  <tr><th>Issue</th><th>Likely Cause</th><th>Fix</th></tr>
+  <tr><td>Blank white page on collect.php</td><td>PHP error (DB credentials wrong)</td><td>Check DB name/user/pass match cPanel exactly</td></tr>
+  <tr><td>"Database connection failed" message</td><td>Wrong credentials or DB doesn't exist</td><td>Re-check Step 1 and Step 2; verify in cPanel</td></tr>
+  <tr><td>Form submits but nothing saved</td><td>CORS or path issue</td><td>Make sure both files are in the same folder</td></tr>
+  <tr><td>AI letter generates but "Save failed"</td><td>Network issue to collect.php</td><td>Check file is uploaded; check browser console for 404/500</td></tr>
+  <tr><td>Admin shows blank after login</td><td>Session not starting</td><td>Ensure PHP sessions are enabled (default on HostGator)</td></tr>
+  <tr><td>No email notification received</td><td>Hosting mail config</td><td>Check spam folder; HostGator shared hosting has mail enabled by default</td></tr>
+</table>
+
+<!-- PHP VERSION -->
+<h2>REQUIREMENTS</h2>
+<ul style="padding-left:1.2rem;font-size:0.88rem;">
+  <li>PHP 7.4+ (HostGator shared hosting uses PHP 8.x by default ✓)</li>
+  <li>MySQL 5.7+ or MariaDB 10+ ✓</li>
+  <li>PDO extension enabled (default on HostGator ✓)</li>
+  <li>No external packages or Composer needed</li>
+  <li>No Node.js required</li>
+</ul>
+
+<div class="alert success" style="margin-top:1.4rem">
+  <strong>You're ready to deploy.</strong> Two files, one database, five minutes. The table creates itself on first load.
+</div>
+
+</div>
+</body>
+</html>
