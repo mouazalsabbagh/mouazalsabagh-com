@@ -1,0 +1,19 @@
+# ── Secrets — NEVER commit ────────────────────────────────────────────────────
+rec/config.php
+**/config.php
+!rec/config.example.php
+*.env
+.env
+
+# ── OS / editor cruft ─────────────────────────────────────────────────────────
+.DS_Store
+**/.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ── Python (i18n tooling, db build) ───────────────────────────────────────────
+__pycache__/
+*.pyc
+.venv/
+venv/
