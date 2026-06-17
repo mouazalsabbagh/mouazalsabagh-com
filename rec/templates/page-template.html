@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="{{lang}}" dir="{{dir}}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {{robots}}
+  <title>{{title}} — Mouaz AlSabbagh</title>
+  <meta name="description" content="{{title}}">
+  <!-- Social / OG -->
+  <meta property="og:title" content="{{title}}">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="{{base}}{{og_image}}">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="{{base}}assets/css/style.css">
+  <link rel="stylesheet" href="{{base}}assets/css/design-system.css">
+  <style>
+    .pg-wrap{max-width:920px;margin:0 auto;padding:2rem 1.25rem 4rem;}
+    .pg-hero{width:100%;border-radius:14px;overflow:hidden;margin:1.5rem 0 2rem;}
+    .pg-hero img{width:100%;height:auto;display:block;}
+    .pg-kicker{color:var(--primary,#9acd32);font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:.8rem;}
+    .pg-title{font-size:2rem;line-height:1.15;margin:.3rem 0 1rem;}
+    .pg-body{font-size:1.02rem;line-height:1.7;}
+    html[dir="rtl"] .pg-wrap{text-align:right;}
+  </style>
+</head>
+<body>
+  <main class="pg-wrap">
+    <div class="pg-kicker" data-i18n="page.kicker">{{type_label}}</div>
+    <h1 class="pg-title">{{title}}</h1>
+    <div class="pg-hero"><img src="{{base}}{{og_image}}" alt="{{title}}"></div>
+    <div class="pg-body">
+{{body}}
+    </div>
+  </main>
+  <!-- EN/AR localization -->
+  <script src="{{base}}i18n/i18n.js" data-i18n-src="{{base}}i18n/strings.json"></script>
+</body>
+</html>
