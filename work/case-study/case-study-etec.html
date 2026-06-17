@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ETEC — Mouaz AlSabbagh</title>
+
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-card: #1c2128;
+  --text-primary: #f0f6fc;
+  --text-secondary: #8b949e;
+  --text-muted: #484f58;
+  --accent: #f59e0b;
+  --accent-dim: rgba(245,158,11,0.08);
+  --border: rgba(240,246,252,0.06);
+  --font-display: 'Outfit', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 1.25rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  background: rgba(13,17,23,0.6);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+
+nav.scrolled { padding: 0.8rem 3rem; background: rgba(13,17,23,0.92); }
+
+.nav-logo { font-weight: 900; font-size: 1.05rem; letter-spacing: -0.02em; cursor: pointer; }
+.nav-logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 2.25rem; align-items: center; }
+.nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.3s; font-family: var(--font-mono); }
+.nav-links a:hover, .nav-links a.active { color: var(--accent); }
+.nav-cta { display: inline-flex; align-items: center; padding: 0.5rem 1.2rem; background: var(--accent); color: var(--bg-primary); font-family: var(--font-mono); font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; border-radius: 3px; transition: all 0.3s; }
+.nav-cta:hover { background: #f0a81e; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(245,158,11,0.2); }
+
+.hero {
+  padding: 12rem 3rem 6rem;
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -150px;
+  right: -150px;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(245,158,11,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-inner { max-width: 900px; position: relative; z-index: 2; }
+
+.hero-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.2s;
+}
+
+.hero-tag::before { content: ''; width: 50px; height: 1px; background: var(--accent); }
+
+.reach-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--accent-dim);
+  border: 1px solid rgba(245,158,11,0.3);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.3s;
+}
+
+.reach-badge::before { content: '🔍'; }
+
+.hero-title {
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.4s;
+}
+
+.hero-title em { font-style: normal; color: var(--accent); }
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  font-weight: 300;
+  max-width: 700px;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.6s;
+}
+
+.metrics-card {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 4rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.8s;
+}
+
+.metric { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 2rem 1.5rem; text-align: left; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.metric:hover { border-color: var(--accent); background: rgba(245,158,11,0.02); transform: translateY(-4px); }
+.metric-val { font-size: 2.5rem; font-weight: 900; color: var(--accent); margin-bottom: 0.5rem; font-family: var(--font-mono); }
+.metric-lbl { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0.05em; text-transform: uppercase; }
+
+.content-wrapper { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
+
+.section {
+  margin-bottom: 6rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 1rem;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: var(--accent);
+}
+
+.section-desc { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.8; max-width: 800px; margin-bottom: 2rem; font-weight: 300; }
+
+.challenge-solution { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+.challenge-box, .solution-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.challenge-box:hover, .solution-box:hover { border-color: var(--accent); transform: translateY(-4px); }
+
+.box-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; }
+.challenge-box .box-title { color: #ff6b6b; }
+.solution-box .box-title { color: var(--accent); }
+
+.box-content { font-size: 0.95rem; line-height: 1.7; color: var(--text-secondary); }
+.box-content ul { list-style: none; margin: 1rem 0 0 0; }
+.box-content li { margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; }
+.box-content li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: bold; }
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  font-size: 0.9rem;
+}
+
+.data-table thead {
+  background: rgba(245,158,11,0.05);
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.data-table td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.data-table tbody tr:hover {
+  background: rgba(245,158,11,0.02);
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.outcome-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.outcome-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.outcome-item:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 12px 32px rgba(245,158,11,0.1); }
+
+.outcome-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.outcome-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.75rem; }
+.outcome-desc { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+
+.visual-block {
+  width: 100%;
+  height: 400px;
+  background: linear-gradient(135deg, rgba(245,158,11,0.1) 0%, rgba(245,158,11,0.02) 100%);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 3rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.visual-block::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 36px, rgba(255,255,255,0.006) 36px, rgba(255,255,255,0.006) 37px), repeating-linear-gradient(90deg, transparent, transparent 36px, rgba(255,255,255,0.006) 36px, rgba(255,255,255,0.006) 37px);
+  pointer-events: none;
+}
+
+.visual-label { font-size: 3rem; font-weight: 900; opacity: 0.08; color: var(--text-primary); text-align: center; position: relative; z-index: 1; user-select: none; }
+
+.case-footer { background: var(--bg-secondary); padding: 4rem 3rem; margin-top: 6rem; border-top: 1px solid var(--border); text-align: center; }
+.footer-nav { display: flex; gap: 2rem; justify-content: center; margin-top: 2rem; }
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.3s;
+}
+
+.footer-link:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+.stat-highlight {
+  display: inline-block;
+  background: rgba(245,158,11,0.1);
+  border-left: 3px solid var(--accent);
+  padding: 0.75rem 1.25rem;
+  margin: 1rem 0;
+  border-radius: 3px;
+}
+
+.stat-highlight strong { color: var(--accent); }
+
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { gap: 1.5rem; }
+  .hero { padding: 8rem 1.5rem 3rem; }
+  .hero-title { font-size: 2.5rem; }
+  .hero-subtitle { font-size: 1rem; }
+  .content-wrapper { padding: 0 1.5rem; }
+  .challenge-solution { grid-template-columns: 1fr; }
+  .metrics-card { grid-template-columns: 1fr; }
+  .section-title { font-size: 1.5rem; }
+  .visual-block { height: 300px; }
+  .data-table { font-size: 0.8rem; }
+  .data-table th, .data-table td { padding: 0.6rem; }
+}
+
+
+header {
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 0;
+    margin-bottom: 4rem;
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(10px);
+    background: rgba(13, 17, 23, 0.8);
+    z-index: 100;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.logo:hover {
+    color: var(--accent-secondary);
+}
+
+nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin-left: 2rem;
+    transition: color 0.3s;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+nav a:hover {
+    color: var(--accent-primary);
+}
+
+.bottom-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    padding-top: 2rem;
+    margin-top: 4rem;
+}
+
+.nav-link {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-link:hover {
+    gap: 1rem;
+}
+
+.arrow {
+    font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+    nav {
+        display: none;
+    }
+    
+    .bottom-nav {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .nav-link {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Design System Overrides */
+:root {
+  --bg-primary: #131313 !important;
+  --bg-secondary: #070707 !important;
+  --bg-card: #1F1F1F !important;
+  --bg-card-hover: #282828 !important;
+  --text-primary: #FFFFFF !important;
+  --text-secondary: rgba(255,255,255,0.65) !important;
+  --text-muted: rgba(255,255,255,0.40) !important;
+  --accent: #C9F31D !important;
+  --accent-primary: #C9F31D !important;
+  --accent-secondary: #7c3aed !important;
+  --accent-tertiary: #C9F31D !important;
+  --accent-dim: rgba(201,243,29,0.08) !important;
+  --accent-glow: rgba(201,243,29,0.25) !important;
+  --gold: #C9F31D !important;
+  --gold-dim: rgba(201,243,29,0.08) !important;
+  --teal: #C9F31D !important;
+  --teal-dim: rgba(201,243,29,0.08) !important;
+  --blue: #C9F31D !important;
+  --blue-dim: rgba(201,243,29,0.08) !important;
+  --purple: #7c3aed !important;
+  --purple-dim: rgba(124,58,237,0.12) !important;
+  --border: rgba(255,255,255,0.10) !important;
+  --font-display: 'DM Sans', sans-serif !important;
+  --font-mono: 'Inter', sans-serif !important;
+}
+
+body {
+  font-family: 'Inter', sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6, .hero-title, .section-title, .box-title, .outcome-title {
+  font-family: 'DM Sans', sans-serif !important;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E") !important;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+</style>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-logo">mouaz<span>.</span></div>
+  <div class="nav-links">
+    <a href="../../index.html">Home</a>
+    <a href="../../works.html">Works</a>
+    <a href="#" class="active">Case Study</a>
+    <a href="../../about.html">About</a>
+    <a href="../../contact.html" class="nav-cta">Contact</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Digital Evaluation Strategy</div>
+    <div class="reach-badge">250M+ Search Impressions</div>
+    <h1 class="hero-title"><em>ETEC</em></h1>
+    <p class="hero-subtitle">
+      Architected massive digital reach for Education & Training Evaluation Commission through performance-driven evaluation design. Transformed complex institutional information into searchable, user-centric assets generating 250M+ search impressions and 50M+ social reach through instructional design and algorithmic alignment.
+    </p>
+  </div>
+</div>
+
+<div class="content-wrapper">
+  <div class="metrics-card">
+    <div class="metric">
+      <div class="metric-val">250M+</div>
+      <div class="metric-lbl">Search Impressions</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">50M+</div>
+      <div class="metric-lbl">Social Reach</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">3</div>
+      <div class="metric-lbl">Core Strategy Pillars</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">100%</div>
+      <div class="metric-lbl">Friction Elimination</div>
+    </div>
+  </div>
+</div>
+
+<div class="content-wrapper">
+  <section class="section reveal">
+    <h2 class="section-title">Campaign Challenge</h2>
+    <p class="section-desc">
+      The Education & Training Evaluation Commission (ETEC) faced a critical challenge: making complex institutional evaluation information discoverable and understandable at massive scale. Traditional institutional communication approaches failed to generate meaningful digital reach. The challenge required transforming dense policy information into intuitive, searchable, behaviorally optimized digital assets.
+    </p>
+    
+    <div class="challenge-solution">
+      <div class="challenge-box">
+        <div class="box-title">Strategic Challenges</div>
+        <div class="box-content">
+          <ul>
+            <li>Complex evaluation data lacks natural searchability and shareability</li>
+            <li>Institutional information creates cognitive friction for general audiences</li>
+            <li>Traditional content strategies generate limited organic reach</li>
+            <li>Policy terminology alienates potential information consumers</li>
+            <li>Fragmented touchpoints prevent integrated user experience</li>
+            <li>Static institutional communication misses behavioral economics opportunities</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="solution-box">
+        <div class="box-title">Performance Design Solution</div>
+        <div class="box-content">
+          <ul>
+            <li>Audit & evaluate digital touchpoints for friction and information gaps</li>
+            <li>Restructure complex data into intuitive, motion-driven, accessible content</li>
+            <li>Design visual assets specifically formatted for search engine algorithms</li>
+            <li>Implement instructional design removing cognitive barriers</li>
+            <li>Apply behavioral economics principles to drive search-based discovery</li>
+            <li>Build UX specifically optimized for passive→active user conversion</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">The Performance Design Blueprint</h2>
+    <p class="section-desc">
+      Reaching 250M+ search impressions required a systematic approach integrating four distinct strategic components: macro-impact strategy alignment, digital experience optimization, behavioral economics, and AI-accelerated craft execution.
+    </p>
+    
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Strategic Pillar</th>
+          <th>Design Principle</th>
+          <th>Execution Method</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Macro-Impact Strategy</strong></td>
+          <td>Align visual design with institutional goals (Saudi Vision 2030)</td>
+          <td>Leading visual identities for government entities, institutional positioning</td>
+        </tr>
+        <tr>
+          <td><strong>Digital Experience</strong></td>
+          <td>Direct motion and UX to simplify complex systems</td>
+          <td>Instructional design, motion graphics, accessibility-first approach</td>
+        </tr>
+        <tr>
+          <td><strong>Behavioral Economics</strong></td>
+          <td>Convert passive audiences into active information seekers</td>
+          <td>Designing assets to trigger search behavior and viral distribution</td>
+        </tr>
+        <tr>
+          <td><strong>AI-Accelerated Craft</strong></td>
+          <td>Harness generative AI to elevate efficiency and scale</td>
+          <td>Rapid iteration, high-volume asset generation, concept exploration</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Deconstructing the ETEC Strategy</h2>
+    <p class="section-desc">
+      The campaign operated across three sequential design phases, each addressing specific barriers to institutional information discovery and consumption.
+    </p>
+    
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">🔍</div>
+        <div class="outcome-title">Audit & Evaluate</div>
+        <div class="outcome-desc">Analyzed existing ETEC digital touchpoints to identify user friction, information gaps, and missed SEO opportunities within institutional ecosystem.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">✍️</div>
+        <div class="outcome-title">Instructional Optimization</div>
+        <div class="outcome-desc">Restructured complex evaluation data into intuitive, motion-driven, visually accessible content chunks. Eliminated cognitive load barriers preventing information comprehension.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🎯</div>
+        <div class="outcome-title">Algorithmic Alignment</div>
+        <div class="outcome-desc">Designed visual assets specifically formatted to reward search engine algorithms and facilitate organic sharing. Content architecture optimized for discoverability.</div>
+      </div>
+    </div>
+
+    <div class="stat-highlight">
+      <strong>Design Philosophy:</strong> Performance design treats aesthetics as servants of performance. Institutional information becomes frictionless when instructional design removes cognitive barriers and algorithmic alignment removes discovery friction.
+    </div>
+  </section>
+
+  <div class="visual-block">
+    <div class="visual-label">250M Impressions Generated</div>
+  </div>
+
+  <section class="section reveal">
+    <h2 class="section-title">Removing Friction to Manufacture Scale</h2>
+    <p class="section-desc">
+      Traditional design often builds aesthetic walls around complex information. Performance Design acts as a solvent—applying UX principles and instructional design to eliminate cognitive load while applying algorithmic principles to eliminate discovery friction.
+    </p>
+
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">🧠</div>
+        <div class="outcome-title">Cognitive Load Elimination</div>
+        <div class="outcome-desc">Applied instructional design to transform dense policy content into digestible visual narratives. Reduced comprehension barriers enabling broader audience engagement.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🔗</div>
+        <div class="outcome-title">Discovery Friction Removal</div>
+        <div class="outcome-desc">Optimized asset architecture for search algorithms and social sharing mechanics. Information naturally surfaced when consumed without friction.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">📈</div>
+        <div class="outcome-title">Viral Distribution</div>
+        <div class="outcome-desc">When institutional information becomes frictionless, user searchability and viral distribution happen automatically. 250M+ impressions resulted from systematic friction elimination.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">The Evaluation Shift: From Aesthetic to Performance</h2>
+    <p class="section-desc">
+      ETEC's success demonstrates a fundamental shift in how institutional communication operates in digital environments. Traditional creative approaches prioritize aesthetic approval. Performance design prioritizes behavioral conversion.
+    </p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Dimension</th>
+          <th>Traditional Creative</th>
+          <th>Performance Design</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Focus</strong></td>
+          <td>Aesthetic-First</td>
+          <td>Instructional-First</td>
+        </tr>
+        <tr>
+          <td><strong>User State</strong></td>
+          <td>Passive Viewing</td>
+          <td>Active Searching</td>
+        </tr>
+        <tr>
+          <td><strong>Success Metric</strong></td>
+          <td>Vanity Metrics & Subjective Approval</td>
+          <td>Behavioral Economics & Conversion</td>
+        </tr>
+        <tr>
+          <td><strong>ETEC Outcome</strong></td>
+          <td>Campaign Visibility (temporary)</td>
+          <td>250M+ Sustained Search Impressions</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Triggering Behavioral Economics at Scale</h2>
+    <p class="section-desc">
+      ETEC's strategy captured search volume through a three-stage behavioral economics framework. By designing specific pathways converting passive scrollers into active information seekers, the campaign engineered 250M+ search impression generation.
+    </p>
+
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">👁️</div>
+        <div class="outcome-title">Passive Scroller</div>
+        <div class="outcome-desc">User encounters ETEC evaluation information through social feeds. Aesthetic execution and accessible design captures initial attention without cognitive demand.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🔄</div>
+        <div class="outcome-title">Accessible Financial Design</div>
+        <div class="outcome-desc">Institutional information presented as intuitive, motion-driven visual narratives. Removes comprehension friction enabling deeper exploration without friction.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">📊</div>
+        <div class="outcome-title">Active Saver</div>
+        <div class="outcome-desc">Users convert from passive consumption to active information seeking. Search behavior follows naturally when information is frictionless and strategically discoverable.</div>
+      </div>
+    </div>
+
+    <div class="stat-highlight">
+      <strong>Behavioral Economics Principle:</strong> Same design principles driving financial decision-making trigger search behavior. When institutional information is frictionless and algorithmically discoverable, user searchability and sharing happen automatically.
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">AI-Accelerated Craft: The Multiplier</h2>
+    <p class="section-desc">
+      Scaling to 250M+ impressions requires evolved creative workflows marrying human strategy with generative acceleration. ETEC's execution integrated three AI-powered capabilities enabling high-volume, premium-quality creative output.
+    </p>
+
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">📖</div>
+        <div class="outcome-title">AI-Driven Storyboarding</div>
+        <div class="outcome-desc">Rapid conceptualization and narrative engine prototyping. Generated multiple branching narratives from single strategy brief, accelerating ideation cycles.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🎨</div>
+        <div class="outcome-title">Gen-AI Concepting</div>
+        <div class="outcome-desc">Utilized LLMs and image generation for concept exploration. Expanded conceptual boundaries while maintaining human creative direction and strategic alignment.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">✨</div>
+        <div class="outcome-title">High-Gloss Execution</div>
+        <div class="outcome-desc">Finalized outputs with premium 3D visual styles and gamified UI progression systems. Maintained aesthetic premium quality across 250M+ impression scale.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Technical Architecture: The Performance Stack</h2>
+    <p class="section-desc">
+      Strategic vision requires uncompromising execution. ETEC's technical stack married comprehensive design discipline with cutting-edge generative acceleration.
+    </p>
+
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">🎬</div>
+        <div class="outcome-title">Structural Design</div>
+        <div class="outcome-desc">Cinema 4D for complex 3D modeling, rigging, and premium high-gloss UI execution. Enabled dimensional design impossible in traditional 2D workflows.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🎨</div>
+        <div class="outcome-title">Visual Mastery</div>
+        <div class="outcome-desc">Adobe Creative Suite expertise across motion graphics, UX/UI asset creation, and campaign identity design. Maintained visual consistency at scale.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">⚡</div>
+        <div class="outcome-title">Generative Amplification</div>
+        <div class="outcome-desc">Integrated Midjourney, Adobe Firefly, and LLMs. Accelerated iteration and expanded conceptual boundaries while maintaining strategic alignment and premium execution.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Validating the Blueprint: Macro-Impact at Scale</h2>
+    <p class="section-desc">
+      The ETEC strategy proved performance design principles across multiple high-stakes institutional contexts. Consistent results across diverse campaigns demonstrate systematic approach to generating massive digital reach.
+    </p>
+
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">1.06B</div>
+        <div class="outcome-title">SMO Vision 2030</div>
+        <div class="outcome-desc">Total visibility generated across 16+ campaigns, 10+ regional cities. Established macro-impact positioning for governmental institutions.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">89K+</div>
+        <div class="outcome-title">JACO Growth Trilogy</div>
+        <div class="outcome-desc">Acquired 89K new users in single day event, achieving 91x peak ROI. Demonstrates behavioral economics triggering at scale in gaming contexts.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">3.8M</div>
+        <div class="outcome-title">#UltimateGamer</div>
+        <div class="outcome-desc">Converted passive 3.8M broadcast viewers into sponsored, monetized community ecosystem. Applied performance design to entertainment engagement.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">The Architect of Scale: Expertise Intersection</h2>
+    <p class="section-desc">
+      ETEC's 250M+ milestone emerges from the intersection of four distinct expertise domains, each essential and non-substitutable. The performance design engine operates at their convergence.
+    </p>
+
+    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; margin-top: 2rem;">
+      <ul style="list-style: none; padding-left: 0;">
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Macro-Impact Strategy:</strong> Leading visual identities for Saudi Vision 2030 entities ensures design alignment with governmental goals and institutional positioning.
+        </li>
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Digital Experience:</strong> Directing motion and UX principles to simplify institutional complexity. Instructional design removes cognitive barriers to information comprehension.
+        </li>
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Behavioral Economics:</strong> Converting passive audiences into active information seekers through friction removal and algorithmic alignment principles.
+        </li>
+        <li style="margin-bottom: 0; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>AI-Accelerated Craft:</strong> Harnessing generative technology to scale premium creative output. Maintains quality while enabling 250M+ impression volumes.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Key Strategic Learnings</h2>
+    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; margin-top: 1.5rem;">
+      <ul style="list-style: none; padding-left: 0;">
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Aesthetics serves performance:</strong> Premium visual execution is not an end goal but a means to behavioral conversion. Institutional information scaled 250M+ because aesthetics facilitated friction elimination, not despite it.
+        </li>
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Instructional design is non-negotiable:</strong> Institutional complexity requires systematic cognitive load elimination. Frictionless information naturally generates discovery and sharing.
+        </li>
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Algorithmic alignment enables viral reach:</strong> Content architecture designed for search engines and social algorithms generates organic reach. Technical SEO considerations are creative decisions, not administrative checkboxes.
+        </li>
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>AI amplifies direction but doesn't replace strategy:</strong> Generative tools accelerate iteration and expand conceptual boundaries. Strategic human direction determines whether acceleration serves performance or dilutes messaging.
+        </li>
+        <li style="margin-bottom: 0; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Mass adoption emerges from systems thinking:</strong> 250M+ impressions result from systematic approach across all friction points, not from single tactical brilliance. Comprehensive strategy execution generates scale.
+        </li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<footer class="case-footer">
+  <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Explore More Governmental & Institutional Scaling Work</h3>
+  <p style="color: var(--text-secondary); margin-bottom: 2rem;">Other performance-driven institutional positioning and macro-impact campaigns</p>
+  <div class="footer-nav">
+    <a href="case-study-smo-vision-2030.html" class="footer-link">← SMO Vision 2030</a>
+    <a href="../../works.html" class="footer-link">All Works</a>
+    <a href="case-study-ndmc-sukuk.html" class="footer-link">NDMC Sukuk →</a>
+  </div>
+</footer>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 50) {
+    nav.classList.add('scrolled');
+  } else {
+    nav.classList.remove('scrolled');
+  }
+});
+
+const reveals = document.querySelectorAll('.reveal');
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -100px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+reveals.forEach(reveal => observer.observe(reveal));
+</script>
+
+  <!-- FOOTER NAVIGATION -->
+  <div class="bottom-nav">
+    <a href="case-study-ministry-of-energy.html" class="nav-link">← Ministry of Energy</a>
+    <a href="case-study-jaco-growth-trilogy.html" class="nav-link">Next: JACO Growth Trilogy <span class="arrow">→</span></a>
+  </div>
+
+  <!-- FOOTER NAVIGATION -->
+  <div class="bottom-nav">
+    <a href="case-study-ministry-of-energy.html" class="nav-link">← Ministry of Energy</a>
+    <a href="case-study-banan-exhibition.html" class="nav-link">Next: Heritage & Banan Exhibition <span class="arrow">→</span></a>
+  </div>
+
+</body>
+</html>

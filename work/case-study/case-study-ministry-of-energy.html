@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ministry of Energy — Mouaz AlSabbagh</title>
+
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-card: #1c2128;
+  --text-primary: #f0f6fc;
+  --text-secondary: #8b949e;
+  --text-muted: #484f58;
+  --accent: #f59e0b;
+  --accent-dim: rgba(245,158,11,0.08);
+  --border: rgba(240,246,252,0.06);
+  --font-display: 'Outfit', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 1.25rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  background: rgba(13,17,23,0.6);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+
+nav.scrolled { padding: 0.8rem 3rem; background: rgba(13,17,23,0.92); }
+
+.nav-logo { font-weight: 900; font-size: 1.05rem; letter-spacing: -0.02em; cursor: pointer; }
+.nav-logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 2.25rem; align-items: center; }
+.nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.3s; font-family: var(--font-mono); }
+.nav-links a:hover, .nav-links a.active { color: var(--accent); }
+.nav-cta { display: inline-flex; align-items: center; padding: 0.5rem 1.2rem; background: var(--accent); color: var(--bg-primary); font-family: var(--font-mono); font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; border-radius: 3px; transition: all 0.3s; }
+.nav-cta:hover { background: #f0a81e; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(245,158,11,0.2); }
+
+.hero {
+  padding: 12rem 3rem 6rem;
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -150px;
+  right: -150px;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(245,158,11,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-inner { max-width: 900px; position: relative; z-index: 2; }
+
+.hero-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.2s;
+}
+
+.hero-tag::before { content: ''; width: 50px; height: 1px; background: var(--accent); }
+
+.reach-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--accent-dim);
+  border: 1px solid rgba(245,158,11,0.3);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.3s;
+}
+
+.reach-badge::before { content: '🌍'; }
+
+.hero-title {
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.4s;
+}
+
+.hero-title em { font-style: normal; color: var(--accent); }
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  font-weight: 300;
+  max-width: 700px;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.6s;
+}
+
+.metrics-card {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 4rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.8s;
+}
+
+.metric { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 2rem 1.5rem; text-align: left; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.metric:hover { border-color: var(--accent); background: rgba(245,158,11,0.02); transform: translateY(-4px); }
+.metric-val { font-size: 2.5rem; font-weight: 900; color: var(--accent); margin-bottom: 0.5rem; font-family: var(--font-mono); }
+.metric-lbl { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0.05em; text-transform: uppercase; }
+
+.content-wrapper { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
+
+.section {
+  margin-bottom: 6rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 1rem;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: var(--accent);
+}
+
+.section-desc { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.8; max-width: 800px; margin-bottom: 2rem; font-weight: 300; }
+
+.challenge-solution { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+.challenge-box, .solution-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.challenge-box:hover, .solution-box:hover { border-color: var(--accent); transform: translateY(-4px); }
+
+.box-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; }
+.challenge-box .box-title { color: #ff6b6b; }
+.solution-box .box-title { color: var(--accent); }
+
+.box-content { font-size: 0.95rem; line-height: 1.7; color: var(--text-secondary); }
+.box-content ul { list-style: none; margin: 1rem 0 0 0; }
+.box-content li { margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; }
+.box-content li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: bold; }
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  font-size: 0.9rem;
+}
+
+.data-table thead {
+  background: rgba(245,158,11,0.05);
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.data-table td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.data-table tbody tr:hover {
+  background: rgba(245,158,11,0.02);
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.outcome-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.outcome-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.outcome-item:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 12px 32px rgba(245,158,11,0.1); }
+
+.outcome-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.outcome-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.75rem; }
+.outcome-desc { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+
+.visual-block {
+  width: 100%;
+  height: 400px;
+  background: linear-gradient(135deg, rgba(245,158,11,0.1) 0%, rgba(245,158,11,0.02) 100%);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 3rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.visual-block::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 36px, rgba(255,255,255,0.006) 36px, rgba(255,255,255,0.006) 37px), repeating-linear-gradient(90deg, transparent, transparent 36px, rgba(255,255,255,0.006) 36px, rgba(255,255,255,0.006) 37px);
+  pointer-events: none;
+}
+
+.visual-label { font-size: 3rem; font-weight: 900; opacity: 0.08; color: var(--text-primary); text-align: center; position: relative; z-index: 1; user-select: none; }
+
+.case-footer { background: var(--bg-secondary); padding: 4rem 3rem; margin-top: 6rem; border-top: 1px solid var(--border); text-align: center; }
+.footer-nav { display: flex; gap: 2rem; justify-content: center; margin-top: 2rem; }
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.3s;
+}
+
+.footer-link:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+.stat-highlight {
+  display: inline-block;
+  background: rgba(245,158,11,0.1);
+  border-left: 3px solid var(--accent);
+  padding: 0.75rem 1.25rem;
+  margin: 1rem 0;
+  border-radius: 3px;
+}
+
+.stat-highlight strong { color: var(--accent); }
+
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { gap: 1.5rem; }
+  .hero { padding: 8rem 1.5rem 3rem; }
+  .hero-title { font-size: 2.5rem; }
+  .hero-subtitle { font-size: 1rem; }
+  .content-wrapper { padding: 0 1.5rem; }
+  .challenge-solution { grid-template-columns: 1fr; }
+  .metrics-card { grid-template-columns: 1fr; }
+  .section-title { font-size: 1.5rem; }
+  .visual-block { height: 300px; }
+  .data-table { font-size: 0.8rem; }
+  .data-table th, .data-table td { padding: 0.6rem; }
+}
+
+
+header {
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 0;
+    margin-bottom: 4rem;
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(10px);
+    background: rgba(13, 17, 23, 0.8);
+    z-index: 100;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.logo:hover {
+    color: var(--accent-secondary);
+}
+
+nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin-left: 2rem;
+    transition: color 0.3s;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+nav a:hover {
+    color: var(--accent-primary);
+}
+
+.bottom-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    padding-top: 2rem;
+    margin-top: 4rem;
+}
+
+.nav-link {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-link:hover {
+    gap: 1rem;
+}
+
+.arrow {
+    font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+    nav {
+        display: none;
+    }
+    
+    .bottom-nav {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .nav-link {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Design System Overrides */
+:root {
+  --bg-primary: #131313 !important;
+  --bg-secondary: #070707 !important;
+  --bg-card: #1F1F1F !important;
+  --bg-card-hover: #282828 !important;
+  --text-primary: #FFFFFF !important;
+  --text-secondary: rgba(255,255,255,0.65) !important;
+  --text-muted: rgba(255,255,255,0.40) !important;
+  --accent: #C9F31D !important;
+  --accent-primary: #C9F31D !important;
+  --accent-secondary: #7c3aed !important;
+  --accent-tertiary: #C9F31D !important;
+  --accent-dim: rgba(201,243,29,0.08) !important;
+  --accent-glow: rgba(201,243,29,0.25) !important;
+  --gold: #C9F31D !important;
+  --gold-dim: rgba(201,243,29,0.08) !important;
+  --teal: #C9F31D !important;
+  --teal-dim: rgba(201,243,29,0.08) !important;
+  --blue: #C9F31D !important;
+  --blue-dim: rgba(201,243,29,0.08) !important;
+  --purple: #7c3aed !important;
+  --purple-dim: rgba(124,58,237,0.12) !important;
+  --border: rgba(255,255,255,0.10) !important;
+  --font-display: 'DM Sans', sans-serif !important;
+  --font-mono: 'Inter', sans-serif !important;
+}
+
+body {
+  font-family: 'Inter', sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6, .hero-title, .section-title, .box-title, .outcome-title {
+  font-family: 'DM Sans', sans-serif !important;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E") !important;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+</style>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-logo">mouaz<span>.</span></div>
+  <div class="nav-links">
+    <a href="../../index.html">Home</a>
+    <a href="../../works.html">Works</a>
+    <a href="#" class="active">Case Study</a>
+    <a href="../../about.html">About</a>
+    <a href="../../contact.html" class="nav-cta">Contact</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Global Summit Content Strategy</div>
+    <div class="reach-badge">178M Global Impressions</div>
+    <h1 class="hero-title">Ministry of <em>Energy</em></h1>
+    <p class="hero-subtitle">
+      Secured strategic visibility for Saudi Arabia's energy narrative across COP 27, COP 28, and World Petroleum Congress. Delivered 178M visibility reach and 52M video views through integrated content strategy, positioning Kingdom as leader in global energy transition discourse.
+    </p>
+  </div>
+</div>
+
+<div class="content-wrapper">
+  <div class="metrics-card">
+    <div class="metric">
+      <div class="metric-val">178M</div>
+      <div class="metric-lbl">Total Impressions</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">52M</div>
+      <div class="metric-lbl">Video Views</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">3</div>
+      <div class="metric-lbl">Global Summits Covered</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">100+</div>
+      <div class="metric-lbl">Creative Assets Produced</div>
+    </div>
+  </div>
+</div>
+
+<div class="content-wrapper">
+  <section class="section reveal">
+    <h2 class="section-title">Campaign Challenge</h2>
+    <p class="section-desc">
+      The Ministry of Energy needed to establish Saudi Arabia as a credible, forward-thinking leader in global energy transition conversations during critical international summits. The challenge required translating complex energy policy into compelling visual narratives while managing tight production timelines across multiple concurrent global events.
+    </p>
+    
+    <div class="challenge-solution">
+      <div class="challenge-box">
+        <div class="box-title">Strategic Challenges</div>
+        <div class="box-content">
+          <ul>
+            <li>Position Kingdom as active participant in global climate discourse</li>
+            <li>Communicate energy policy to international audiences in real-time</li>
+            <li>Manage multiple simultaneous events (COP 27, COP 28, Petroleum Congress)</li>
+            <li>Translate complex technical content into accessible visual narratives</li>
+            <li>Establish thought leadership amid competing national agendas</li>
+            <li>Scale production to meet high-volume, rapid-turnaround demands</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="solution-box">
+        <div class="box-title">Creative Solution</div>
+        <div class="box-content">
+          <ul>
+            <li>Developed integrated content strategy across visual, video, and infographic formats</li>
+            <li>Built rapid-response production system enabling same-day asset delivery</li>
+            <li>Created reusable design templates for consistent brand identity</li>
+            <li>Designed modular content architecture for multi-platform distribution</li>
+            <li>Implemented data visualization system for policy translation</li>
+            <li>Produced 100+ high-quality assets across three concurrent summits</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Summit Coverage Strategy</h2>
+    <p class="section-desc">
+      The Ministry's presence across three major global energy forums—COP 27 (2022), COP 28 (2023), and the 24th World Petroleum Congress (2023)—required distinct content strategies while maintaining unified brand positioning.
+    </p>
+    
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Summit</th>
+          <th>Dates</th>
+          <th>Focus Area</th>
+          <th>Key Content Themes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>COP 27</strong></td>
+          <td>Nov–Dec 2022</td>
+          <td>Climate action leadership</td>
+          <td>Saudi contributions to climate mitigation, renewable energy initiatives, national policy positioning</td>
+        </tr>
+        <tr>
+          <td><strong>COP 28</strong></td>
+          <td>Nov–Dec 2023</td>
+          <td>Energy transition narratives</td>
+          <td>Emissions reduction pathways, renewable energy deployment, diversification strategy</td>
+        </tr>
+        <tr>
+          <td><strong>24th World Petroleum Congress</strong></td>
+          <td>2023</td>
+          <td>Industry thought leadership</td>
+          <td>Energy security, technological innovation, Kingdom's role in global energy markets</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="stat-highlight">
+      <strong>Reach Impact:</strong> Combined coverage across three major summits generated 178M impressions and 52M video views, establishing Saudi Arabia as central voice in global energy discourse.
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Creative Output & Asset Production</h2>
+    <p class="section-desc">
+      Delivered comprehensive asset library supporting multi-platform distribution across social media, press releases, digital displays, and summit materials. All assets maintained unified brand identity while optimizing for platform-specific requirements.
+    </p>
+    
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">📊</div>
+        <div class="outcome-title">Infographic Series</div>
+        <div class="outcome-desc">Data visualization system translating policy complexity into visual narratives. Bilingual (Arabic/English) design supporting both regional and international audiences.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🎬</div>
+        <div class="outcome-title">Video Content</div>
+        <div class="outcome-desc">Documentary-style coverage of Ministry activities, policy announcements, summit participation. 52M total video views demonstrates strong engagement with visual narratives.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🎨</div>
+        <div class="outcome-title">Presentation Design</div>
+        <div class="outcome-desc">Summit presentation materials, conference slides, official briefing documents. Consistent visual language across all Ministry communications.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">📱</div>
+        <div class="outcome-title">Social Media Assets</div>
+        <div class="outcome-desc">Platform-optimized posts for Twitter, Instagram, LinkedIn. Real-time content covering summit announcements, policy releases, Ministry milestones.</div>
+      </div>
+    </div>
+
+    <h3 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem;">Asset Categories</h3>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Format</th>
+          <th>Quantity</th>
+          <th>Purpose</th>
+          <th>Distribution Channels</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Infographics (Bilingual)</strong></td>
+          <td>30+</td>
+          <td>Policy visualization, data communication, thought leadership</td>
+          <td>Social media, press materials, summit displays</td>
+        </tr>
+        <tr>
+          <td><strong>Video Content</strong></td>
+          <td>25+</td>
+          <td>Documentary coverage, announcement videos, thought leadership</td>
+          <td>YouTube, social media, streaming platforms</td>
+        </tr>
+        <tr>
+          <td><strong>Presentation Decks</strong></td>
+          <td>15+</td>
+          <td>Summit presentations, policy briefs, official communications</td>
+          <td>In-person presentations, digital distribution</td>
+        </tr>
+        <tr>
+          <td><strong>Social Media Posts</strong></td>
+          <td>40+</td>
+          <td>Real-time engagement, announcement promotion, narrative building</td>
+          <td>Twitter, Instagram, LinkedIn, Facebook</td>
+        </tr>
+        <tr>
+          <td><strong>eServices Marketing</strong></td>
+          <td>10+</td>
+          <td>Digital service promotion, web materials</td>
+          <td>Ministry website, digital platforms</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div class="visual-block">
+    <div class="visual-label">3 Global Summits • 178M Reach</div>
+  </div>
+
+  <section class="section reveal">
+    <h2 class="section-title">Brand Strategy & Visual Identity</h2>
+    <p class="section-desc">
+      All assets maintained unified Ministry branding while accommodating the distinct visual languages appropriate to each summit's focus and audience expectations. Color palette, typography, and imagery systems were optimized for both Arabic and English language requirements.
+    </p>
+
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">🌍</div>
+        <div class="outcome-title">Global Positioning</div>
+        <div class="outcome-desc">Positioned Saudi Arabia as responsible, forward-thinking leader in global energy markets. Messaging balanced sustainability commitments with energy security imperatives.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🏛️</div>
+        <div class="outcome-title">Institutional Authority</div>
+        <div class="outcome-desc">Reinforced Ministry as authoritative voice on energy policy. Visual design communicated technical expertise and policy credibility to international audiences.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">💚</div>
+        <div class="outcome-title">Sustainability Narrative</div>
+        <div class="outcome-desc">Emphasized Kingdom's commitment to emissions reduction, renewable energy deployment, and climate action. Messaging addressed both global expectations and domestic capabilities.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">📈</div>
+        <div class="outcome-title">Data-Driven Communication</div>
+        <div class="outcome-desc">Leveraged visual data communication to translate complex policy into accessible narratives. Infographics made technical content understandable to diverse audiences.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Production Excellence & Scale</h2>
+    <p class="section-desc">
+      Managing 100+ assets across three concurrent global events required sophisticated production coordination, rapid-response capabilities, and quality consistency. The team executed high-volume deliveries while maintaining premium creative standards.
+    </p>
+
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">⚡</div>
+        <div class="outcome-title">Real-Time Production</div>
+        <div class="outcome-desc">Rapid-response system enabling same-day asset delivery. Summit announcements converted to finished visual content within hours of news breaks.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🔄</div>
+        <div class="outcome-title">Modular Design System</div>
+        <div class="outcome-desc">Reusable design templates and component libraries enabling consistent output at scale. 100+ assets produced without visual identity degradation.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">👥</div>
+        <div class="outcome-title">Cross-Functional Coordination</div>
+        <div class="outcome-desc">Managed production pipeline across creative, communications, and policy teams. Coordinated approval workflows while maintaining aggressive timelines.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🎯</div>
+        <div class="outcome-title">Quality at Scale</div>
+        <div class="outcome-desc">Delivered premium-quality creative across 100+ assets. Quality consistency across high-volume production demonstrated operational excellence.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Results & Strategic Impact</h2>
+    <p class="section-desc">
+      The integrated content strategy successfully positioned Saudi Arabia as a central, credible voice in global energy transition conversations. Massive reach across three summits established Ministry leadership in international climate and energy discourse.
+    </p>
+
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">🌐</div>
+        <div class="outcome-title">Global Visibility</div>
+        <div class="outcome-desc">178M total impressions across three global summits. Established Saudi Arabia's presence in major international energy forums.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">📺</div>
+        <div class="outcome-title">Video Engagement</div>
+        <div class="outcome-desc">52M video views demonstrate strong audience appetite for visual content. Video-first strategy proved effective for complex policy communication.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">💬</div>
+        <div class="outcome-title">Narrative Control</div>
+        <div class="outcome-desc">Ministry messaging dominated energy transition conversations at three major summits. Visual content drove agenda-setting in global discourse.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🚀</div>
+        <div class="outcome-title">Thought Leadership</div>
+        <div class="outcome-desc">Positioned Ministry as authoritative voice on energy policy, climate action, and global energy markets. Credible communicator among international stakeholders.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Key Strategic Learnings</h2>
+    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; margin-top: 1.5rem;">
+      <ul style="list-style: none; padding-left: 0;">
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Video-first strategy maximizes reach:</strong> 52M video views vs. traditional static content demonstrates audience preference for visual storytelling. Complex policy communicated more effectively through visual narratives than text alone.
+        </li>
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Bilingual execution is essential:</strong> Arabic/English dual-language design enabled simultaneous regional and international audience engagement. Single-language approach would have limited reach to half target audience.
+        </li>
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Data visualization simplifies complex messaging:</strong> Infographics translating policy complexity into visual format increased comprehension and shareability. Technical content became accessible to diverse audiences.
+        </li>
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Modular design enables scale:</strong> Reusable templates and component libraries enabled 100+ asset production without quality degradation. Systematic approach to creative production maintained consistency at volume.
+        </li>
+        <li style="margin-bottom: 0; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Real-time responsiveness drives engagement:</strong> Same-day asset delivery for summit announcements enabled rapid message amplification. Agility in production schedule significantly enhanced campaign effectiveness.
+        </li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<footer class="case-footer">
+  <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Explore More Governmental & Institutional Campaigns</h3>
+  <p style="color: var(--text-secondary); margin-bottom: 2rem;">Other large-scale visibility and positioning projects</p>
+  <div class="footer-nav">
+    <a href="case-study-smo-vision-2030.html" class="footer-link">← SMO Vision 2030</a>
+    <a href="../../works.html" class="footer-link">All Works</a>
+    <a href="case-study-ndmc-sukuk.html" class="footer-link">NDMC Sukuk →</a>
+  </div>
+</footer>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 50) {
+    nav.classList.add('scrolled');
+  } else {
+    nav.classList.remove('scrolled');
+  }
+});
+
+const reveals = document.querySelectorAll('.reveal');
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -100px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+reveals.forEach(reveal => observer.observe(reveal));
+</script>
+
+  <!-- FOOTER NAVIGATION -->
+  <div class="bottom-nav">
+    <a href="case-study-ndmc-sukuk.html" class="nav-link">← NDMC Sukuk Campaign</a>
+    <a href="case-study-etec.html" class="nav-link">Next: ETEC Performance <span class="arrow">→</span></a>
+  </div>
+
+  <!-- FOOTER NAVIGATION -->
+  <div class="bottom-nav">
+    <a href="case-study-ndmc-sukuk.html" class="nav-link">← NDMC Sukuk Campaign</a>
+    <a href="case-study-etec.html" class="nav-link">Next: ETEC Performance <span class="arrow">→</span></a>
+  </div>
+
+</body>
+</html>

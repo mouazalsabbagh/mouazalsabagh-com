@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>#UltimateGamer — Mouaz AlSabbagh</title>
+
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-card: #1c2128;
+  --text-primary: #f0f6fc;
+  --text-secondary: #8b949e;
+  --text-muted: #484f58;
+  --accent: #a2ff00;
+  --accent-dim: rgba(162,255,0,0.08);
+  --accent-glow: rgba(162,255,0,0.25);
+  --border: rgba(240,246,252,0.06);
+  --blue: #38bdf8;
+  --blue-dim: rgba(56,189,248,0.12);
+  --font-display: 'Outfit', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 1.25rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  background: rgba(13,17,23,0.6);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+
+nav.scrolled { padding: 0.8rem 3rem; background: rgba(13,17,23,0.92); }
+
+.nav-logo { font-weight: 900; font-size: 1.05rem; letter-spacing: -0.02em; cursor: pointer; }
+.nav-logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 2.25rem; align-items: center; }
+.nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.3s; font-family: var(--font-mono); }
+.nav-links a:hover, .nav-links a.active { color: var(--accent); }
+.nav-cta { display: inline-flex; align-items: center; padding: 0.5rem 1.2rem; background: var(--accent); color: var(--bg-primary); font-family: var(--font-mono); font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; border-radius: 3px; transition: all 0.3s; }
+.nav-cta:hover { background: #b8ff40; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(162,255,0,0.2); }
+
+.hero {
+  padding: 12rem 3rem 6rem;
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -150px;
+  right: -150px;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(56,189,248,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-inner { max-width: 900px; position: relative; z-index: 2; }
+
+.hero-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--blue);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.2s;
+}
+
+.hero-tag::before { content: ''; width: 50px; height: 1px; background: var(--blue); }
+
+.gaming-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--blue-dim);
+  border: 1px solid rgba(56,189,248,0.3);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--blue);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.3s;
+}
+
+.gaming-badge::before { content: '🎮'; }
+
+.hero-title {
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.4s;
+}
+
+.hero-title em { font-style: normal; color: var(--blue); }
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  font-weight: 300;
+  max-width: 700px;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.6s;
+}
+
+.metrics-card {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 4rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.8s;
+}
+
+.metric { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 2rem 1.5rem; text-align: left; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.metric:hover { border-color: var(--blue); background: rgba(56,189,248,0.02); transform: translateY(-4px); }
+.metric-val { font-size: 2.5rem; font-weight: 900; color: var(--blue); margin-bottom: 0.5rem; font-family: var(--font-mono); }
+.metric-lbl { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0.05em; text-transform: uppercase; }
+
+.content-wrapper { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
+
+.section {
+  margin-bottom: 6rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 1rem;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: var(--blue);
+}
+
+.section-desc { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.8; max-width: 800px; margin-bottom: 2rem; font-weight: 300; }
+
+.challenge-solution { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+.challenge-box, .solution-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.challenge-box:hover, .solution-box:hover { border-color: var(--blue); transform: translateY(-4px); }
+
+.box-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; }
+.challenge-box .box-title { color: #ff6b6b; }
+.solution-box .box-title { color: var(--blue); }
+
+.box-content { font-size: 0.95rem; line-height: 1.7; color: var(--text-secondary); }
+.box-content ul { list-style: none; margin: 1rem 0 0 0; }
+.box-content li { margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; }
+.box-content li::before { content: '→'; position: absolute; left: 0; color: var(--blue); font-weight: bold; }
+
+.timeline-visual {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  margin: 4rem 0;
+  position: relative;
+}
+
+.timeline-visual::before {
+  content: '';
+  position: absolute;
+  top: 40px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--blue), transparent);
+  z-index: 0;
+}
+
+.timeline-node {
+  flex: 1;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2rem;
+  position: relative;
+  z-index: 1;
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+
+.timeline-node:hover { border-color: var(--blue); transform: translateY(-4px); }
+
+.timeline-dot {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 16px;
+  background: var(--bg-primary);
+  border: 3px solid var(--blue);
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.timeline-title { font-size: 1.1rem; font-weight: 700; color: var(--blue); margin-bottom: 0.5rem; }
+.timeline-subtitle { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem; }
+.timeline-content { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7; }
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  font-size: 0.9rem;
+}
+
+.data-table thead {
+  background: rgba(56,189,248,0.05);
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 700;
+  color: var(--blue);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.data-table td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.data-table tbody tr:hover {
+  background: rgba(56,189,248,0.02);
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.highlight-box { background: var(--bg-card); border-left: 4px solid var(--blue); padding: 1.5rem; margin: 2rem 0; border-radius: 4px; }
+
+.outcome-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.outcome-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.outcome-item:hover { border-color: var(--blue); transform: translateY(-4px); box-shadow: 0 12px 32px rgba(56,189,248,0.1); }
+
+.outcome-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.outcome-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.75rem; }
+.outcome-desc { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+
+.case-footer { background: var(--bg-secondary); padding: 4rem 3rem; margin-top: 6rem; border-top: 1px solid var(--border); text-align: center; }
+.footer-nav { display: flex; gap: 2rem; justify-content: center; margin-top: 2rem; }
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.3s;
+}
+
+.footer-link:hover { border-color: var(--blue); color: var(--blue); transform: translateY(-2px); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { gap: 1.5rem; }
+  .hero { padding: 8rem 1.5rem 3rem; }
+  .hero-title { font-size: 2.5rem; }
+  .hero-subtitle { font-size: 1rem; }
+  .content-wrapper { padding: 0 1.5rem; }
+  .challenge-solution { grid-template-columns: 1fr; }
+  .metrics-card { grid-template-columns: 1fr; }
+  .section-title { font-size: 1.5rem; }
+  .timeline-visual { flex-direction: column; }
+  .timeline-visual::before { display: none; }
+  .data-table { font-size: 0.8rem; }
+  .data-table th, .data-table td { padding: 0.6rem; }
+}
+
+
+header {
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 0;
+    margin-bottom: 4rem;
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(10px);
+    background: rgba(13, 17, 23, 0.8);
+    z-index: 100;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.logo:hover {
+    color: var(--accent-secondary);
+}
+
+nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin-left: 2rem;
+    transition: color 0.3s;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+nav a:hover {
+    color: var(--accent-primary);
+}
+
+.bottom-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    padding-top: 2rem;
+    margin-top: 4rem;
+}
+
+.nav-link {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-link:hover {
+    gap: 1rem;
+}
+
+.arrow {
+    font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+    nav {
+        display: none;
+    }
+    
+    .bottom-nav {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .nav-link {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Design System Overrides */
+:root {
+  --bg-primary: #131313 !important;
+  --bg-secondary: #070707 !important;
+  --bg-card: #1F1F1F !important;
+  --bg-card-hover: #282828 !important;
+  --text-primary: #FFFFFF !important;
+  --text-secondary: rgba(255,255,255,0.65) !important;
+  --text-muted: rgba(255,255,255,0.40) !important;
+  --accent: #C9F31D !important;
+  --accent-primary: #C9F31D !important;
+  --accent-secondary: #7c3aed !important;
+  --accent-tertiary: #C9F31D !important;
+  --accent-dim: rgba(201,243,29,0.08) !important;
+  --accent-glow: rgba(201,243,29,0.25) !important;
+  --gold: #C9F31D !important;
+  --gold-dim: rgba(201,243,29,0.08) !important;
+  --teal: #C9F31D !important;
+  --teal-dim: rgba(201,243,29,0.08) !important;
+  --blue: #C9F31D !important;
+  --blue-dim: rgba(201,243,29,0.08) !important;
+  --purple: #7c3aed !important;
+  --purple-dim: rgba(124,58,237,0.12) !important;
+  --border: rgba(255,255,255,0.10) !important;
+  --font-display: 'DM Sans', sans-serif !important;
+  --font-mono: 'Inter', sans-serif !important;
+}
+
+body {
+  font-family: 'Inter', sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6, .hero-title, .section-title, .box-title, .outcome-title {
+  font-family: 'DM Sans', sans-serif !important;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E") !important;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+</style>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-logo">mouaz<span>.</span></div>
+  <div class="nav-links">
+    <a href="../../index.html">Home</a>
+    <a href="../../works.html">Works</a>
+    <a href="#" class="active">Case Study</a>
+    <a href="../../about.html">About</a>
+    <a href="../../contact.html" class="nav-cta">Contact</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Performance & Growth • Gaming IP</div>
+    <div class="gaming-badge">3 Seasons Evolution</div>
+    <h1 class="hero-title">#Ultimate<em>Gamer</em></h1>
+    <p class="hero-subtitle">
+      Architected and evolved a broadcast-to-engage gaming IP across 3 seasons: transforming passive Esports World Cup viewers into an active creator community, scaling from 5,000 participants (S1) to $58.5K/week revenue peak (S2), securing PUBG MOBILE partnership integration, and implementing retention-focused strategy (S3) with data-driven governance.
+    </p>
+  </div>
+</div>
+
+<div class="content-wrapper">
+  <div class="metrics-card">
+    <div class="metric">
+      <div class="metric-val">$58.5K</div>
+      <div class="metric-lbl">Peak Weekly Revenue (S2)</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">838K</div>
+      <div class="metric-lbl">Launch Week Viewership (S2)</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">3 Seasons</div>
+      <div class="metric-lbl">Continuous Evolution (May 2025–Feb 2026)</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">5→30+</div>
+      <div class="metric-lbl">Prize Tracks (S1→S2 Expansion)</div>
+    </div>
+  </div>
+</div>
+
+<div class="content-wrapper">
+  <section class="section reveal">
+    <h2 class="section-title">The Opportunity</h2>
+    <p class="section-desc">
+      Following the Esports World Cup, JACO faced a critical moment: millions of passive viewers from the broadcast represented untapped creator and revenue potential. The challenge was to convert that transient audience into a sustained, engaged community IP with recurring participation, monetization, and streamer loyalty.
+    </p>
+    
+    <div class="challenge-solution">
+      <div class="challenge-box">
+        <div class="box-title">Core Challenge</div>
+        <div class="box-content">
+          <ul>
+            <li>3.8M EWC live viewers—mostly passive spectators</li>
+            <li>No mechanism to convert broadcast engagement into platform stickiness</li>
+            <li>Gaming creators needed incentive structure to participate & stream regularly</li>
+            <li>No competitive "event IP" to drive recurring seasonal engagement</li>
+            <li>Revenue opportunity untapped; sponsors seeking gaming audience activation</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="solution-box">
+        <div class="box-title">Strategic Solution</div>
+        <div class="box-content">
+          <ul>
+            <li>Launched #UltimateGamer as recurring seasonal "Broadcast-to-Engage-to-Empower" IP</li>
+            <li>Designed multi-track, gamified competition structure with genre diversity (FPS, MOBA, BR, GTA, Sports)</li>
+            <li>Built escalating prize pools ($22K S1 → $430K+ total S2 coins)</li>
+            <li>Integrated sponsor partnerships (PUBG MOBILE evolution: bonus pilot → core track)</li>
+            <li>Implemented data-driven governance & retention strategies for S3</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Three-Season Evolution</h2>
+    <p class="section-desc">
+      #UltimateGamer evolved through three distinct seasons, each informed by performance data and strategic learnings. The progression shows how creative leadership scales a gaming IP from pilot to powerhouse.
+    </p>
+
+    <div class="timeline-visual">
+      <div class="timeline-node">
+        <div class="timeline-dot"></div>
+        <div class="timeline-title">Season 1: Proof of Concept</div>
+        <div class="timeline-subtitle">May – June 2025 • Month-long Festival</div>
+        <div class="timeline-content">
+          <strong>Participants:</strong> 5,000 creators<br>
+          <strong>Prize Pool:</strong> $22,000<br>
+          <strong>Tracks:</strong> 10 genre-specific competitions (FPS, MOBA, GTA, Sports, etc.)<br>
+          <strong>Duration:</strong> Main event 4 weeks + PUBG Bonus (+1 week)<br><br>
+          <strong>Key Insight:</strong> Established proof that passive viewers convert to active creators. PUBG MOBILE "Bonus" pilot performed well, proving sponsor integration viability.
+        </div>
+      </div>
+
+      <div class="timeline-node">
+        <div class="timeline-dot"></div>
+        <div class="timeline-title">Season 2: Scaling & Integration</div>
+        <div class="timeline-subtitle">Oct – Nov 2025 • Growth Phase</div>
+        <div class="timeline-content">
+          <strong>Performance:</strong> $58.5K revenue peak (single week), 838K launch views<br>
+          <strong>Prize Pool:</strong> 408,000 JACO coins (~$4K per track)<br>
+          <strong>Tracks:</strong> 8 core tracks + PUBG Mobile fully integrated<br><br>
+          <strong>Critical Finding:</strong> Engagement dropped Weeks 45–46 as leaderboards solidified. Users disengaged when they felt mathematically eliminated.
+        </div>
+      </div>
+
+      <div class="timeline-node">
+        <div class="timeline-dot"></div>
+        <div class="timeline-title">Season 3: Retention Reimagined</div>
+        <div class="timeline-subtitle">Feb 2026 (Ramadan Launch) • Sustainability</div>
+        <div class="timeline-content">
+          <strong>Strategy:</strong> Point System replacing leaderboard elimination<br>
+          <strong>Mechanic:</strong> 1,000 points per 60 minutes of streaming (regardless of rank)<br>
+          <strong>Governance:</strong> Strict anti-fraud rules (idle streaming penalties, multi-account bans)<br><br>
+          <strong>Design Philosophy:</strong> Remove "dead weight" feeling. Keep engagement constant through consistent reward accumulation.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Season 1: Pilot Launch (May–June 2025)</h2>
+    <p class="section-desc">Foundation-building phase establishing #UltimateGamer as a viable creator IP.</p>
+    
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Track</th>
+          <th>Prize</th>
+          <th>Eligibility</th>
+          <th>Strategic Goal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Highest Views Accumulated</strong></td>
+          <td>$1,000</td>
+          <td>All creators</td>
+          <td>Incentivize content quality & reach</td>
+        </tr>
+        <tr>
+          <td><strong>Most Likes on Live Streamer</strong></td>
+          <td>$1,000</td>
+          <td>All creators</td>
+          <td>Community engagement metric</td>
+        </tr>
+        <tr>
+          <td><strong>Most Active Gaming Streamer (All Games)</strong></td>
+          <td>$2,000</td>
+          <td>All creators</td>
+          <td>Consistency & streaming duration</td>
+        </tr>
+        <tr>
+          <td><strong>Most Active FPS / MOBA / GTA / Sports / BR Streamer</strong></td>
+          <td>$1,000 each</td>
+          <td>Genre-specific</td>
+          <td>Diversify participation; reward specialization</td>
+        </tr>
+        <tr>
+          <td><strong>Most Active PUBG Mobile Streamer</strong></td>
+          <td>$1,000</td>
+          <td>PUBG players</td>
+          <td>Sponsor partnership value (bonus pilot)</td>
+        </tr>
+        <tr>
+          <td><strong>Highest PCU Achieved</strong></td>
+          <td>$2,000</td>
+          <td>All creators</td>
+          <td>Peak concurrent user growth</td>
+        </tr>
+        <tr>
+          <td><strong>Top Supporter</strong></td>
+          <td>$2,000</td>
+          <td>Viewers (no registration)</td>
+          <td>Monetization via supporter spends</td>
+        </tr>
+        <tr>
+          <td><strong>Most Followers Gained</strong></td>
+          <td>$1,000</td>
+          <td>All creators</td>
+          <td>Community growth & loyalty</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="highlight-box">
+      <strong>S1 Creative Direction:</strong> Neon-accented branding with "LET THE STREAM BEGIN!" tagline. Mobile-first UI design emphasizing track clarity, prize visibility, and easy participation. Bilingual (AR/EN) to maximize regional reach.
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Season 2: Scaling & Revenue Peak (Oct–Nov 2025)</h2>
+    <p class="section-desc">
+      S2 saw 3x growth in prize pools, PUBG MOBILE upgrade from "bonus" to core track, and peak revenue of $58.5K in a single week. However, data revealed critical engagement drop-off mid-season.
+    </p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Value</th>
+          <th>Impact</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Peak Weekly Revenue</strong></td>
+          <td>$58,500</td>
+          <td>Direct monetization from streamer participation + supporter spending</td>
+        </tr>
+        <tr>
+          <td><strong>Launch Week Viewership</strong></td>
+          <td>838,000</td>
+          <td>Strong viewer acquisition from S1 retention + organic growth</td>
+        </tr>
+        <tr>
+          <td><strong>Total Prize Pool</strong></td>
+          <td>408,000 JACO coins (~$4K/track)</td>
+          <td>3x increase from S1; matched across all 8 core tracks</td>
+        </tr>
+        <tr>
+          <td><strong>Prize Distribution</strong></td>
+          <td>1st: 120K, 2nd: 80K, 3rd: 50K... (10th: 10K)</td>
+          <td>Top-heavy but deep payouts incentivize competition</td>
+        </tr>
+        <tr>
+          <td><strong>PUBG Mobile Integration</strong></td>
+          <td>Full core track, 408K coins</td>
+          <td>Sponsor "bonus" experiment graduated to headline partnership</td>
+        </tr>
+        <tr>
+          <td><strong>Engagement Drop (Weeks 45–46)</strong></td>
+          <td>Significant decline</td>
+          <td>Leaderboards solidified; users felt mathematically eliminated → disengagement</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="highlight-box">
+      <strong>S2 Key Learning:</strong> "Leaderboard fatigue" drove late-season engagement drop. Once rankings felt locked, creators stopped streaming. This insight directly led to S3's point-system redesign, which rewards consistency rather than cumulative ranking position.
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">PUBG MOBILE Partnership Arc</h2>
+    <p class="section-desc">
+      The PUBG MOBILE sponsorship evolved from a limited experiment to a core partnership, demonstrating how strategic brand integration scales across campaign seasons.
+    </p>
+
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">🎮</div>
+        <div class="outcome-title">Phase 1: Bonus Pilot (S1)</div>
+        <div class="outcome-desc">7-day limited "Bonus Category" promoting Battle Royale & Metro Royale modes. Viewership-based scoring to maximize marketing reach. $2K modest prize pool. Result: Strong performance validated sponsor integration model.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">📈</div>
+        <div class="outcome-title">Phase 2: Full Integration (S2)</div>
+        <div class="outcome-desc">Graduated to core track: "Most Active PUBG Mobile Streamer." Scoring shifted to activity/duration (top performer logged 180K+ duration units). Prize pool increased to 408K coins (~$4K), matching FPS/MOBA. Result: Legitimized as headline partnership.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🏆</div>
+        <div class="outcome-title">Phase 3: Ongoing (S3+)</div>
+        <div class="outcome-desc">Continued as core track with new game focus (FC26 soccer game added). Demonstrates sponsor confidence in IP sustainability. Sets model for future gaming partners to onboard into #UltimateGamer ecosystem.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">💡</div>
+        <div class="outcome-title">Strategic Value</div>
+        <div class="outcome-desc">Sponsor partnerships validate IP credibility, justify prize pools, and create revenue streams. PUBG MOBILE's three-phase evolution from test to core track shows art direction's role in building sponsor confidence through execution quality.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Creative Execution & Design System</h2>
+    <p class="section-desc">
+      Across all three seasons, consistent creative direction anchored the brand while adapting to evolving mechanics and sponsor needs.
+    </p>
+
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">🎨</div>
+        <div class="outcome-title">Visual Identity</div>
+        <div class="outcome-desc">Neon-cyan glow aesthetic (purple + cyan accents) on dark backgrounds. Bold geometric logo with controller icon. "LET THE STREAM BEGIN!" / "LEVEL UP THE STREAM" taglines. Consistent across broadcast graphics, in-app H5s, social banners, and sponsor assets.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">📱</div>
+        <div class="outcome-title">Multi-Platform Delivery</div>
+        <div class="outcome-desc">In-app leaderboard UI with ranked tier visuals (gold/silver/bronze crown badges). Mobile H5 tutorials ("How to: Join & Stream"). Home & discovery banners optimized for platform placement. Updated branded assets for each season launch.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🌍</div>
+        <div class="outcome-title">Localization</div>
+        <div class="outcome-desc">Bilingual AR/EN throughout. Genre-specific track naming (FPS, MOBA, GTA, Sports Game, BR). PUBG Mobile asset integration preserving partner brand hierarchy. Rules & reward messaging clear across all regional users.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">⚡</div>
+        <div class="outcome-title">Adaptive Design</div>
+        <div class="outcome-desc">S2 expanded track count (8 tracks) without breaking UI hierarchy. S3 pivot to point system required leaderboard redesign. Creative system flexible enough to accommodate sponsor evolution and mechanical changes mid-season.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Season 3: Data-Driven Retention Strategy (Feb 2026 Launch)</h2>
+    <p class="section-desc">
+      Armed with S2 engagement data, S3 pivots to a point-accumulation system designed to eliminate leaderboard fatigue and maintain consistent creator participation throughout the season.
+    </p>
+
+    <div class="highlight-box">
+      <strong>The Problem Solved:</strong> S2 leaderboards solidified by mid-season, causing creators to disengage once they felt mathematically out of contention. S3 removes this barrier by rewarding streaming consistency (1,000 points per 60 minutes) regardless of rank position.
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>S3 Track</th>
+          <th>New Mechanic</th>
+          <th>Retention Impact</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Most Followers Attracted *NEW*</strong></td>
+          <td>Measure net followers gained (encouraging creator growth)</td>
+          <td>Shift focus from one-time performance to sustained audience building</td>
+        </tr>
+        <tr>
+          <td><strong>Highest Views Accumulated</strong></td>
+          <td>Point-based on total views (continuous accumulation)</td>
+          <td>Late-season catch-up still possible; encourages content quality maintenance</td>
+        </tr>
+        <tr>
+          <td><strong>Most Active Gaming Streamer</strong></td>
+          <td>1,000 points per 60 min streaming (activity-based)</td>
+          <td>Rewards consistency; eliminates "already lost" feeling mid-season</td>
+        </tr>
+        <tr>
+          <td><strong>Highest PCU Achieved</strong></td>
+          <td>Snapshot metric: highest concurrent viewers during season</td>
+          <td>One shot opportunity; encourages peak-moment effort</td>
+        </tr>
+        <tr>
+          <td><strong>Top Supporter</strong></td>
+          <td>Cumulative supporter spend tracking</td>
+          <td>Viewer retention & monetization alignment</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="highlight-box">
+      <strong>Governance & Integrity:</strong> New anti-fraud rules impose penalties for "idle streaming" (broadcasting without active gameplay) and multi-account farming. Strict enforcement protects leaderboard credibility and prevents point manipulation.
+    </div>
+
+    <div class="highlight-box">
+      <strong>Launch Timing:</strong> S3 launches February 17–18 (1st day of Ramadan), strategically aligning with peak streaming activity during fasting month when creators seek evening engagement.
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">What This Demonstrates</h2>
+    <div class="box-content" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; margin-top: 1.5rem;">
+      <ul>
+        <li><strong>Broadcast-to-Engage Model:</strong> Converted 3.8M passive viewers into 5K+ active creators; proved sustainable seasonal IP viability</li>
+        <li><strong>Data-Driven Creative Leadership:</strong> Used S2 engagement drop (Weeks 45–46) to redesign S3 mechanics. Art direction informed by performance analytics</li>
+        <li><strong>Sponsor Integration Strategy:</strong> Evolved PUBG MOBILE from pilot bonus to core track with 3x prize increase. Shows ability to build partner confidence through execution</li>
+        <li><strong>Multi-Season Creative Consistency:</strong> Maintained visual identity & brand clarity across 3 seasons while adapting UI/UX to evolving mechanics</li>
+        <li><strong>Retention-Focused Design:</strong> Identified leaderboard fatigue; redesigned S3 with point system to eliminate engagement cliff. Proactive, not reactive</li>
+        <li><strong>Cross-Functional Leadership:</strong> Coordinated with Gaming, Content Ops, and Marketing teams. Managed creative briefs, asset delivery, and sponsor communications</li>
+        <li><strong>Gaming IP Architecture:</strong> Built genre-diverse track structure (FPS, MOBA, BR, Sports, GTA) enabling multiple creator communities to participate in single IP</li>
+        <li><strong>Revenue Leadership:</strong> $58.5K/week peak revenue represents direct monetization impact of creative strategy execution</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Key Learnings & Future Roadmap</h2>
+    
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">📊</div>
+        <div class="outcome-title">S2→S3 Learning</div>
+        <div class="outcome-desc">Leaderboard psychology matters. Once rankings solidify, creators disengage. Point accumulation systems keep participation consistent throughout season length.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🎮</div>
+        <div class="outcome-title">Genre Diversification Works</div>
+        <div class="outcome-desc">10+ distinct tracks across FPS, MOBA, BR, GTA, Sports attracted different creator communities. No single-genre fatigue; healthy ecosystem diversity.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">💎</div>
+        <div class="outcome-title">Sponsor Partnerships Scale</div>
+        <div class="outcome-desc">PUBG MOBILE's 3-phase evolution (bonus → core → headline) proves partners invest in proven IPs. Sets template for future brand integrations.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🔐</div>
+        <div class="outcome-title">Governance Matters</div>
+        <div class="outcome-desc">S3's anti-fraud rules (idle streaming penalties, multi-account bans) protect credibility. Necessary to maintain creator trust and leaderboard integrity at scale.</div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>S3+ Roadmap:</strong> Continue point-system testing through Ramadan. Measure retention vs. S2 baseline. If successful, establish #UltimateGamer as permanent quarterly IP. Expand sponsor ecosystem. Introduce creator tier system (bronze/silver/gold levels) for aspirational progression. Explore cross-game integration (linking scores across multiple titles).
+    </div>
+  </section>
+</div>
+
+<footer class="case-footer">
+  <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Explore More Performance-Driven Gaming & Community IPs</h3>
+  <p style="color: var(--text-secondary); margin-bottom: 2rem;">Other high-ROI campaigns and creator ecosystem strategies</p>
+  <div class="footer-nav">
+    <a href="case-study-jaco-growth-trilogy.html" class="footer-link">← JACO Growth Trilogy</a>
+    <a href="../../works.html" class="footer-link">All Works</a>
+    <a href="case-study-jaco-commercial.html" class="footer-link">JACO Commercial →</a>
+  </div>
+</footer>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 50) {
+    nav.classList.add('scrolled');
+  } else {
+    nav.classList.remove('scrolled');
+  }
+});
+
+const reveals = document.querySelectorAll('.reveal');
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -100px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+reveals.forEach(reveal => observer.observe(reveal));
+</script>
+
+  <!-- FOOTER NAVIGATION -->
+  <div class="bottom-nav">
+    <a href="case-study-monthly-champion.html" class="nav-link">← Monthly Champion</a>
+    <a href="case-study-ehsan-platform.html" class="nav-link">Next: Ehsan Platform <span class="arrow">→</span></a>
+  </div>
+
+  <!-- FOOTER NAVIGATION -->
+  <div class="bottom-nav">
+    <a href="case-study-jaco-growth-trilogy.html" class="nav-link">← JACO Growth Trilogy</a>
+    <a href="case-study-jaco-commercial.html" class="nav-link">Next: JACO Commercial Systems <span class="arrow">→</span></a>
+  </div>
+
+</body>
+</html>

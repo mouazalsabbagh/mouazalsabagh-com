@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMO Vision 2030 — Mouaz AlSabbagh</title>
+
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-card: #1c2128;
+  --bg-card-hover: #21262d;
+  --text-primary: #f0f6fc;
+  --text-secondary: #8b949e;
+  --text-muted: #484f58;
+  --accent: #a2ff00;
+  --accent-dim: rgba(162,255,0,0.08);
+  --accent-glow: rgba(162,255,0,0.25);
+  --border: rgba(240,246,252,0.06);
+  --border-hover: rgba(240,246,252,0.12);
+  --font-display: 'Outfit', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Grain overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* NAV */
+/* ═══════════════════════════════════════════════════════════════ */
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 1.25rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  background: rgba(13,17,23,0.6);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+
+nav.scrolled {
+  padding: 0.8rem 3rem;
+  background: rgba(13,17,23,0.92);
+}
+
+.nav-logo {
+  font-weight: 900;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+}
+
+.nav-logo span { color: var(--accent); }
+
+.nav-links {
+  display: flex;
+  gap: 2.25rem;
+  align-items: center;
+}
+
+.nav-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color 0.3s;
+  font-family: var(--font-mono);
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--accent);
+}
+
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.2rem;
+  background: var(--accent);
+  color: var(--bg-primary);
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  border-radius: 3px;
+  transition: all 0.3s;
+}
+
+.nav-cta:hover {
+  background: #b8ff40;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(162,255,0,0.2);
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* HERO SECTION */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.hero {
+  padding: 12rem 3rem 6rem;
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -150px;
+  right: -150px;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(162,255,0,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-inner {
+  max-width: 900px;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.2s;
+}
+
+.hero-tag::before {
+  content: '';
+  width: 50px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.hero-title {
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.4s;
+}
+
+.hero-title em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  font-weight: 300;
+  max-width: 700px;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.6s;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* METRICS CARD */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.metrics-card {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 4rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.8s;
+}
+
+.metric {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 2rem 1.5rem;
+  text-align: left;
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+
+.metric:hover {
+  border-color: var(--accent);
+  background: rgba(162,255,0,0.02);
+  transform: translateY(-4px);
+}
+
+.metric-val {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  font-family: var(--font-mono);
+}
+
+.metric-lbl {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* CONTENT SECTIONS */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.content-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 3rem;
+}
+
+.section {
+  margin-bottom: 6rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 1rem;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: var(--accent);
+}
+
+.section-desc {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  max-width: 800px;
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+
+/* Grid for challenge/solution */
+.challenge-solution {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.challenge-box,
+.solution-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2rem;
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+
+.challenge-box:hover,
+.solution-box:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+}
+
+.box-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.challenge-box .box-title {
+  color: #ff6b6b;
+}
+
+.solution-box .box-title {
+  color: var(--accent);
+}
+
+.box-content {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.box-content ul {
+  list-style: none;
+  margin: 1rem 0 0 0;
+}
+
+.box-content li {
+  margin-bottom: 0.75rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.box-content li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* VISUAL PLACEHOLDER */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.visual-block {
+  width: 100%;
+  height: 400px;
+  background: linear-gradient(135deg, rgba(162,255,0,0.1) 0%, rgba(162,255,0,0.02) 100%);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 3rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.visual-block::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 36px, rgba(255,255,255,0.006) 36px, rgba(255,255,255,0.006) 37px), repeating-linear-gradient(90deg, transparent, transparent 36px, rgba(255,255,255,0.006) 36px, rgba(255,255,255,0.006) 37px);
+  pointer-events: none;
+}
+
+.visual-label {
+  font-size: 3rem;
+  font-weight: 900;
+  opacity: 0.08;
+  color: var(--text-primary);
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  user-select: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* OUTCOME GRID */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.outcome-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.outcome-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2rem;
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+
+.outcome-item:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(162,255,0,0.1);
+}
+
+.outcome-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.outcome-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.outcome-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* FOOTER & CTA */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.case-footer {
+  background: var(--bg-secondary);
+  padding: 4rem 3rem;
+  margin-top: 6rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.footer-nav {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.3s;
+}
+
+.footer-link:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* ANIMATIONS */
+/* ═══════════════════════════════════════════════════════════════ */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Intersection observer for scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { gap: 1.5rem; }
+  
+  .hero { padding: 8rem 1.5rem 3rem; }
+  .hero-title { font-size: 2.5rem; }
+  .hero-subtitle { font-size: 1rem; }
+  
+  .content-wrapper { padding: 0 1.5rem; }
+  .challenge-solution { grid-template-columns: 1fr; }
+  .metrics-card { grid-template-columns: 1fr; }
+  
+  .section-title { font-size: 1.5rem; }
+  .visual-block { height: 300px; }
+}
+
+
+header {
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 0;
+    margin-bottom: 4rem;
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(10px);
+    background: rgba(13, 17, 23, 0.8);
+    z-index: 100;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.logo:hover {
+    color: var(--accent-secondary);
+}
+
+nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin-left: 2rem;
+    transition: color 0.3s;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+nav a:hover {
+    color: var(--accent-primary);
+}
+
+.bottom-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    padding-top: 2rem;
+    margin-top: 4rem;
+}
+
+.nav-link {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-link:hover {
+    gap: 1rem;
+}
+
+.arrow {
+    font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+    nav {
+        display: none;
+    }
+    
+    .bottom-nav {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .nav-link {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Design System Overrides */
+:root {
+  --bg-primary: #131313 !important;
+  --bg-secondary: #070707 !important;
+  --bg-card: #1F1F1F !important;
+  --bg-card-hover: #282828 !important;
+  --text-primary: #FFFFFF !important;
+  --text-secondary: rgba(255,255,255,0.65) !important;
+  --text-muted: rgba(255,255,255,0.40) !important;
+  --accent: #C9F31D !important;
+  --accent-primary: #C9F31D !important;
+  --accent-secondary: #7c3aed !important;
+  --accent-tertiary: #C9F31D !important;
+  --accent-dim: rgba(201,243,29,0.08) !important;
+  --accent-glow: rgba(201,243,29,0.25) !important;
+  --gold: #C9F31D !important;
+  --gold-dim: rgba(201,243,29,0.08) !important;
+  --teal: #C9F31D !important;
+  --teal-dim: rgba(201,243,29,0.08) !important;
+  --blue: #C9F31D !important;
+  --blue-dim: rgba(201,243,29,0.08) !important;
+  --purple: #7c3aed !important;
+  --purple-dim: rgba(124,58,237,0.12) !important;
+  --border: rgba(255,255,255,0.10) !important;
+  --font-display: 'DM Sans', sans-serif !important;
+  --font-mono: 'Inter', sans-serif !important;
+}
+
+body {
+  font-family: 'Inter', sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6, .hero-title, .section-title, .box-title, .outcome-title {
+  font-family: 'DM Sans', sans-serif !important;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E") !important;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+</style>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">mouaz<span>.</span></div>
+  <div class="nav-links">
+    <a href="../../index.html">Home</a>
+    <a href="../../works.html">Works</a>
+    <a href="#" class="active">Case Study</a>
+    <a href="../../about.html">About</a>
+    <a href="../../contact.html" class="nav-cta">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Strategic Governmental Communications</div>
+    <h1 class="hero-title">SMO <em>Vision 2030</em></h1>
+    <p class="hero-subtitle">
+      Strategic Management Office national initiative campaign reaching 1.06 billion across 16+ campaigns in 10+ cities with absolute visual consistency.
+    </p>
+  </div>
+</div>
+
+<!-- METRICS -->
+<div class="content-wrapper">
+  <div class="metrics-card">
+    <div class="metric">
+      <div class="metric-val">1.06B</div>
+      <div class="metric-lbl">Total Visibility Reach</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">16+</div>
+      <div class="metric-lbl">Concurrent Campaigns</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">10+</div>
+      <div class="metric-lbl">Cities Covered</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">100%</div>
+      <div class="metric-lbl">Brand Consistency</div>
+    </div>
+  </div>
+</div>
+
+<!-- CHALLENGE & SOLUTION -->
+<div class="content-wrapper">
+  <section class="section reveal">
+    <h2 class="section-title">Challenge</h2>
+    <p class="section-desc">
+      The Strategic Management Office (SMO) needed to amplify Vision 2030 initiatives across Saudi Arabia with maximum impact and consistency. The challenge: coordinate 16+ simultaneous campaigns across digital, print, broadcast, and environmental channels in 10+ major cities—all while maintaining unified brand messaging and visual identity for a complex, multi-stakeholder governmental initiative.
+    </p>
+    
+    <div class="challenge-solution">
+      <div class="challenge-box">
+        <div class="box-title">The Problem</div>
+        <div class="box-content">
+          <ul>
+            <li>Fragmented campaign execution across regions</li>
+            <li>Inconsistent visual messaging</li>
+            <li>Need for rapid asset production at scale</li>
+            <li>Complex stakeholder alignment requirements</li>
+            <li>High-stakes public communication context</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="solution-box">
+        <div class="box-title">The Approach</div>
+        <div class="box-content">
+          <ul>
+            <li>Centralized creative direction framework</li>
+            <li>Modular campaign architecture</li>
+            <li>Standardized asset production pipeline</li>
+            <li>Real-time brand compliance system</li>
+            <li>Integrated performance tracking</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAMPAIGN SCOPE -->
+  <section class="section reveal">
+    <h2 class="section-title">Campaign Scope & Execution</h2>
+    <p class="section-desc">
+      Managed 16+ concurrent governmental campaigns with absolute consistency across:
+    </p>
+    
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">📱</div>
+        <div class="outcome-title">Digital Channels</div>
+        <div class="outcome-desc">Social media, web, mobile apps, digital displays across all major platforms</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🖨️</div>
+        <div class="outcome-title">Print Media</div>
+        <div class="outcome-desc">Collateral, posters, brochures, government materials for all 10+ cities</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">📺</div>
+        <div class="outcome-title">Broadcast</div>
+        <div class="outcome-desc">TV, digital video, motion graphics for national and regional channels</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🏗️</div>
+        <div class="outcome-title">Environmental</div>
+        <div class="outcome-desc">OOH, billboards, signage, venue activations across major cities</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISUAL BLOCK -->
+  <div class="visual-block">
+    <div class="visual-label">16+ Campaigns</div>
+  </div>
+
+  <!-- STRATEGY & OUTCOMES -->
+  <section class="section reveal">
+    <h2 class="section-title">Results & Impact</h2>
+    <p class="section-desc">
+      Through rigorous brand consistency and strategic visual communication, the SMO Vision 2030 portfolio achieved unprecedented reach and engagement for governmental initiatives.
+    </p>
+    
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">🎯</div>
+        <div class="outcome-title">Maximum Reach</div>
+        <div class="outcome-desc">1.06 billion cumulative visibility across all touchpoints—unprecedented scale for governmental campaign</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">⚡</div>
+        <div class="outcome-title">Brand Consistency</div>
+        <div class="outcome-desc">100% adherence to visual guidelines across 16+ campaigns, ensuring unified national narrative</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🚀</div>
+        <div class="outcome-title">Stakeholder Alignment</div>
+        <div class="outcome-desc">Centralized creative governance accelerated approvals and ensured executive stakeholder buy-in</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">📊</div>
+        <div class="outcome-title">Performance Tracking</div>
+        <div class="outcome-desc">Integrated metrics dashboard tracked engagement, reach, and campaign performance in real-time</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEY LEARNINGS -->
+  <section class="section reveal">
+    <h2 class="section-title">Key Learnings</h2>
+    <p class="section-desc">
+      This project reinforced critical insights about large-scale governmental communications:
+    </p>
+    <div class="box-content" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; margin-top: 1.5rem;">
+      <ul>
+        <li><strong>Centralization drives consistency:</strong> A single creative authority prevented message fragmentation across regions and channels</li>
+        <li><strong>Modular design scales:</strong> Component-based asset creation allowed rapid production without sacrificing quality</li>
+        <li><strong>Governance matters:</strong> Formal approval workflows with stakeholder input accelerated decision-making</li>
+        <li><strong>Data informs iteration:</strong> Real-time performance metrics allowed continuous optimization of creative approaches</li>
+        <li><strong>Vision 2030 resonates:</strong> Aligned messaging with national strategic priorities amplified campaign effectiveness</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer class="case-footer">
+  <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Next Project</h3>
+  <p style="color: var(--text-secondary); margin-bottom: 2rem;">Explore other strategic governmental communications work</p>
+  <div class="footer-nav">
+    <a href="case-study-ndmc-sukuk.html" class="footer-link">← NDMC Sukuk Initiative</a>
+    <a href="../../works.html" class="footer-link">All Works</a>
+    <a href="case-study-rcjy.html" class="footer-link">RCJY Waterfront →</a>
+  </div>
+</footer>
+
+<script>
+// Smooth scroll nav update
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 50) {
+    nav.classList.add('scrolled');
+  } else {
+    nav.classList.remove('scrolled');
+  }
+});
+
+// Intersection Observer for reveal animations
+const reveals = document.querySelectorAll('.reveal');
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -100px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+reveals.forEach(reveal => observer.observe(reveal));
+</script>
+
+  <!-- FOOTER NAVIGATION -->
+  <div class="bottom-nav">
+    <a href="../../index.html" class="nav-link">← Back to Work</a>
+    <a href="case-study-ndmc-sukuk.html" class="nav-link">Next: NDMC Sukuk Campaign <span class="arrow">→</span></a>
+  </div>
+
+  <!-- FOOTER NAVIGATION -->
+  <div class="bottom-nav">
+    <a href="../../index.html" class="nav-link">← Back to Work</a>
+    <a href="case-study-ndmc-sukuk.html" class="nav-link">Next: NDMC Sukuk Campaign <span class="arrow">→</span></a>
+  </div>
+
+</body>
+</html>

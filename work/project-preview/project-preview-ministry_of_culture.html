@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Project Preview: Ministry of Culture Commissions & Strategic Leadership">
+    <title>Preview: Ministry of Culture — Mouaz AlSabbagh</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <style>
+        /* ================================================================
+           TOKENS — Design System
+           ================================================================ */
+        :root {
+            --bg-primary:    #0d1117;
+            --bg-secondary:  #161b22;
+            --bg-card:       #1c2128;
+            --bg-card-hover: #21262d;
+
+            --text-primary:   #f0f6fc;
+            --text-secondary: #8b949e;
+            --text-muted:     #484f58;
+
+            --accent:     #f97316; /* Sunset Orange for Cultural Impact & Tourism */
+            --accent-dim: rgba(249, 115, 22, 0.10);
+
+            --border:     #30363d;
+
+            --font-sans: 'Outfit', -apple-system, sans-serif;
+            --font-mono: 'Space Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        /* ================================================================
+           NAVIGATION
+           ================================================================ */
+        .nav-bar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(13, 17, 23, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+        }
+
+        .nav-back {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .nav-back:hover { color: var(--accent); }
+
+        /* ================================================================
+           HERO SECTION
+           ================================================================ */
+        .hero {
+            padding: 10rem 5% 5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .pillar-tag {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 6vw, 5.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 2rem;
+            max-width: 1000px;
+        }
+
+        .metrics-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .metric {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            line-height: 1.2;
+        }
+
+        .metric-label {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        /* ================================================================
+           CONTEXT (CHALLENGE & SOLUTION)
+           ================================================================ */
+        .context-section {
+            padding: 5rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .context-block h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .context-block h3::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        .context-block p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* ================================================================
+           VISUAL PREVIEW GRID
+           ================================================================ */
+        .preview-gallery {
+            padding: 0 5% 5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-item::after {
+            content: 'VISUAL PREVIEW';
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+        }
+
+        .gi-large { grid-column: span 12; aspect-ratio: 21/9; }
+        .gi-medium { grid-column: span 8; }
+        .gi-small { grid-column: span 4; aspect-ratio: 1/1; }
+
+        /* ================================================================
+           FULL CASE STUDY CTA
+           ================================================================ */
+        .cta-section {
+            padding: 8rem 5%;
+            text-align: center;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            padding: 1rem 2.5rem;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.1);
+        }
+
+        /* ================================================================
+           ANIMATIONS (Scroll Reveal)
+           ================================================================ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ================================================================
+           MEDIA QUERIES
+           ================================================================ */
+        @media (max-width: 1024px) {
+            .context-section { grid-template-columns: 1fr; gap: 2rem; }
+            .gi-medium, .gi-small { grid-column: span 12; aspect-ratio: 16/9; }
+        }
+
+        @media (max-width: 768px) {
+            .hero { padding-top: 8rem; }
+            .metrics-bar { flex-direction: column; gap: 1.5rem; }
+        }
+    
+/* Design System Overrides */
+:root {
+  --bg-primary: #131313 !important;
+  --bg-secondary: #070707 !important;
+  --bg-card: #1F1F1F !important;
+  --bg-card-hover: #282828 !important;
+  --text-primary: #FFFFFF !important;
+  --text-secondary: rgba(255,255,255,0.65) !important;
+  --text-muted: rgba(255,255,255,0.40) !important;
+  --accent: #C9F31D !important;
+  --accent-primary: #C9F31D !important;
+  --accent-secondary: #7c3aed !important;
+  --accent-tertiary: #C9F31D !important;
+  --accent-dim: rgba(201,243,29,0.08) !important;
+  --accent-glow: rgba(201,243,29,0.25) !important;
+  --gold: #C9F31D !important;
+  --gold-dim: rgba(201,243,29,0.08) !important;
+  --teal: #C9F31D !important;
+  --teal-dim: rgba(201,243,29,0.08) !important;
+  --blue: #C9F31D !important;
+  --blue-dim: rgba(201,243,29,0.08) !important;
+  --purple: #7c3aed !important;
+  --purple-dim: rgba(124,58,237,0.12) !important;
+  --border: rgba(255,255,255,0.10) !important;
+  --font-display: 'DM Sans', sans-serif !important;
+  --font-mono: 'Inter', sans-serif !important;
+}
+
+body {
+  font-family: 'Inter', sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6, .hero-title, .section-title, .box-title, .outcome-title {
+  font-family: 'DM Sans', sans-serif !important;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E") !important;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+</style>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <a href="../works.html" class="nav-back">
+            <span>←</span> Back to Master Database
+        </a>
+        <div style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-muted);">
+            Project Preview
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero reveal">
+        <span class="pillar-tag">Cultural Impact & Tourism</span>
+        <h1>Ministry of Culture</h1>
+
+        <div class="metrics-bar">
+            <div class="metric">
+                <span class="metric-value">5 Major</span>
+                <span class="metric-label">Cultural Commissions</span>
+            </div>
+            <div class="metric">
+                <span class="metric-value">Millions</span>
+                <span class="metric-label">Visitors & Impact</span>
+            </div>
+            <div class="metric">
+                <span class="metric-value">100%</span>
+                <span class="metric-label">Vision 2030 Alignment</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Context Section (Challenge & Solution) -->
+    <section class="context-section">
+        <div class="context-block reveal">
+            <h3>The Challenge</h3>
+            <p>The Ministry of Culture required simultaneous, large-scale activation across multiple cultural sectors to advance Saudi Vision 2030. The challenge was delivering bespoke, world-class creative strategies for five distinct commissions—spanning performing arts, literature, translation, and heritage preservation—while maintaining a cohesive national identity that appealed to both domestic communities and international visitors.</p>
+        </div>
+        <div class="context-block reveal" style="transition-delay: 0.2s;">
+            <h3>The Solution</h3>
+            <p>I directed the comprehensive visual and spatial strategies across these major initiatives, including the Banan Exhibition, Riyadh Book Fair, and Theatrical Amateurs Festival. By blending authentic traditional craftsmanship with premium, modern experiential design, the campaigns successfully transformed these cultural sectors into highly valued destinations, driving record-breaking attendance and establishing a new standard for Saudi arts.</p>
+        </div>
+    </section>
+
+    <!-- High-Level Visual Preview -->
+    <section class="preview-gallery">
+        <div class="gallery-item gi-large reveal">
+            <!-- Multi-Commission Hero Visual Placeholder -->
+        </div>
+        <div class="gallery-item gi-medium reveal">
+            <!-- Banan Heritage Exhibition Space Placeholder -->
+        </div>
+        <div class="gallery-item gi-small reveal">
+            <!-- Riyadh Book Fair Digital Assets Placeholder -->
+        </div>
+        <div class="gallery-item gi-small reveal">
+            <!-- Theatrical Amateurs Festival Branding Placeholder -->
+        </div>
+        <div class="gallery-item gi-medium reveal">
+            <!-- MoC Translation & Cultural Guides Placeholder -->
+        </div>
+    </section>
+
+    <!-- Deep Dive CTA (Tier 3 Link) -->
+    <section class="cta-section reveal">
+        <h2>Ready to see the data and design methodology?</h2>
+        <a href="../case-studies/case-study-ministry-of-culture.html" class="btn-primary">
+            View Full Case Study <span>→</span>
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer style="padding: 2rem 5%; text-align: center; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-muted);">
+        <p>© 2026 Mouaz AlSabbagh. Master Portfolio V4.0.</p>
+    </footer>
+
+    <!-- Scroll Reveal Script -->
+    <script>
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

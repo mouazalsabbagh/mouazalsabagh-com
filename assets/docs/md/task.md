@@ -1,0 +1,9 @@
+- `[x]` Set up HTML layout templates based on `header-footer-template.html` (Head, Header, Footer, JS) with adjusted relative paths.
+- `[x]` Migrate `rec/index-ar.html` to the global design system.
+  - `[x]` Implement dark theme UI mapping (`--bg-deep`, `--bg-card`, `--text-heading`).
+  - `[x]` Apply `header-footer-template.html` layout, keeping `dir="rtl"` for Arabic content.
+  - `[x]` Update static asset paths (`../assets/`).
+- `[x]` Address accessibility and lint errors.
+  - `[x]` Fix unclosed tags, raw ampersands `&`, and `type` attributes in `rec/index.html` and `rec/index-ar.html`.
+  - `[x]` Clean up inline styles across the `rec/` generator and `cv-2026-mouaz-alsabbagh.html` where applicable.
+- `[x]` Verify changes and create walkthrough.

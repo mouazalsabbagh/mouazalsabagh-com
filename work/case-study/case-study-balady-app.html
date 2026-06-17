@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balady App Case Study — Mouaz AlSabbagh</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-card: #1c2128;
+            --text-primary: #ffffff;
+            --text-secondary: #8b949e;
+            --accent-primary: #a2ff00;
+            --accent-secondary: #7c3aed;
+            --accent-tertiary: #14b8a6;
+            --border: #30363d;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        header {
+            border-bottom: 1px solid var(--border);
+            padding: 2rem 0;
+            margin-bottom: 4rem;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(10px);
+            background: rgba(13, 17, 23, 0.8);
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-left: 2rem;
+            transition: color 0.3s;
+            font-size: 0.9rem;
+        }
+
+        nav a:hover {
+            color: var(--accent-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-bottom: 6rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .hero-content {
+            max-width: 900px;
+        }
+
+        .pillar-badge {
+            display: inline-block;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 0.5rem 1.2rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            color: var(--accent-tertiary);
+            margin-bottom: 2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .project-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .meta-item h3 {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .meta-item p {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .content-section {
+            margin-bottom: 5rem;
+            opacity: 0;
+            animation: slideUp 0.8s ease-out forwards;
+        }
+
+        .content-section:nth-child(1) { animation-delay: 0.2s; }
+        .content-section:nth-child(2) { animation-delay: 0.4s; }
+        .content-section:nth-child(3) { animation-delay: 0.6s; }
+        .content-section:nth-child(4) { animation-delay: 0.8s; }
+        .content-section:nth-child(5) { animation-delay: 1s; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            gap: 1rem;
+        }
+
+        .section-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            opacity: 0.3;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .text-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .text-content p {
+            margin-bottom: 1.2rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .text-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .challenge, .solution, .impact {
+            margin-bottom: 1.5rem;
+        }
+
+        .challenge-label, .solution-label, .impact-label {
+            font-weight: 700;
+            color: var(--accent-primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .metric-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .metric-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-4px);
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-tertiary);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        /* Image Placeholder */
+        .image-placeholder {
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            padding: 3rem;
+            text-align: center;
+            margin: 2rem 0;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .image-placeholder-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        /* Lists */
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        ul li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--accent-primary);
+            font-weight: bold;
+        }
+
+        /* Deliverables */
+        .deliverables {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .deliverable-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .deliverable-item:hover {
+            border-color: var(--accent-secondary);
+            background: rgba(124, 58, 237, 0.05);
+        }
+
+        .deliverable-title {
+            color: var(--accent-secondary);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .deliverable-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Bottom Section */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            padding-top: 2rem;
+            margin-top: 4rem;
+        }
+
+        .nav-link {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover {
+            gap: 1rem;
+        }
+
+        .arrow {
+            font-size: 1.2rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .project-meta {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .deliverables {
+                grid-template-columns: 1fr;
+            }
+
+            nav {
+                display: none;
+            }
+        }
+    
+/* Design System Overrides */
+:root {
+  --bg-primary: #131313 !important;
+  --bg-secondary: #070707 !important;
+  --bg-card: #1F1F1F !important;
+  --bg-card-hover: #282828 !important;
+  --text-primary: #FFFFFF !important;
+  --text-secondary: rgba(255,255,255,0.65) !important;
+  --text-muted: rgba(255,255,255,0.40) !important;
+  --accent: #C9F31D !important;
+  --accent-primary: #C9F31D !important;
+  --accent-secondary: #7c3aed !important;
+  --accent-tertiary: #C9F31D !important;
+  --accent-dim: rgba(201,243,29,0.08) !important;
+  --accent-glow: rgba(201,243,29,0.25) !important;
+  --gold: #C9F31D !important;
+  --gold-dim: rgba(201,243,29,0.08) !important;
+  --teal: #C9F31D !important;
+  --teal-dim: rgba(201,243,29,0.08) !important;
+  --blue: #C9F31D !important;
+  --blue-dim: rgba(201,243,29,0.08) !important;
+  --purple: #7c3aed !important;
+  --purple-dim: rgba(124,58,237,0.12) !important;
+  --border: rgba(255,255,255,0.10) !important;
+  --font-display: 'DM Sans', sans-serif !important;
+  --font-mono: 'Inter', sans-serif !important;
+}
+
+body {
+  font-family: 'Inter', sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6, .hero-title, .section-title, .box-title, .outcome-title {
+  font-family: 'DM Sans', sans-serif !important;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E") !important;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+</style>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+        <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="../../index.html" class="logo">mouaz.design</a>
+                <nav>
+                    <a href="../../index.html">Work</a>
+                    <a href="../../about.html">About</a>
+                    <a href="../../contact.html">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="pillar-badge">Systems & Operations</div>
+            <h1>Balady App</h1>
+            <p class="subtitle">Transforming Civic Engagement Through Gamified Municipal Reporting</p>
+
+            <div class="project-meta">
+                <div class="meta-item">
+                    <h3>Client</h3>
+                    <p>Ministry of Municipal & Rural Affairs (MOMRA)</p>
+                </div>
+                <div class="meta-item">
+                    <h3>Category</h3>
+                    <p>App Design & Campaign</p>
+                </div>
+                <div class="meta-item">
+                    <h3>Scope</h3>
+                    <p>Motion Graphics, UX Tutorials</p>
+                </div>
+                <div class="meta-item">
+                    <h3>Year</h3>
+                    <p>2023–2024</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Challenge Section -->
+        <section class="content-section">
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <h2>Challenge</h2>
+            </div>
+            <div class="text-content">
+                <div class="challenge">
+                    <span class="challenge-label">The Problem</span>
+                    <p>MOMRA faced a critical adoption challenge: traditional municipal reporting methods were slow, cumbersome, and lacked user incentives. Citizens lacked motivation to report issues like infrastructure damage and code violations. The Ministry needed a digital-first solution that would drive massive engagement while simplifying the reporting process for millions of Saudi citizens across all regions.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solution Section -->
+        <section class="content-section">
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <h2>Solution & Approach</h2>
+            </div>
+            <div class="text-content">
+                <div class="solution">
+                    <span class="solution-label">Strategic Execution</span>
+                    <p>We deployed a comprehensive, multi-platform digital campaign centered on <strong>gamification and visual clarity</strong>. The Balady App was positioned as a rewarding civic platform, not just a reporting tool.</p>
+
+                    <p><strong>Key Campaign Elements:</strong></p>
+                    <ul>
+                        <li><strong>"Snap and Send"</strong> initiative: One-tap photo reporting that transformed the user experience from tedious to instant</li>
+                        <li><strong>"Certified Observer Program"</strong>: Gamified reward system incentivizing repeat participation</li>
+                        <li><strong>Motion graphics & UX tutorials</strong>: High-quality instructional assets simplifying complex processes</li>
+                        <li><strong>Bilingual execution</strong>: Arabic and English assets optimized for mobile readability</li>
+                    </ul>
+
+                    <p>The visual identity bridged governmental authority with modern tech aesthetics—clean, bright color palettes conveyed transparency while isometric 3D elements and character animations made the experience engaging rather than bureaucratic.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Impact Section -->
+        <section class="content-section">
+            <div class="section-header">
+                <span class="section-number">03</span>
+                <h2>Impact & Results</h2>
+            </div>
+            <div class="text-content">
+                <div class="impact">
+                    <span class="impact-label">Business Outcomes</span>
+                    <p>The campaign successfully transformed Balady from a government mandate into a platform that citizens actively wanted to use. Key achievements:</p>
+
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">Millions+</div>
+                            <div class="metric-label">App Downloads</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">250%+</div>
+                            <div class="metric-label">Report Surge</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">Nationwide</div>
+                            <div class="metric-label">Active Coverage</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">Gamified</div>
+                            <div class="metric-label">Citizen Engagement</div>
+                        </div>
+                    </div>
+
+                    <p>By turning civic reporting into an engaging, rewarded experience, we transformed everyday citizens into active participants in municipal improvement. The instructional design strategy eliminated friction from the onboarding experience, resulting in rapid user adoption and sustained civic participation across all demographics.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Deliverables Section -->
+        <section class="content-section">
+            <div class="section-header">
+                <span class="section-number">04</span>
+                <h2>Key Deliverables</h2>
+            </div>
+
+            <div class="deliverables">
+                <div class="deliverable-item">
+                    <div class="deliverable-title">High-Impact Key Visuals</div>
+                    <div class="deliverable-desc">Main promotional videos and KV assets in Arabic and English, designed to drive mass app downloads and awareness</div>
+                </div>
+                <div class="deliverable-item">
+                    <div class="deliverable-title">UX Tutorial Suite</div>
+                    <div class="deliverable-desc">Comprehensive motion graphics guides walking users step-by-step through "Snap and Send" and feature discovery</div>
+                </div>
+                <div class="deliverable-item">
+                    <div class="deliverable-title">Gamification Assets</div>
+                    <div class="deliverable-desc">Visual and infographic assets explaining the "Certified Observer" reward program and recognition systems</div>
+                </div>
+                <div class="deliverable-item">
+                    <div class="deliverable-title">Digital Marketing Suite</div>
+                    <div class="deliverable-desc">Optimized social media content and scaled guide service assets for continuous user education</div>
+                </div>
+            </div>
+
+            <div class="image-placeholder">
+                <div class="image-placeholder-text">
+                    📸 High-quality motion graphic frames, bilingual promotional banners, and UI interaction flows would appear here
+                </div>
+            </div>
+        </section>
+
+        <!-- Visual Concept Section -->
+        <section class="content-section">
+            <div class="section-header">
+                <span class="section-number">05</span>
+                <h2>Visual Strategy</h2>
+            </div>
+            <div class="text-content">
+                <p><strong>Core Concept: "Civic Gamification & Clarity"</strong></p>
+                <p>The art direction successfully balanced the authoritative, trustworthy nature of a governmental platform with the sleek, user-friendly aesthetics of modern tech. Clean, bright color palettes evoked transparency and progress, while smooth motion graphics and isometric 3D elements simplified complex municipal processes.</p>
+                <p>Bilingual typography (Arabic and English) was optimized for mobile readability, ensuring the core message—"Navigate. Engage. Simplify."—resonated across diverse demographics and regions.</p>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+                        <div class="bottom-nav">
+            <a href="case-study-ninja-app.html" class="nav-link">← Ninja App</a>
+            <a href="case-study-flynas.html" class="nav-link">Next: Flynas <span class="arrow">→</span></a>
+        </div>
+
+    </main>
+
+    <script>
+        // Scroll reveal animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.content-section').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

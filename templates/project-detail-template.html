@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Project Details — Mouaz AlSabbagh</title>
+    <link rel="shortcut icon" href="assets/images/favicon.webp" type="image/x-icon">
+    
+    <link rel="stylesheet" href="assets/css/flaticon.min.css">
+    <link rel="stylesheet" href="assets/css/fontawesome-5.14.0.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.min.css">
+    <link rel="stylesheet" href="assets/css/nice-select.min.css">
+    <link rel="stylesheet" href="assets/css/animate.min.css">
+    <link rel="stylesheet" href="assets/css/slick.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style id="noxfolio-noir-system">
+        :root {
+            --bg-body: #131313;
+            --bg-deep: #070707;
+            --bg-card: #1F1F1F;
+            --text-heading: #FFFFFF;
+            --text-body: rgba(255,255,255,0.65);
+            --primary: #C9F31D;
+            --border: rgba(255,255,255,0.10);
+            --font-heading: 'DM Sans', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body { background: var(--bg-body); color: var(--text-body); font-family: var(--font-body); }
+        h1, h2, h3, h4, h5, h6 { color: var(--text-heading); font-family: var(--font-heading); font-weight: 700; }
+        body::after { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E"); pointer-events:none; z-index:9999; }
+
+        .bg-lines { position:fixed; inset:0; z-index:0; pointer-events:none; }
+        .bg-lines span { position:absolute; top:0; width:1px; height:0; background:rgba(255,255,255,0.04); animation: lineGrow 1.5s var(--ease) forwards; }
+        .bg-lines span:nth-child(1){left:10%;animation-delay:0.1s} .bg-lines span:nth-child(2){left:20%;animation-delay:0.15s}
+        .bg-lines span:nth-child(3){left:30%;animation-delay:0.2s} .bg-lines span:nth-child(4){left:40%;animation-delay:0.25s}
+        .bg-lines span:nth-child(5){left:50%;animation-delay:0.3s} .bg-lines span:nth-child(6){left:60%;animation-delay:0.35s}
+        .bg-lines span:nth-child(7){left:70%;animation-delay:0.4s} .bg-lines span:nth-child(8){left:80%;animation-delay:0.45s}
+        .bg-lines span:nth-child(9){left:90%;animation-delay:0.5s}
+        @keyframes lineGrow { to { height: 100%; } }
+
+        .main-header { border-bottom: 1px solid var(--border); }
+        .fixed-header { backdrop-filter: blur(20px); background: rgba(7,7,7,0.92) !important; border-bottom: 1px solid var(--border); }
+
+        /* Project Card Hover (Neon Gradient) for Related Projects */
+        .card-demo { position: relative; overflow: hidden; cursor: pointer; aspect-ratio: 4/5; border-radius: 8px; margin-bottom: 30px; }
+        .card-demo-bg { position: absolute; inset: 0; transition: transform 0.5s var(--ease); background-size: cover; background-position: center; }
+        .card-demo:hover .card-demo-bg { transform: scale(1.05); }
+        .card-demo::before { content: ''; position: absolute; left: 0; bottom: 0; width: 100%; height: 60%; background: linear-gradient(180deg, rgba(201,243,29,0) 0%, rgba(201,243,29,0.95) 100%); z-index: 2; opacity: 0; transition: opacity 0.5s var(--ease); }
+        .card-demo:hover::before { opacity: 1; }
+        .card-demo-info { position: absolute; bottom: 0; left: 0; width: 100%; padding: 2rem; z-index: 3; opacity: 0; transform: translateY(15px); transition: all 0.5s var(--ease); }
+        .card-demo:hover .card-demo-info { opacity: 1; transform: translateY(0); }
+        .card-demo-info h4 { color: var(--bg-deep); font-size: 1.25rem; font-family: var(--font-heading); margin-bottom: 5px; }
+        .card-demo-info p { color: rgba(7,7,7,0.7); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin: 0; }
+        
+        /* Custom Project Details Overrides */
+        .project-details-info { background-color: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 40px; }
+        .pd-info-item span { color: var(--primary); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; display: block; margin-bottom: 5px; }
+        .pd-info-item h5 { color: var(--text-heading); font-size: 1.1rem; margin-bottom: 25px; }
+        .pd-info-item:last-child h5 { margin-bottom: 0; }
+        .list-style-one li::before { color: var(--primary); }
+    </style>
+</head>
+
+<body class="home-two">
+    <div class="page-wrapper">
+
+        <div class="preloader"></div>
+        <div class="bg-lines"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+        <!-- MAIN HEADER -->
+        <header class="main-header header-two">
+            <div class="header-upper">
+                <div class="container container-1620 clearfix">
+                    <div class="header-inner rel d-flex align-items-center">
+                        <div class="logo-outer">
+                            <div class="logo">
+                            <div class="logo"><a href="index.html"><img src="assets/images/logos/logo.webp" alt="Logo" title="Logo"></a></div>
+                        </div>
+
+                        <div class="nav-outer clearfix mx-auto">
+                            <nav class="main-menu navbar-expand-lg">
+                                <div class="navbar-header">
+                                   <div class="mobile-logo my-15">
+                                       <a href="index.html">
+                                            <img src="assets/images/logos/logo.webp" alt="Logo" title="Logo">
+                                       </a>
+                                   </div>
+                                   
+                                    <!-- Toggle Button -->
+                                    <button type="button" class="navbar-toggle me-4" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                </div>
+
+                                <div class="navbar-collapse collapse clearfix">
+                                    <ul class="navigation clearfix">
+                                        <li><a href="index.html">Home</a></li>
+
+                                        <li class="dropdown"><a href="#">Selected Work</a>
+                                            <ul>
+                                                <li><a href="works.html">Master Gallery</a></li>
+                                                <li><a href="works.html#value-creation">Macro-Impact & Vision</a></li>
+                                                <li><a href="works.html#performance-growth">Performance & Growth</a></li>
+                                                <li><a href="works.html#digital-experience">Digital Experience</a></li>
+                                                <li><a href="value-acceleration.html">AI & Gaming</a></li>
+                                            </ul>
+                                        </li>         
+
+                                        <li class="dropdown"><a href="#">AI Engine</a>
+                                            <ul>
+                                                <li><a href="ai-engine.html">Human Engine</a></li>
+                                                <li><a href="ai-engine.html#innovation-lab">Innovation Lab</a></li>
+                                                <li><a href="ai-engine.html#ai-pipeline">4-Step AI Pipeline</a></li>
+                                                <li><a href="ai-engine.html#tech-stack">Tech Stack Matrix</a></li>
+                                                <li><a href="about.html">professional Timeline</a></li>
+                                            </ul>
+                                        </li>      
+
+                                        <li class="dropdown"><a href="blog.html">Tafannon blog</a>
+                                            <ul>
+                                                <li><a href="blog.html">Art & Branding Insights</a></li>
+                                                <li><a href="blog.html">Thought-Leadership Notes</a></li>
+                                                <li><a href="blog.html">Editorial Masonry</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="dropdown"><a href="#">Contact</a>
+                                            <ul>
+                                                <li><a href="contact.html">Conversion Overlay</a></li>
+                                                <li><a href="contact.html#email">Email & Phone</a></li>
+                                                <li><a href="contact.html#social">Social Channels</a></li>
+                                                <li><a href="contact.html#downloads">Downloads</a></li>
+
+                                            </ul>
+                                        </li>                                    
+                                    </ul>
+                                </div>
+
+                            </nav>
+                        </div>
+                        <div class="menu-btns">
+                            <a href="./contact.html" class="theme-btn">let,s talk</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+       
+        <!-- PAGE CONTENT -->
+        <main id="content">
+            
+            <!-- Page Banner Start -->
+            <section class="page-banner-area pt-200 rpt-140 pb-100 rpb-60 rel z-1 text-center">
+                <div class="container">
+                    <div class="banner-inner text-white">
+                        <span class="sub-title mb-15 wow fadeInUp delay-0-2s" style="font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;"><i class="flaticon-asterisk-1" style="color: var(--primary);"></i> Case Study</span>
+                        <h1 class="page-title wow fadeInUp delay-0-4s" style="text-transform: uppercase; font-size: clamp(2.5rem, 5vw, 4.5rem); letter-spacing: -0.03em;">SMO — Vision <mark style="color: var(--primary); background: transparent;">2030</mark></h1>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb justify-content-center wow fadeInUp delay-0-6s">
+                                <li class="breadcrumb-item"><a href="works.html">Selected Works</a></li>
+                                <li class="breadcrumb-item active" style="color: var(--primary);">SMO — Vision 2030</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </section>
+            <!-- Page Banner End -->
+
+            <!-- Project Details Area start -->
+            <section class="projects-details-area pt-40 pb-130 rpb-100 rel z-1">
+                <div class="container">
+                    <div class="projects-details-image mb-50 wow fadeInUp delay-0-2s">
+                        <img src="assets/images/projects/project-details.webp" alt="Project Details" style="border-radius: 12px; width: 100%;">
+                    </div>
+                    
+                    <div class="row gap-120">
+                        <div class="col-lg-8">
+                            <div class="project-details-content wow fadeInUp delay-0-2s">
+                                <h3 style="margin-bottom: 25px;">Synthesizing Macro-Impact for National Objectives</h3>
+                                <p style="font-size: 1.1rem; color: var(--text-heading); margin-bottom: 25px;">The Strategic Management Office (SMO) required a comprehensive visual strategy to align with the ambitious goals of Vision 2030. Our objective was to distill complex institutional metrics into an accessible, high-performance digital ecosystem.</p>
+                                <p>By integrating behavioral economics with generative AI workflows, we accelerated the prototyping phase, allowing stakeholders to visualize future-state digital platforms in real time. The resulting architecture not only unified the brand language across multiple touchpoints but also established a scalable foundation for subsequent national campaigns.</p>
+                                
+                                <ul class="list-style-one two-column mt-50 mb-40">
+                                    <li>Macro-Impact Strategy</li>
+                                    <li>Generative AI Prototyping</li>
+                                    <li>Creative Direction</li>
+                                    <li>Stakeholder Alignment</li>
+                                    <li>Scalable Design Systems</li>
+                                    <li>Performance Growth</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-4 wow fadeInUp delay-0-4s">
+                            <div class="project-details-info rmb-55">
+                                <div class="pd-info-item">
+                                    <span>Category</span>
+                                    <h5>Value Creation</h5>
+                                </div>
+                                <div class="pd-info-item">
+                                    <span>Client</span>
+                                    <h5>Strategic Management Office</h5>
+                                </div>
+                                <div class="pd-info-item">
+                                    <span>Role</span>
+                                    <h5>Lead Digital Strategist</h5>
+                                </div>
+                                <div class="pd-info-item">
+                                    <span>Timeline</span>
+                                    <h5>2023 - 2024</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row pb-15 mt-50">
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="image mb-30 wow fadeInUp delay-0-2s">
+                                <img src="assets/images/projects/project-middle1.webp" alt="Project Insight" style="border-radius: 8px; width: 100%;">
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="image mb-30 wow fadeInUp delay-0-4s">
+                                <img src="assets/images/projects/project-middle2.webp" alt="Project Insight" style="border-radius: 8px; width: 100%;">
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="image mb-30 wow fadeInUp delay-0-6s">
+                                <img src="assets/images/projects/project-middle3.webp" alt="Project Insight" style="border-radius: 8px; width: 100%;">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-bottom-content mb-50 mt-30 wow fadeInUp delay-0-2s">
+                        <h3 class="title mb-25">Execution & Impact</h3>
+                        <p>The implementation phase leveraged our 4-Step AI-Accelerated Pipeline. Midjourney was utilized for rapid moodboarding, followed by strict Figma design systems to ensure pixel-perfect deployment. The final deliverables increased stakeholder engagement efficiency by over 40% and established a unified visual language adopted by three interconnected ministries.</p>
+                    </div>
+                    
+                    <div class="tag-share py-30 wow fadeInUp delay-0-2s" style="border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+                        <div class="item">
+                            <b style="color: var(--text-heading);">Tags</b>
+                            <div class="tag-coulds">
+                                <a href="#" style="background: var(--bg-card); border-color: var(--border);">Vision 2030</a>
+                                <a href="#" style="background: var(--bg-card); border-color: var(--border);">Strategy</a>
+                                <a href="#" style="background: var(--bg-card); border-color: var(--border);">UI/UX</a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <b style="color: var(--text-heading);">Share</b>
+                            <div class="social-style-one">
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Project Details Area end -->
+
+            <!-- Related Projects Area start -->
+            <section class="related-projects-area pb-70 rpb-40 rel z-1">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-12">
+                            <div class="section-title text-center mb-60 wow fadeInUp delay-0-2s">
+                                <h2>Related Case Studies</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- Project 1 -->
+                        <div class="col-xl-4 col-md-6">
+                            <div class="card-demo wow fadeInUp delay-0-2s" onclick="location.href='project-preview-rcjy.html'">
+                                <div class="card-demo-bg" style="background-image: url('assets/images/projects/project-two2.webp');"></div>
+                                <div class="card-demo-info">
+                                    <h4>RCJY — Yanbu Waterfront</h4>
+                                    <p>Macro-Impact & Vision</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Project 2 -->
+                        <div class="col-xl-4 col-md-6">
+                            <div class="card-demo wow fadeInUp delay-0-4s" onclick="location.href='project-preview-ndmc-sukuk.html'">
+                                <div class="card-demo-bg" style="background-image: url('assets/images/projects/project-two3.webp');"></div>
+                                <div class="card-demo-info">
+                                    <h4>NDMC — Gov Sukuk</h4>
+                                    <p>Macro-Impact & Vision</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Project 3 -->
+                        <div class="col-xl-4 col-md-6">
+                            <div class="card-demo wow fadeInUp delay-0-6s" onclick="location.href='project-preview-banan-exhibition.html'">
+                                <div class="card-demo-bg" style="background-image: url('assets/images/projects/project-two4.webp');"></div>
+                                <div class="card-demo-info">
+                                    <h4>MoC — Banan Exhibition</h4>
+                                    <p>Macro-Impact & Vision</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Related Projects Area end -->
+
+        </main>
+
+        <!-- GLOBAL FOOTER -->
+        <footer class="main-footer footer-two pt-75 rel z-1">
+            <div class="container">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-lg-3 col-md-5">
+                        <div class="footer-widget widget_logo text-center text-md-start wow fadeInUp delay-0-2s"> 
+                            <!-- Logo -->
+                            <div class="logo-outer">
+                                <div class="logo"><a href="index.html"><img src="./assets/images/logos/logo.webp" alt="Logo" title="Logo"></a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-7">
+                        <div class="footer-widget widget_nav_menu me-0 wow fadeInUp delay-0-4s">
+                            <ul>
+                                <li><a href="works.html">Selected Works</a></li>
+                                <li><a href="#">The AI Engine</a></li>
+                                <li><a href="#">Tafannon Blog</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <hr class="mb-40" style="border-color: var(--border);">
+                    </div>
+                    <div class="col-xl-6 col-lg-7">
+                        <div class="footer-widget widget_text text-center text-lg-start wow fadeInUp delay-0-2s">
+                            <div class="text pb-20">Integrating Macro-Impact Strategy, Behavioral Economics, and AI-Accelerated Craft to deliver billion-scale growth for visionary entities.</div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-5">
+                        <div class="footer-widget widget_social text-center text-lg-end wow fadeInUp delay-0-4s">
+                            <div class="social-flow">
+                                <h4>Connect :</h4>
+                                <div class="social-style-one">
+                                    <a href="https://www.linkedin.com/in/mouazalsabbagh/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                    <a href="https://www.behance.net/mouazalsabbagh" target="_blank"><i class="fab fa-behance"></i></a>
+                                    <a href="https://x.com/mouazalsabbagh/" target="_blank"><i class="fab fa-twitter"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <hr class="mt-0" style="border-color: var(--border);">
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom pt-10 pb-15">
+                <div class="container">
+                    <div class="copyright-text text-center">
+                        <p>Copyright &copy; <span id="copyright-year"></span>, <a href="index.html" style="color: var(--primary);">Mouaz AlSabbagh</a>. All Rights Reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <button class="scroll-top scroll-to-target" data-target="html"><span class="fas fa-angle-double-up"></span></button>
+
+    </div>
+   
+    <!-- JAVASCRIPT ENGINE -->
+    <script src="assets/js/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/appear.min.js"></script>
+    <script src="assets/js/slick.min.js"></script>
+    <script src="assets/js/jquery.nice-select.min.js"></script>
+    <script src="assets/js/imagesloaded.pkgd.min.js"></script>
+    <script src="assets/js/isotope.pkgd.min.js"></script>
+    <script src="assets/js/wow.min.js"></script>
+    <script src="assets/js/script.js"></script>
+
+    <!-- Populate footer copyright year -->
+    <script>
+        document.getElementById('copyright-year').textContent = new Date().getFullYear();
+    </script>
+    
+</body>
+</html>

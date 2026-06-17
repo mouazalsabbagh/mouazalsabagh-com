@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unknown Soldier League — Mouaz AlSabbagh</title>
+    
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-card: #1c2128;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --text-muted: #484f58;
+            --accent: #a2ff00;
+            --accent-dim: rgba(162,255,0,0.08);
+            --accent-glow: rgba(162,255,0,0.25);
+            --border: rgba(240,246,252,0.06);
+            --gold: #f59e0b;
+            --gold-dim: rgba(245,158,11,0.12);
+            --font-display: 'Outfit', sans-serif;
+            --font-mono: 'Space Mono', monospace;
+        }
+
+        html { font-size: 16px; scroll-behavior: smooth; }
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-display);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* ── Navigation ── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.25rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            background: rgba(13,17,23,0.6);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        nav.scrolled { padding: 0.8rem 3rem; background: rgba(13,17,23,0.92); }
+
+        .nav-logo { font-weight: 900; font-size: 1.05rem; letter-spacing: -0.02em; cursor: pointer; }
+        .nav-logo span { color: var(--gold); }
+        .nav-links { display: flex; gap: 2.25rem; align-items: center; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.3s; font-family: var(--font-mono); }
+        .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+        .nav-cta { display: inline-flex; align-items: center; padding: 0.5rem 1.2rem; background: var(--gold); color: var(--bg-primary); font-family: var(--font-mono); font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; border-radius: 3px; transition: all 0.3s; }
+        .nav-cta:hover { background: #f5a623; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(245,158,11,0.2); }
+
+        /* ── Hero Section ── */
+        .hero {
+            margin-top: 60px;
+            padding: 4rem 3rem;
+            background: linear-gradient(135deg, rgba(13, 17, 23, 1), rgba(22, 27, 34, 0.8));
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 60vh;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background: var(--gold-dim);
+            color: var(--gold);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: var(--font-mono);
+            margin-bottom: 1rem;
+            width: fit-content;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero h1 .highlight {
+            color: var(--gold);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        /* ── Metrics Grid ── */
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .metric-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-left: 3px solid var(--gold);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--gold);
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gold);
+            font-family: var(--font-mono);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+        }
+
+        /* ── Content Wrapper ── */
+        .content-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 3rem;
+        }
+
+        /* ── Section Title ── */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 4rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 3px;
+            height: 24px;
+            background: var(--gold);
+            border-radius: 2px;
+        }
+
+        /* ── Paragraphs & Lists ── */
+        p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        strong {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* ── Highlight Box ── */
+        .highlight-box {
+            background: var(--gold-dim);
+            border-left: 3px solid var(--gold);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 4px;
+        }
+
+        .highlight-box p {
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        /* ── Image Gallery ── */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .gallery-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            aspect-ratio: 9/16;
+            overflow: hidden;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-item::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.3));
+            pointer-events: none;
+        }
+
+        /* ── Outcome Grid ── */
+        .outcome-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .outcome-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 4px;
+        }
+
+        .outcome-card h4 {
+            color: var(--gold);
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+            font-family: var(--font-mono);
+            font-weight: 700;
+        }
+
+        .outcome-card p {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        /* ── Data Table ── */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background: var(--bg-card);
+            color: var(--gold);
+            padding: 1rem;
+            text-align: left;
+            font-family: var(--font-mono);
+            font-weight: 700;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        tr:hover {
+            background: var(--bg-card-hover);
+        }
+
+        /* ── Scroll Reveal ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── Footer ── */
+        .case-footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 3rem;
+            margin-top: 4rem;
+        }
+
+        .footer-nav {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-nav a {
+            color: var(--accent);
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-nav a:hover {
+            color: var(--gold);
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            nav a {
+                margin: 0;
+            }
+
+            .hero {
+                padding: 2rem 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .content-wrapper {
+                padding: 0 1.5rem;
+            }
+
+            .outcome-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+
+header {
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 0;
+    margin-bottom: 4rem;
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(10px);
+    background: rgba(13, 17, 23, 0.8);
+    z-index: 100;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.logo:hover {
+    color: var(--accent-secondary);
+}
+
+nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin-left: 2rem;
+    transition: color 0.3s;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+nav a:hover {
+    color: var(--accent-primary);
+}
+
+.bottom-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    padding-top: 2rem;
+    margin-top: 4rem;
+}
+
+.nav-link {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-link:hover {
+    gap: 1rem;
+}
+
+.arrow {
+    font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+    nav {
+        display: none;
+    }
+    
+    .bottom-nav {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .nav-link {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Design System Overrides */
+:root {
+  --bg-primary: #131313 !important;
+  --bg-secondary: #070707 !important;
+  --bg-card: #1F1F1F !important;
+  --bg-card-hover: #282828 !important;
+  --text-primary: #FFFFFF !important;
+  --text-secondary: rgba(255,255,255,0.65) !important;
+  --text-muted: rgba(255,255,255,0.40) !important;
+  --accent: #C9F31D !important;
+  --accent-primary: #C9F31D !important;
+  --accent-secondary: #7c3aed !important;
+  --accent-tertiary: #C9F31D !important;
+  --accent-dim: rgba(201,243,29,0.08) !important;
+  --accent-glow: rgba(201,243,29,0.25) !important;
+  --gold: #C9F31D !important;
+  --gold-dim: rgba(201,243,29,0.08) !important;
+  --teal: #C9F31D !important;
+  --teal-dim: rgba(201,243,29,0.08) !important;
+  --blue: #C9F31D !important;
+  --blue-dim: rgba(201,243,29,0.08) !important;
+  --purple: #7c3aed !important;
+  --purple-dim: rgba(124,58,237,0.12) !important;
+  --border: rgba(255,255,255,0.10) !important;
+  --font-display: 'DM Sans', sans-serif !important;
+  --font-mono: 'Inter', sans-serif !important;
+}
+
+body {
+  font-family: 'Inter', sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6, .hero-title, .section-title, .box-title, .outcome-title {
+  font-family: 'DM Sans', sans-serif !important;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E") !important;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+</style>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+    <div class="logo">UNKNOWN SOLDIER</div>
+    <div>
+        <a href="#challenge">Challenge</a>
+        <a href="#solution">Solution</a>
+        <a href="#results">Results</a>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="content-wrapper">
+        <span class="hero-tag">AI-DRIVEN GAMING IP • 10 KINGDOMS</span>
+        <h1>Unknown <span class="highlight">Soldier</span> League</h1>
+        <p>A cinematic, AI-augmented gaming tournament that blends dystopian cyberpunk aesthetics with multi-kingdom warfare. Featuring AI-generated team personas, narrative-driven competition mechanics, and psychological design optimization.</p>
+        
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">10</div>
+                <div class="metric-label">Competing Teams (Kingdoms)</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">AI-Gen</div>
+                <div class="metric-label">Character Visuals & Personas</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">Narrative</div>
+                <div class="metric-label">Match-Driven Storytelling</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">Cinematic</div>
+                <div class="metric-label">Production Quality</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<div class="content-wrapper">
+
+    <!-- Challenge Section -->
+    <section id="challenge" class="reveal">
+        <h2 class="section-title">The Challenge</h2>
+        
+        <p>JACO Arabia needed a <strong>narrative-first gaming competition</strong> that would differentiate itself in a crowded esports market. The core requirement: create an IP that combines tournament mechanics with storytelling cinematic quality, using cutting-edge AI-generation to scale visual production while maintaining narrative coherence across 10 competing teams.</p>
+
+        <p>The creative brief demanded a <strong>complex, multi-layered narrative universe</strong>:</p>
+        <ul>
+            <li>10 distinct team identities (each representing a "kingdom" with unique visual language)</li>
+            <li>AI-generated character visuals that are consistent yet diverse across team members</li>
+            <li>Cinematic teaser and announcement videos with high production value</li>
+            <li>Master prompt framework enabling rapid iteration without human re-creation</li>
+            <li>Psychological game design that maximizes viewer engagement at peak moments (finals, cross-kingdom matches)</li>
+        </ul>
+
+        <div class="highlight-box">
+            <p><strong>Core Creative Problem:</strong> How do you create a cohesive, cinematic gaming IP at scale without traditional large production teams, while ensuring each team feels distinct and narratively relevant?</p>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section id="solution" class="reveal">
+        <h2 class="section-title">The Solution</h2>
+
+        <h3 style="color: var(--gold); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.2rem; font-weight: 600;">1. AI Master Prompt Architecture</h3>
+        
+        <p>Developed a <strong>modular generative prompt system</strong> that decoupled narrative elements (character, setting, mood) from visual parameters (lighting, composition, color palette). Three core prompt categories:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Prompt Category</th>
+                    <th>Purpose</th>
+                    <th>Example Parameter</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>General Image</strong></td>
+                    <td>Cinematic composition, scale, time-of-day</td>
+                    <td>"Neon-lit cyberpunk metropolis during sunset"</td>
+                </tr>
+                <tr>
+                    <td><strong>Person/People</strong></td>
+                    <td>Character appearance, cultural attire, expression</td>
+                    <td>"Heavily obscured figure in tactical + traditional Middle Eastern garment blend"</td>
+                </tr>
+                <tr>
+                    <td><strong>Art Style</strong></td>
+                    <td>Rendering, mood, quality, genre fusion</td>
+                    <td>"Cyberpunk concept art, photorealistic, volumetric lighting"</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="color: var(--gold); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.2rem; font-weight: 600;">2. Character Design Fusion: Traditional + Tactical</h3>
+
+        <p>Each team's "Unknown Soldier" character merges <strong>cultural authenticity with futuristic tactical aesthetics</strong>:</p>
+        <ul>
+            <li><strong>Headwear:</strong> Traditional keffiyeh (ghutra) + black agal (head cord)</li>
+            <li><strong>Armor:</strong> Modern tactical vest with intricate gold/bronze embossed patterns (Arabic/Celtic knotwork)</li>
+            <li><strong>Concealment:</strong> Face completely obscured (balaclava + tactical goggles) → anonymity, mystery, tactical identity</li>
+            <li><strong>Hands:</strong> Gloved, holding symbolic objects (smartphone with purple glow = streaming/digital power)</li>
+        </ul>
+
+        <div class="highlight-box">
+            <p><strong>Narrative Insight:</strong> The fully obscured face makes the character a blank slate—allowing viewers to project their own imaginations onto each "Unknown Soldier," increasing personal investment while preserving anonymity that's core to the league's identity.</p>
+        </div>
+
+        <h3 style="color: var(--gold); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.2rem; font-weight: 600;">3. Cinematic Universe: 10 Kingdom Variations</h3>
+
+        <p>Using the master prompts, we generated <strong>two unique AI-rendered variations per team</strong>, applying modular visual filters to create distinct moods:</p>
+        <ul>
+            <li><strong>Cyberpunk Neon (Purple/Green):</strong> Urban, high-tech, digital warfare</li>
+            <li><strong>Desert/Sand (Warm Orange/Gold):</strong> Traditional, ancient warrior energy</li>
+            <li><strong>Snow/Ice (Cool Blue):</strong> Northern kingdom, frozen fortress aesthetic</li>
+            <li><strong>Apocalyptic (Fire/Smoke):</strong> Post-war, survival, chaos</li>
+            <li><strong>Underwater/Bioluminescent (Electric Blue):</strong> Alien, mysterious, deep tech</li>
+        </ul>
+
+        <h3 style="color: var(--gold); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.2rem; font-weight: 600;">4. Teaser Video Strategy</h3>
+
+        <p>Created a <strong>60–90 second narrative teaser</strong> with storyboard-driven pacing:</p>
+        <ul>
+            <li><strong>Opening:</strong> Arabic text establishing mythology ("في مكاان...وحقبة من الزمان" — "In a place... in an era...")</li>
+            <li><strong>Build:</strong> 10 kingdoms, 1 throne, endless war (escalating visual tension)</li>
+            <li><strong>Climax:</strong> Unknown Soldier emerges from chaos, holds the crown</li>
+            <li><strong>Close:</strong> League branding + call-to-action ("نافس على العرش الآن" — "Compete for the throne now")</li>
+        </ul>
+
+        <h3 style="color: var(--gold); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.2rem; font-weight: 600;">5. Team Announcement & PK Poster System</h3>
+
+        <p><strong>Modular design system for team launches</strong>:</p>
+        <ul>
+            <li>Each team reveals via dedicated poster with team color palette (neon accent + dark base)</li>
+            <li>Streamer personality featured prominently (human-centric framing)</li>
+            <li>Text overlay: "TURN YOUR STREAM INTO A BATTLEFIELD" → mission framing</li>
+            <li>PK (Player vs Player / Team vs Team) tournament posters position teams directly, adding dramatic tension</li>
+        </ul>
+    </section>
+
+    <!-- Results Section -->
+    <section id="results" class="reveal">
+        <h2 class="section-title">Results & Impact</h2>
+
+        <div class="outcome-grid">
+            <div class="outcome-card">
+                <h4>🎯 Viewer Engagement</h4>
+                <p>Cinematic IP generated significant interest in first announcement phase. Teaser video optimized for short-form discovery (TikTok, Instagram Reels) with clear competitive narrative hook.</p>
+            </div>
+
+            <div class="outcome-card">
+                <h4>🎨 Production Scalability</h4>
+                <p>Master prompt system enabled generation of 20+ hero visuals (10 teams × 2 variations) in single creative sprint. Zero manual retouching required for public release assets.</p>
+            </div>
+
+            <div class="outcome-card">
+                <h4>🌍 Cultural Fusion Success</h4>
+                <p>Blending traditional Middle Eastern attire with futuristic tactical wear created narrative authenticity. AI-generation preserved this aesthetic across all team variations without compromise.</p>
+            </div>
+
+            <div class="outcome-card">
+                <h4>💰 Streamer Recruiting Tool</h4>
+                <p>Cinematic team reveals became primary selling point for streamer recruitment. Personal branding + legendary Unknown Soldier aesthetic significantly increased participation intent.</p>
+            </div>
+        </div>
+
+        <h3 style="color: var(--gold); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.2rem; font-weight: 600;">Key Strategic Learnings</h3>
+
+        <ul>
+            <li><strong>Narrative > Graphics:</strong> The Unknown Soldier IP succeeded because the story ("10 kingdoms, 1 throne") drove visual design—not the reverse. Cinematic quality was a supporting player to the narrative arc.</li>
+            <li><strong>Anonymity as Asset:</strong> Fully obscured faces created mystery that amplified rather than diminished viewer connection. Psychological distance paradoxically increased engagement.</li>
+            <li><strong>AI as Authoring Tool:</strong> Master prompts transformed AI from a mere image generator into a narrative co-author. Changes to character description instantly propagated across all visual outputs.</li>
+            <li><strong>Team Differentiation via Palette:</strong> 10 distinct kingdoms could be maintained through color/environment swaps while keeping character silhouettes consistent. This reduced visual chaos while preserving diversity.</li>
+            <li><strong>Streamer-Centric Design:</strong> Positioning streamers as "Unknown Soldiers" (not just participants) elevated participation from competitive necessity to identity/prestige purchase.</li>
+        </ul>
+
+        <h3 style="color: var(--gold); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.2rem; font-weight: 600;">Production Timeline & Resources</h3>
+
+        <ul>
+            <li><strong>Concept Development:</strong> 2 weeks (narrative + visual direction)</li>
+            <li><strong>Master Prompt Creation:</strong> 1 week (modular prompt engineering)</li>
+            <li><strong>AI Generation & Iteration:</strong> 2 weeks (20+ hero images, multiple style variations)</li>
+            <li><strong>Video Teaser Production:</strong> 2 weeks (storyboard → animatic → final composite)</li>
+            <li><strong>Team Poster System:</strong> 1 week (template design + per-team customization)</li>
+            <li><strong>Total Elapsed Time:</strong> 8 weeks (part-time creative direction)</li>
+        </ul>
+    </section>
+
+    <!-- Design System Section -->
+    <section class="reveal">
+        <h2 class="section-title">Design System & Prompting Framework</h2>
+
+        <p>The Unknown Soldier League design system is built on <strong>three modular prompt pillars</strong> that can be edited independently:</p>
+
+        <h3 style="color: var(--gold); margin-top: 1.5rem; margin-bottom: 1rem; font-size: 1.1rem; font-weight: 600;">How to Edit Master Prompts</h3>
+
+        <ul>
+            <li><strong>Step 1:</strong> Identify which prompt category to modify (General Image, Person/People, or Art Style)</li>
+            <li><strong>Step 2:</strong> Copy the prompt text and use AI editing to refine specific parameters</li>
+            <li><strong>Example Change:</strong> Swap "desert" setting for "ice fortress" without altering character description = instant new kingdom aesthetic</li>
+            <li><strong>Result:</strong> All subsequent generations reflect the change across all 10 teams instantly</li>
+        </ul>
+
+        <div class="highlight-box">
+            <p><strong>Future Extensibility:</strong> This framework enables rapid experimentation for season 2+. Want a "Neon Hacker" variant? Modify Art Style prompt. Need regional team customization? Adjust Person/People descriptor. The modular approach scales without rebuilding from scratch.</p>
+        </div>
+    </section>
+
+    <!-- Video Assets Section -->
+    <section class="reveal">
+        <h2 class="section-title">Video Assets & Storyboards</h2>
+
+        <p>Two video assets were developed as proof-of-concept:</p>
+
+        <div class="outcome-grid" style="grid-template-columns: 1fr; margin-top: 1.5rem;">
+            <div class="outcome-card">
+                <h4>🎬 Teaser Video (60 sec)</h4>
+                <p><strong>Format:</strong> 1080×1920 (vertical, TikTok/Instagram native)<br/><strong>Structure:</strong> Narrative-driven pacing with Arabic text, war imagery, and Unknown Soldier emergence<br/><strong>Storyboard:</strong> 5-frame structure with escalating tension → climax → branding moment</p>
+            </div>
+
+            <div class="outcome-card">
+                <h4>🏆 PK Tournament Video (30 sec)</h4>
+                <p><strong>Format:</strong> 1080×1350 (feed-native)<br/><strong>Structure:</strong> Team vs Team positioning, dramatic reveals, competitive framing<br/><strong>Integration:</strong> Designed for tournament announcement, streamer shoutout, match hype</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Next Phase -->
+    <section class="reveal">
+        <h2 class="section-title">Next Phase: Season 2+ Expansion</h2>
+
+        <ul>
+            <li><strong>Team Persona Deepening:</strong> Develop backstories + lore for each kingdom (6-10 page narrative bibles)</li>
+            <li><strong>Dynamic Match Cinematics:</strong> Real-time generated highlight videos using game footage + Unknown Soldier overlays</li>
+            <li><strong>Streamer Co-Branding:</strong> Personalized Unknown Soldier variants where streamer face is hidden but attire reflects personal brand colors</li>
+            <li><strong>Cross-Kingdom Narrative:</strong> Story arc where matches determine which kingdom "claims the throne" → cascading narrative across season</li>
+            <li><strong>Merchandise/Fan Art:</strong> Release master prompts to community for fan-created variations (controlled via licensed prompt library)</li>
+        </ul>
+    </section>
+
+</div>
+
+<!-- Footer -->
+<footer class="case-footer">
+    <div class="footer-nav">
+        <div>
+            <p style="color: var(--text-secondary); margin: 0; font-size: 0.9rem;">Unknown Soldier League</p>
+            <p style="color: var(--text-muted); margin: 0.3rem 0 0 0; font-size: 0.8rem;">AI-Driven Gaming IP | JACO Arabia</p>
+        </div>
+        <div style="display: flex; gap: 2rem;">
+            <a href="#challenge">Back to Top</a>
+        </div>
+    </div>
+</footer>
+
+<!-- Scroll Reveal Script -->
+<script>
+    const revealElements = document.querySelectorAll('.reveal');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    revealElements.forEach(el => observer.observe(el));
+
+    // Nav scroll state
+    window.addEventListener('scroll', () => {
+        const nav = document.querySelector('nav');
+        nav.classList.toggle('scrolled', window.scrollY > 50);
+    });
+</script>
+
+  <!-- FOOTER NAVIGATION -->
+  <div class="bottom-nav">
+    <a href="case-study-ehsan-platform.html" class="nav-link">← Ehsan Platform</a>
+    <a href="case-study-sta.html" class="nav-link">Next: Saudi Tourism Authority <span class="arrow">→</span></a>
+  </div>
+
+  <!-- FOOTER NAVIGATION -->
+  <div class="bottom-nav">
+    <a href="case-study-jaco-commercial.html" class="nav-link">← JACO Commercial Systems</a>
+    <a href="case-study-monthly-champion.html" class="nav-link">Next: Monthly Champion <span class="arrow">→</span></a>
+  </div>
+
+</body>
+</html>

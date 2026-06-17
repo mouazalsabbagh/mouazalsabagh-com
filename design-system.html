@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="description" content="Mouaz AlSabbagh - Portfolio">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Title -->
+    <title>Mouaz AlSabbagh - Portfolio</title>
+    <!-- Favicon Icon -->
+    <link rel="shortcut icon" href="assets/images/favicon.webp" type="image/x-icon">
+    
+    <!-- Google Fonts: DM Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Template Utility Stylesheets -->
+    <link rel="stylesheet" href="assets/css/flaticon.min.css">
+    <link rel="stylesheet" href="assets/css/fontawesome-5.14.0.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.min.css">
+    <link rel="stylesheet" href="assets/css/nice-select.min.css">
+    <link rel="stylesheet" href="assets/css/animate.min.css">
+    <link rel="stylesheet" href="assets/css/slick.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <!-- Custom Design System (Overrides Template Styles) -->
+    <link rel="stylesheet" href="assets/css/design-system.css">
+</head>
+
+<body>
+  <style>
+*, *::before, *::after { 
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+}
+
+:root {
+  --bg-body: #131313;
+  --bg-deep: #070707;
+  --bg-card: #1F1F1F;
+  --bg-card-hover: #282828;
+  --text-heading: #FFFFFF;
+  --text-body: rgba(255,255,255,0.65);
+  --text-muted: rgba(255,255,255,0.40);
+  --primary: #A2FF00;
+  --primary-dim: rgba(201,243,29,0.08);
+  --secondary: #7c3aed;
+  --secondary-dim: rgba(124,58,237,0.12);
+  --border: rgba(255,255,255,0.10);
+  --border-hover: rgba(255,255,255,0.18);
+  --font-heading: 'DM Sans', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html { 
+  scroll-behavior: smooth; 
+}
+
+body {
+  background: var(--bg-body);
+  color: var(--text-body);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.875;
+  /* overflow-x: hidden removed — it breaks position: sticky on .main-header */
+}
+
+h1,h2,h3,h4,h5,h6 { 
+  color: var(--text-heading);
+  font-family: var(--font-heading);
+  font-weight: 400; 
+  line-height: 1.2; 
+}
+
+body::after {
+  content:'';
+  position:fixed; 
+  inset:0; 
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E"); 
+  pointer-events:none; 
+  z-index:9999; 
+}
+
+/* BG LINES — staggered drop-in */
+.bg-lines { position:fixed; inset:0; z-index:0; pointer-events:none; }
+.bg-lines span { position:absolute; top:0; width:1px; height:0; background:rgba(255,255,255,0.04); animation: lineGrow 1.5s var(--ease) forwards; }
+.bg-lines span:nth-child(1){left:10%;animation-delay:0.1s} .bg-lines span:nth-child(2){left:20%;animation-delay:0.15s}
+.bg-lines span:nth-child(3){left:30%;animation-delay:0.2s} .bg-lines span:nth-child(4){left:40%;animation-delay:0.25s}
+.bg-lines span:nth-child(5){left:50%;animation-delay:0.3s} .bg-lines span:nth-child(6){left:60%;animation-delay:0.35s}
+.bg-lines span:nth-child(7){left:70%;animation-delay:0.4s} .bg-lines span:nth-child(8){left:80%;animation-delay:0.45s}
+.bg-lines span:nth-child(9){left:90%;animation-delay:0.5s}
+@keyframes lineGrow { to { height: 100%; } }
+
+/* NAV — handled by .main-header in design-system.css */
+
+/* LAYOUT */
+.page-wrap { max-width: 1320px; margin: 0 auto; padding: 0 3rem; position: relative; z-index: 1; }
+
+/* ═══════ PAGE HEADER — cinematic entrance ═══════ */
+.ds-header { padding: 11rem 0 5rem; border-bottom: 1px solid var(--border); margin-bottom: 5rem; }
+.ds-header .tag { font-size: 0.9rem; color: var(--text-body); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem; opacity:0; animation: fadeUp 0.8s var(--ease) 0.5s forwards; }
+.ds-header .tag::before { content: '✳'; color: var(--primary); font-size: 0.65rem; }
+
+.ds-header h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); text-transform: uppercase; letter-spacing: -0.03em; line-height: 0.95; margin-bottom: 1.5rem; }
+.ds-header h1 mark { color: var(--primary); background: transparent; text-decoration: none; }
+.ds-header h1 .mask { display: block; overflow: hidden; }
+.ds-header h1 .mask-i { display: block; transform: translateY(110%); animation: maskUp 1s var(--ease) forwards; }
+.ds-header h1 .mask:nth-child(1) .mask-i { animation-delay: 0.6s; }
+.ds-header h1 .mask:nth-child(2) .mask-i { animation-delay: 0.75s; }
+
+.ds-header p { font-size: 1rem; max-width: 600px; opacity:0; animation: fadeUp 0.8s var(--ease) 1s forwards; }
+.ds-version { display: inline-block; margin-top: 1.5rem; padding: 6px 16px; background: var(--primary-dim); border: 1px solid rgba(201,243,29,0.15); font-size: 0.75rem; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: 0.08em; opacity:0; animation: fadeUp 0.6s var(--ease) 1.2s forwards; }
+
+/* ═══════ SECTION ═══════ */
+.ds-section { margin-bottom: 6rem; }
+.ds-section-title { font-size: 0.8rem; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.5rem; }
+.ds-section-title::before { content: ''; width: 0; height: 1px; background: var(--primary); transition: width 0.8s var(--ease); }
+.ds-section.visible .ds-section-title::before { width: 20px; }
+.ds-section h2 { font-size: 1.6rem; margin-bottom: 2.5rem; }
+
+/* ═══════ COLOR PALETTE — staggered cascade ═══════ */
+.color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1px; background: var(--border); overflow: hidden; }
+.color-card { background: var(--bg-card); transition: background 0.3s, transform 0.5s, opacity 0.5s; opacity: 0; transform: translateY(20px); }
+.ds-section.visible .color-card { opacity: 1; transform: translateY(0); }
+.ds-section.visible .color-card:nth-child(1) { transition-delay: 0ms; }
+.ds-section.visible .color-card:nth-child(2) { transition-delay: 60ms; }
+.ds-section.visible .color-card:nth-child(3) { transition-delay: 120ms; }
+.ds-section.visible .color-card:nth-child(4) { transition-delay: 180ms; }
+.ds-section.visible .color-card:nth-child(5) { transition-delay: 240ms; }
+.ds-section.visible .color-card:nth-child(6) { transition-delay: 300ms; }
+.ds-section.visible .color-card:nth-child(7) { transition-delay: 360ms; }
+.ds-section.visible .color-card:nth-child(8) { transition-delay: 420ms; }
+.color-card:hover { background: var(--bg-card-hover); }
+
+.color-swatch { height: 120px; position: relative; cursor: pointer; overflow: hidden; }
+/* Shimmer on hover */
+.color-swatch::after {
+  content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+  transition: none;
+}
+.color-swatch:hover::after { left: 150%; transition: left 0.6s ease; }
+.color-swatch .hex { position: absolute; bottom: 8px; right: 10px; font-size: 0.65rem; font-weight: 600; padding: 3px 8px; background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); color: white; letter-spacing: 0.05em; transition: all 0.3s; }
+.color-swatch:hover .hex { background: var(--primary); color: var(--bg-deep); }
+.color-meta { padding: 1rem 1.25rem; }
+.color-name { font-family: var(--font-heading); font-size: 0.85rem; font-weight: 700; color: var(--text-heading); margin-bottom: 0.2rem; }
+.color-role { font-size: 0.7rem; color: var(--text-muted); }
+.color-var { font-size: 0.65rem; color: var(--text-muted); margin-top: 0.4rem; font-family: monospace; }
+/* Copy tooltip */
+.copied-toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--primary); color: var(--bg-deep); padding: 10px 24px; font-size: 0.8rem; font-weight: 700; font-family: var(--font-heading); z-index: 200; opacity: 0; transition: all 0.4s var(--ease); pointer-events: none; }
+.copied-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ═══════ TYPOGRAPHY ═══════ */
+.type-specimen { border: 1px solid var(--border); margin-bottom: 2rem; overflow: hidden; }
+.type-header { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 1.5rem; background: var(--bg-card); border-bottom: 1px solid var(--border); }
+.type-font-name { font-size: 0.75rem; font-weight: 600; color: var(--primary); text-transform: uppercase; letter-spacing: 0.1em; }
+.type-weights { font-size: 0.65rem; color: var(--text-muted); }
+.type-body { padding: 2.5rem 1.5rem; }
+.type-preview { color: var(--text-heading); margin-bottom: 0; }
+
+.type-scale { display: flex; flex-direction: column; gap: 1px; background: var(--border); margin-top: 2rem; overflow: hidden; }
+.type-row { display: grid; grid-template-columns: 100px 1fr 100px; align-items: baseline; padding: 1.25rem 1.5rem; background: var(--bg-body); opacity: 0; transform: translateX(-20px); transition: all 0.6s var(--ease); }
+.type-row:first-child { background: var(--bg-card); }
+.ds-section.visible .type-row { opacity: 1; transform: translateX(0); }
+.ds-section.visible .type-row:nth-child(1) { transition-delay: 0ms; }
+.ds-section.visible .type-row:nth-child(2) { transition-delay: 80ms; }
+.ds-section.visible .type-row:nth-child(3) { transition-delay: 140ms; }
+.ds-section.visible .type-row:nth-child(4) { transition-delay: 200ms; }
+.ds-section.visible .type-row:nth-child(5) { transition-delay: 260ms; }
+.ds-section.visible .type-row:nth-child(6) { transition-delay: 320ms; }
+.ds-section.visible .type-row:nth-child(7) { transition-delay: 380ms; }
+.type-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
+.type-row .preview { color: var(--text-heading); font-family: var(--font-heading); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.type-row .size { font-size: 0.65rem; color: var(--text-muted); text-align: right; font-family: monospace; }
+
+/* ═══════ SPACING — animated bars ═══════ */
+.spacing-grid { display: flex; flex-direction: column; gap: 1rem; }
+.space-row { display: flex; align-items: center; gap: 1.5rem; }
+.space-label { width: 80px; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; flex-shrink: 0; }
+.space-bar { height: 24px; background: var(--primary-dim); border-left: 2px solid var(--primary); width: 0; transition: width 1s var(--ease); }
+.space-row:hover .space-bar { background: rgba(201,243,29,0.15); }
+.space-value { font-size: 0.65rem; color: var(--text-muted); font-family: monospace; flex-shrink: 0; opacity: 0; transition: opacity 0.5s 0.8s; }
+/* Animated on scroll */
+.ds-section.visible .space-bar { width: var(--target-w); }
+.ds-section.visible .space-value { opacity: 1; }
+
+/* ═══════ COMPONENTS ═══════ */
+.comp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+.comp-box { border: 1px solid var(--border); padding: 2.5rem; background: var(--bg-card); position: relative; opacity: 0; transform: scale(0.96); transition: all 0.7s var(--ease); }
+.ds-section.visible .comp-box { opacity: 1; transform: scale(1); }
+.ds-section.visible .comp-box:nth-child(1) { transition-delay: 0ms; }
+.ds-section.visible .comp-box:nth-child(2) { transition-delay: 100ms; }
+.ds-section.visible .comp-box:nth-child(3) { transition-delay: 200ms; }
+.ds-section.visible .comp-box:nth-child(4) { transition-delay: 300ms; }
+.comp-box-label { position: absolute; top: -1px; left: 1.5rem; font-size: 0.6rem; font-weight: 600; color: var(--bg-deep); background: var(--primary); padding: 3px 10px; text-transform: uppercase; letter-spacing: 0.1em; }
+.comp-box-content { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+
+.btn { display: inline-flex; align-items: center; gap: 0.6rem; padding: 12px 35px; font-family: var(--font-heading); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; text-decoration: none; transition: all 0.5s; cursor: pointer; border: none; position: relative; overflow: hidden; }
+/* Button ripple */
+.btn::after { content:''; position:absolute; width:0; height:0; background:rgba(255,255,255,0.2); border-radius:50%; transform:translate(-50%,-50%); transition:width 0.6s, height 0.6s, opacity 0.6s; opacity:0; }
+.btn:active::after { width:300px; height:300px; opacity:0; transition:0s; }
+.btn-primary { background: var(--primary); color: var(--bg-deep); }
+.btn-primary:hover { background: #d8ff50; box-shadow: 0 8px 32px rgba(201,243,29,0.2); transform: translateY(-2px); }
+.btn-ghost { background: transparent; color: var(--text-body); border: 1px solid var(--border); }
+.btn-ghost:hover { color: white; background: var(--primary); border-color: var(--primary); }
+.btn-dark { background: var(--text-heading); color: var(--bg-deep); }
+.btn-dark:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,255,255,0.1); }
+
+.pill { padding: 8px 18px; border: 1px solid var(--border); font-size: 0.75rem; font-weight: 500; color: var(--text-body); transition: all 0.5s; display: inline-block; cursor: pointer; }
+.pill:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-dim); transform: translateY(-2px); }
+.pill.ai { border-color: rgba(124,58,237,0.3); color: #a78bfa; }
+.pill.active { border-color: var(--primary); color: var(--bg-deep); background: var(--primary); }
+
+.tag-badge { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 14px; display: inline-block; backdrop-filter: blur(12px); transition: transform 0.3s; }
+.tag-badge:hover { transform: scale(1.05); }
+.tb-blue { background: rgba(56,189,248,0.12); color: #38bdf8; border: 1px solid rgba(56,189,248,0.15); }
+.tb-purple { background: var(--secondary-dim); color: #a78bfa; border: 1px solid rgba(167,139,250,0.15); }
+.tb-green { background: var(--primary-dim); color: var(--primary); border: 1px solid rgba(201,243,29,0.15); }
+.tb-amber { background: rgba(245,158,11,0.1); color: #f59e0b; border: 1px solid rgba(245,158,11,0.15); }
+
+.metric-demo { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); }
+.metric-cell { padding: 1.5rem; background: var(--bg-card); text-align: center; }
+.metric-val { font-family: var(--font-heading); font-size: 1.8rem; font-weight: 700; color: var(--primary); line-height: 1; margin-bottom: 0.3rem; }
+.metric-lab { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+/* ═══════ CARD HOVER DEMO ═══════ */
+.card-demo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+.card-demo { position: relative; overflow: hidden; cursor: pointer; aspect-ratio: 4/5; opacity: 0; transform: translateY(30px); transition: all 0.7s var(--ease); }
+.ds-section.visible .card-demo { opacity: 1; transform: translateY(0); }
+.ds-section.visible .card-demo:nth-child(1) { transition-delay: 0ms; }
+.ds-section.visible .card-demo:nth-child(2) { transition-delay: 120ms; }
+.ds-section.visible .card-demo:nth-child(3) { transition-delay: 240ms; }
+.card-demo-bg { position: absolute; inset: 0; transition: transform 0.5s; }
+.card-demo:hover .card-demo-bg { transform: scale(1.05); }
+.card-demo::before { content: ''; position: absolute; left: 0; bottom: 0; width: 100%; height: 60%; background: linear-gradient(180deg, rgba(201,243,29,0) 0%, rgba(201,243,29,0.85) 100%); z-index: 2; opacity: 0; transition: opacity 0.5s; }
+.card-demo:hover::before { opacity: 1; }
+.card-demo-info { position: absolute; bottom: 0; left: 0; width: 100%; padding: 2rem; z-index: 3; opacity: 0; transform: translateY(15px); transition: all 0.5s; }
+.card-demo:hover .card-demo-info { opacity: 1; transform: translateY(0); }
+.card-demo-info h4 { color: var(--bg-deep); font-size: 1.1rem; }
+.card-demo-info p { color: rgba(7,7,7,0.6); font-size: 0.75rem; }
+.g1 { background: linear-gradient(135deg, #0a1628, #0d2847 50%, #071222); }
+.g2 { background: linear-gradient(135deg, #1a0a3e, #2d1066 50%, #0d0524); }
+.g3 { background: linear-gradient(135deg, #0d1117, #151a26 50%, #0a0e16); }
+
+/* ═══════ ANIMATION DEMO — interactive ═══════ */
+.anim-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+.anim-box { aspect-ratio: 1; border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem; padding: 1rem; cursor: pointer; transition: border-color 0.5s; position: relative; }
+.anim-box:hover { border-color: var(--primary); }
+.anim-box.playing { border-color: var(--primary); background: var(--primary-dim); }
+.anim-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--primary); }
+.anim-label { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; text-align: center; }
+.anim-hint { font-size: 0.5rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; opacity: 0; transition: opacity 0.3s; position: absolute; bottom: 0.75rem; }
+.anim-box:hover .anim-hint { opacity: 1; }
+/* Click-triggered animations */
+.anim-box.play-fade .anim-dot { animation: fadeUpDot 0.8s var(--ease); }
+.anim-box.play-scale .anim-dot { animation: scalePop 0.5s var(--ease); }
+.anim-box.play-slide .anim-dot { animation: slideRight 0.6s var(--ease); }
+.anim-box.play-pulse .anim-dot { animation: pulseDot 1.2s ease; }
+.anim-box.play-spin .anim-dot { animation: spinDot 0.8s var(--ease); border-radius: 3px; }
+.anim-box.play-bounce .anim-dot { animation: bounceDot 0.8s var(--ease); }
+@keyframes fadeUpDot { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+@keyframes scalePop { 0%{transform:scale(0)} 60%{transform:scale(1.4)} 100%{transform:scale(1)} }
+@keyframes slideRight { from{transform:translateX(-25px);opacity:0} to{transform:translateX(0);opacity:1} }
+@keyframes pulseDot { 0%{transform:scale(1);opacity:1} 25%{transform:scale(1.8);opacity:0.3} 50%{transform:scale(1);opacity:1} 75%{transform:scale(1.4);opacity:0.5} 100%{transform:scale(1);opacity:1} }
+@keyframes spinDot { from{transform:rotate(0) scale(0.5)} to{transform:rotate(360deg) scale(1)} }
+@keyframes bounceDot { 0%{transform:translateY(0)} 30%{transform:translateY(-25px)} 50%{transform:translateY(0)} 70%{transform:translateY(-12px)} 100%{transform:translateY(0)} }
+
+/* Easing curve canvas */
+.easing-visual { margin-top: 2.5rem; display: grid; grid-template-columns: 200px 1fr; gap: 2rem; align-items: start; }
+#easingCanvas { border: 1px solid var(--border); display: block; }
+.easing-info { font-size: 0.8rem; }
+.easing-info code { display: block; margin: 0.75rem 0; padding: 12px 16px; background: var(--bg-card); border: 1px solid var(--border); color: var(--primary); font-size: 0.75rem; font-family: monospace; }
+
+/* ═══════ GRID DEMO — wave animation ═══════ */
+.grid-demo { display: grid; grid-template-columns: repeat(12, 1fr); gap: 4px; }
+.grid-col { height: 50px; background: var(--primary-dim); border: 1px solid rgba(201,243,29,0.08); display: flex; align-items: center; justify-content: center; font-size: 0.55rem; color: var(--text-muted); transition: all 0.3s; opacity: 0; transform: scaleY(0); transform-origin: bottom; }
+.ds-section.visible .grid-col { opacity: 1; transform: scaleY(1); transition: all 0.5s var(--ease); }
+.ds-section.visible .grid-col:nth-child(1) { transition-delay: 0ms; }
+.ds-section.visible .grid-col:nth-child(2) { transition-delay: 40ms; }
+.ds-section.visible .grid-col:nth-child(3) { transition-delay: 80ms; }
+.ds-section.visible .grid-col:nth-child(4) { transition-delay: 120ms; }
+.ds-section.visible .grid-col:nth-child(5) { transition-delay: 160ms; }
+.ds-section.visible .grid-col:nth-child(6) { transition-delay: 200ms; }
+.ds-section.visible .grid-col:nth-child(7) { transition-delay: 240ms; }
+.ds-section.visible .grid-col:nth-child(8) { transition-delay: 280ms; }
+.ds-section.visible .grid-col:nth-child(9) { transition-delay: 320ms; }
+.ds-section.visible .grid-col:nth-child(10) { transition-delay: 360ms; }
+.ds-section.visible .grid-col:nth-child(11) { transition-delay: 400ms; }
+.ds-section.visible .grid-col:nth-child(12) { transition-delay: 440ms; }
+.grid-col:hover { background: rgba(201,243,29,0.15); color: var(--primary); transform: scaleY(1.3); }
+
+/* FOOTER — handled by .main-footer in design-system.css / style.css */
+
+/* SHARED */
+@keyframes fadeUp { from{opacity:0;transform:translateY(25px)} to{opacity:1;transform:translateY(0)} }
+@keyframes maskUp { to { transform: translateY(0); } }
+
+/* RESPONSIVE */
+@media (max-width: 1024px) { .comp-grid{grid-template-columns:1fr;} .card-demo-grid{grid-template-columns:1fr 1fr;} .anim-grid{grid-template-columns:repeat(3,1fr);} .easing-visual{grid-template-columns:1fr;} }
+@media (max-width: 768px) { .page-wrap{padding:0 1.5rem;} .ds-header{padding:8rem 0 3rem;} .color-grid{grid-template-columns:1fr 1fr;} .type-row{grid-template-columns:70px 1fr 60px;} .card-demo-grid{grid-template-columns:1fr;} .metric-demo{grid-template-columns:1fr;} .anim-grid{grid-template-columns:repeat(2,1fr);} }
+</style>
+</head>
+<body>
+
+<div class="bg-lines"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+<div class="copied-toast" id="toast">Copied to clipboard</div>
+
+<!-- ==========================================
+     GLOBAL HEADER + STICKY GLASSMORPHISM NAV
+     ========================================== -->
+<header class="main-header header-two">
+    <!--Header-Upper-->
+    <div class="header-upper">
+        <div class="container container-1620 clearfix">
+
+            <div class="header-inner rel d-flex align-items-center">
+
+                <!-- Logo -->
+                <div class="logo-outer">
+                    <div class="logo"><a href="index.html"><img src="assets/images/logos/logo.webp" alt="Logo" title="Logo"></a></div>
+                </div>
+
+                <!-- Sitemap Navigation -->
+                <div class="nav-outer clearfix mx-auto">
+                    <!-- Main Menu -->
+                    <nav class="main-menu navbar-expand-lg">
+                        <div class="navbar-header">
+                           <div class="mobile-logo my-15">
+                               <a href="index.html">
+                                    <img src="./assets/images/logos/logo.webp" alt="Logo" title="Logo">
+                               </a>
+                           </div>
+
+                            <!-- Toggle Button -->
+                            <button type="button" class="navbar-toggle me-4" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+
+                        <div class="navbar-collapse collapse clearfix">
+                            <ul class="navigation clearfix">
+                                <li><a href="index.html">Home</a></li>
+
+                                <li class="dropdown"><a href="#">Selected Work</a>
+                                    <ul>
+                                        <li><a href="works.html">Master Gallery</a></li>
+                                        <li><a href="works.html#value-creation">Macro-Impact & Vision</a></li>
+                                        <li><a href="works.html#performance-growth">Performance & Growth</a></li>
+                                        <li><a href="works.html#digital-experience">Digital Experience</a></li>
+                                        <li><a href="value-acceleration.html">AI & Gaming</a></li>
+                                    </ul>
+                                </li>
+
+                                <li class="dropdown"><a href="#">AI Engine</a>
+                                    <ul>
+                                        <li><a href="ai-engine.html">Human Engine</a></li>
+                                        <li><a href="ai-engine.html#innovation-lab">Innovation Lab</a></li>
+                                        <li><a href="ai-engine.html#ai-pipeline">4-Step AI Pipeline</a></li>
+                                        <li><a href="ai-engine.html#tech-stack">Tech Stack Matrix</a></li>
+                                        <li><a href="about.html">professional Timeline</a></li>
+                                    </ul>
+                                </li>
+
+                                <li class="dropdown"><a href="blog.html">Tafannon blog</a>
+                                    <ul>
+                                        <li><a href="blog.html">Art & Branding Insights</a></li>
+                                        <li><a href="blog.html">Thought-Leadership Notes</a></li>
+                                        <li><a href="blog.html">Editorial Masonry</a></li>
+                                    </ul>
+                                </li>
+
+                                <li class="dropdown"><a href="#">Contact</a>
+                                    <ul>
+                                        <li><a href="contact.html">Conversion Overlay</a></li>
+                                        <li><a href="contact.html#email">Email & Phone</a></li>
+                                        <li><a href="contact.html#social">Social Channels</a></li>
+                                        <li><a href="contact.html#downloads">Downloads</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+                <!-- Main Menu End-->
+
+                <!-- Menu Button -->
+                <div class="menu-btns">
+
+                    <a href="./contact.html" class="theme-btn">let,s talk</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End Header Upper-->
+</header>
+
+<div class="page-wrap">
+
+  <header class="ds-header">
+    <div class="tag">Design System</div>
+    <h1><span class="mask"><span class="mask-i">Noxfolio</span></span><span class="mask"><span class="mask-i"><mark>Noir</mark></span></span></h1>
+    <p>The visual language governing Mouaz AlSabbagh's portfolio — tokens, type, components, and interaction patterns derived from the Noxfolio template.</p>
+    <div class="ds-version">v1.0 — May 2026</div>
+  </header>
+
+  <!-- 01 COLOR -->
+  <section class="ds-section" id="colors">
+    <div class="ds-section-title">01 — Foundations</div>
+    <h2>Color Palette</h2>
+    <div class="color-grid">
+      <div class="color-card"><div class="color-swatch" style="background:#A2FF00;" data-hex="#A2FF00"><span class="hex">#A2FF00</span></div><div class="color-meta"><div class="color-name">Primary</div><div class="color-role">Accent, CTAs, highlights</div><div class="color-var">--primary</div></div></div>
+      <div class="color-card"><div class="color-swatch" style="background:#7c3aed;" data-hex="#7C3AED"><span class="hex">#7C3AED</span></div><div class="color-meta"><div class="color-name">Secondary</div><div class="color-role">AI badges, alt-accent</div><div class="color-var">--secondary</div></div></div>
+      <div class="color-card"><div class="color-swatch" style="background:#131313;" data-hex="#131313"><span class="hex">#131313</span></div><div class="color-meta"><div class="color-name">Body</div><div class="color-role">Default background</div><div class="color-var">--bg-body</div></div></div>
+      <div class="color-card"><div class="color-swatch" style="background:#070707;" data-hex="#070707"><span class="hex">#070707</span></div><div class="color-meta"><div class="color-name">Deepest</div><div class="color-role">Impact bars, featured</div><div class="color-var">--bg-deep</div></div></div>
+      <div class="color-card"><div class="color-swatch" style="background:#1F1F1F;" data-hex="#1F1F1F"><span class="hex">#1F1F1F</span></div><div class="color-meta"><div class="color-name">Card</div><div class="color-role">Cards, panels</div><div class="color-var">--bg-card</div></div></div>
+      <div class="color-card"><div class="color-swatch" style="background:#FFFFFF;" data-hex="#FFFFFF"><span class="hex" style="color:#333;">#FFFFFF</span></div><div class="color-meta"><div class="color-name">Heading</div><div class="color-role">All headings</div><div class="color-var">--text-heading</div></div></div>
+      <div class="color-card"><div class="color-swatch" style="background:rgba(255,255,255,0.65);" data-hex="rgba(255,255,255,0.65)"><span class="hex" style="color:#333;">65% white</span></div><div class="color-meta"><div class="color-name">Body Text</div><div class="color-role">Paragraphs, links</div><div class="color-var">--text-body</div></div></div>
+      <div class="color-card"><div class="color-swatch" style="background:rgba(255,255,255,0.10);" data-hex="rgba(255,255,255,0.10)"><span class="hex">10% white</span></div><div class="color-meta"><div class="color-name">Border</div><div class="color-role">Dividers, edges</div><div class="color-var">--border</div></div></div>
+    </div>
+  </section>
+
+  <!-- 02 TYPOGRAPHY -->
+  <section class="ds-section" id="typography">
+    <div class="ds-section-title">02 — Typography</div>
+    <h2>Type System</h2>
+    <div class="type-specimen"><div class="type-header"><span class="type-font-name">DM Sans — Headings</span><span class="type-weights">400 · 500 · 700</span></div><div class="type-body"><h1 class="type-preview" style="font-size:3.5rem;line-height:0.95;text-transform:uppercase;letter-spacing:-0.03em;">Billion-Scale Growth</h1></div></div>
+    <div class="type-specimen"><div class="type-header"><span class="type-font-name">Inter — Body</span><span class="type-weights">400 · 500 · 600</span></div><div class="type-body"><p class="type-preview" style="font-size:1rem;line-height:1.875;">I lead the synthesis of complex institutional objectives into high-performance visual ecosystems. My methodology integrates Macro-Impact Strategy, Behavioral Economics, and AI-Accelerated Craft.</p></div></div>
+    <div class="type-scale">
+      <div class="type-row"><span class="type-label">Level</span><span class="type-label">Preview</span><span class="type-label" style="text-align:right;">Size</span></div>
+      <div class="type-row"><span class="type-label">H1</span><span class="preview" style="font-size:clamp(2.5rem,4vw,4rem);">Harmonizing Vision</span><span class="size">65px</span></div>
+      <div class="type-row"><span class="type-label">H2</span><span class="preview" style="font-size:clamp(1.6rem,3vw,2.8rem);">Featured Case Studies</span><span class="size">45px</span></div>
+      <div class="type-row"><span class="type-label">H3</span><span class="preview" style="font-size:1.5rem;">Growth Trilogy</span><span class="size">30px</span></div>
+      <div class="type-row"><span class="type-label">H4</span><span class="preview" style="font-size:1.25rem;">Project Name</span><span class="size">24px</span></div>
+      <div class="type-row"><span class="type-label">Body</span><span class="preview" style="font-family:var(--font-body);font-weight:400;font-size:1rem;">Body paragraph text in Inter 400</span><span class="size">16px</span></div>
+      <div class="type-row"><span class="type-label">Caption</span><span class="preview" style="font-family:var(--font-body);font-weight:500;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);">Source Label</span><span class="size">11px</span></div>
+    </div>
+  </section>
+
+  <!-- 03 SPACING -->
+  <section class="ds-section" id="spacing">
+    <div class="ds-section-title">03 — Spacing</div>
+    <h2>Spacing Scale</h2>
+    <div class="spacing-grid">
+      <div class="space-row"><span class="space-label">4px</span><div class="space-bar" style="--target-w:4px;"></div><span class="space-value">0.25rem — micro</span></div>
+      <div class="space-row"><span class="space-label">8px</span><div class="space-bar" style="--target-w:16px;"></div><span class="space-value">0.5rem — tight</span></div>
+      <div class="space-row"><span class="space-label">16px</span><div class="space-bar" style="--target-w:40px;"></div><span class="space-value">1rem — base</span></div>
+      <div class="space-row"><span class="space-label">24px</span><div class="space-bar" style="--target-w:70px;"></div><span class="space-value">1.5rem — card padding</span></div>
+      <div class="space-row"><span class="space-label">30px</span><div class="space-bar" style="--target-w:90px;"></div><span class="space-value">gutter — grid gap</span></div>
+      <div class="space-row"><span class="space-label">48px</span><div class="space-bar" style="--target-w:140px;"></div><span class="space-value">3rem — nav / footer</span></div>
+      <div class="space-row"><span class="space-label">80px</span><div class="space-bar" style="--target-w:220px;"></div><span class="space-value">5rem — section small</span></div>
+      <div class="space-row"><span class="space-label">130px</span><div class="space-bar" style="--target-w:350px;"></div><span class="space-value">8rem — section large</span></div>
+      <div class="space-row"><span class="space-label">160px</span><div class="space-bar" style="--target-w:430px;"></div><span class="space-value">10rem — about section</span></div>
+    </div>
+  </section>
+
+  <!-- 04 COMPONENTS -->
+  <section class="ds-section" id="components">
+    <div class="ds-section-title">04 — Components</div>
+    <h2>Component Library</h2>
+    <div class="comp-grid">
+      <div class="comp-box"><div class="comp-box-label">Buttons</div><div class="comp-box-content"><a class="btn btn-primary">Primary CTA</a><a class="btn btn-ghost">Ghost Button</a><a class="btn btn-dark">Dark Fill</a></div></div>
+      <div class="comp-box"><div class="comp-box-label">Spec Pills</div><div class="comp-box-content"><span class="pill">Macro-Impact</span><span class="pill ai">Generative AI</span><span class="pill active">Active State</span></div></div>
+      <div class="comp-box"><div class="comp-box-label">Category Tags</div><div class="comp-box-content"><span class="tag-badge tb-blue">Macro-Impact</span><span class="tag-badge tb-purple">Performance</span><span class="tag-badge tb-green">AI Projects</span><span class="tag-badge tb-amber">Innovation</span></div></div>
+      <div class="comp-box"><div class="comp-box-label">Section Tag</div><div class="comp-box-content" style="flex-direction:column;align-items:flex-start;"><div style="font-size:0.9rem;display:flex;align-items:center;gap:0.5rem;"><span style="color:var(--primary);font-size:0.65rem;">✳</span> Introduction of Myself</div><h3 style="font-size:1.3rem;margin-top:0.5rem;">The 360° Approach to <mark style="color:var(--primary);background:transparent;text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:2px;">Value.</mark></h3></div></div>
+    </div>
+    <h3 style="font-size:1rem;margin:3rem 0 1.5rem;">Impact Metrics</h3>
+    <div class="metric-demo"><div class="metric-cell"><div class="metric-val counter-ds" data-target="1.06" data-decimals="2" data-suffix="B">0</div><div class="metric-lab">Total Visibility</div></div><div class="metric-cell"><div class="metric-val counter-ds" data-target="91" data-decimals="0" data-suffix="x">0</div><div class="metric-lab">Peak ROI</div></div><div class="metric-cell"><div class="metric-val counter-ds" data-target="3.8" data-decimals="1" data-suffix="M">0</div><div class="metric-lab">Live Views</div></div></div>
+  </section>
+
+  <!-- 05 CARD HOVER -->
+  <section class="ds-section" id="cards">
+    <div class="ds-section-title">05 — Interaction</div>
+    <h2>Project Card Hover — Neon Gradient Reveal</h2>
+    <p style="margin-bottom:2rem;max-width:600px;">The template's signature: a bottom-up primary gradient sweeps on hover, revealing dark-on-neon content. Card imagery scales 5% simultaneously.</p>
+    <div class="card-demo-grid">
+      <div class="card-demo"><div class="card-demo-bg g1"></div><div class="card-demo-info"><h4>Vision 2030</h4><p>Strategic Management Office</p></div></div>
+      <div class="card-demo"><div class="card-demo-bg g2"></div><div class="card-demo-info"><h4>Growth Trilogy</h4><p>JACO Sport — Live Streaming</p></div></div>
+      <div class="card-demo"><div class="card-demo-bg g3"></div><div class="card-demo-info"><h4>Unknown Soldier</h4><p>JACO — Creative Lab</p></div></div>
+    </div>
+  </section>
+
+  <!-- 06 ANIMATION -->
+  <section class="ds-section" id="animation">
+    <div class="ds-section-title">06 — Motion</div>
+    <h2>Animation Patterns</h2>
+    <p style="margin-bottom:2rem;">Click each box to play. All animations use the system easing curve.</p>
+    <div class="anim-grid">
+      <div class="anim-box" data-anim="play-fade"><div class="anim-dot"></div><div class="anim-label">Fade Up</div><div class="anim-hint">Click to play</div></div>
+      <div class="anim-box" data-anim="play-scale"><div class="anim-dot"></div><div class="anim-label">Scale Pop</div><div class="anim-hint">Click to play</div></div>
+      <div class="anim-box" data-anim="play-slide"><div class="anim-dot"></div><div class="anim-label">Slide Right</div><div class="anim-hint">Click to play</div></div>
+      <div class="anim-box" data-anim="play-pulse"><div class="anim-dot"></div><div class="anim-label">Pulse</div><div class="anim-hint">Click to play</div></div>
+      <div class="anim-box" data-anim="play-spin"><div class="anim-dot"></div><div class="anim-label">Spin Entry</div><div class="anim-hint">Click to play</div></div>
+      <div class="anim-box" data-anim="play-bounce"><div class="anim-dot"></div><div class="anim-label">Bounce</div><div class="anim-hint">Click to play</div></div>
+    </div>
+    <div class="easing-visual">
+      <canvas id="easingCanvas" width="200" height="200"></canvas>
+      <div class="easing-info">
+        <h4 style="font-size:1rem;margin-bottom:0.5rem;">System Easing Curve</h4>
+        <p>Fast start, gentle landing. Used for all scroll reveals, entrance animations, and hover transitions.</p>
+        <code>cubic-bezier(0.16, 1, 0.3, 1)</code>
+        <p style="font-size:0.8rem;color:var(--text-muted);">Stagger delay: 60–100ms between siblings. Max transition duration: 0.8s for entrances, 0.5s for hovers.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 08 SELECTORS & NAV -->
+  <section class="ds-section" id="selectors">
+    <div class="ds-section-title">08 — Selectors & Navigation</div>
+    <h2>Forms, Inputs, and Navigational Elements</h2>
+    <p style="margin-bottom:3rem;">Interactive selectors and navigation components leveraging the primary accent color and dark glassmorphism.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem;">
+      
+      <!-- Checkbox & Radio & Toggle -->
+      <div>
+        <h4 style="margin-bottom: 1.5rem; font-size: 1.1rem; color: var(--text-muted);">Toggles & Radios</h4>
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          <!-- Custom Checkbox -->
+          <label class="ds-checkbox-label">
+            <input type="checkbox" class="ds-checkbox" checked>
+            <span class="ds-checkbox-box"></span>
+            <span>Active Checkbox</span>
+          </label>
+          <label class="ds-checkbox-label">
+            <input type="checkbox" class="ds-checkbox">
+            <span class="ds-checkbox-box"></span>
+            <span>Inactive Checkbox</span>
+          </label>
+
+          <!-- Custom Radio -->
+          <div style="display: flex; gap: 1.5rem;">
+            <label class="ds-radio-label">
+              <input type="radio" name="ds-radio" class="ds-radio" checked>
+              <span class="ds-radio-circle"></span>
+              <span>Option A</span>
+            </label>
+            <label class="ds-radio-label">
+              <input type="radio" name="ds-radio" class="ds-radio">
+              <span class="ds-radio-circle"></span>
+              <span>Option B</span>
+            </label>
+          </div>
+
+          <!-- Custom Toggle Switch -->
+          <label class="ds-toggle-label">
+            <input type="checkbox" class="ds-toggle" checked>
+            <span class="ds-toggle-slider"></span>
+            <span>Toggle Switch</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Dropdown & Date Picker -->
+      <div>
+        <h4 style="margin-bottom: 1.5rem; font-size: 1.1rem; color: var(--text-muted);">Dropdowns & Inputs</h4>
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          <!-- Standard Dropdown -->
+          <div class="ds-input-group">
+            <label>Standard Dropdown</label>
+            <select class="ds-select" title="Standard Dropdown">
+              <option>Select an option</option>
+              <option>Design Strategy</option>
+              <option>Web Development</option>
+              <option>Creative Direction</option>
+            </select>
+          </div>
+
+          <!-- Large Selector -->
+          <div class="ds-input-group">
+            <label>Large Selector</label>
+            <select class="ds-select ds-select-lg" title="Large Dropdown">
+              <option>Select an option</option>
+              <option>Large Option A</option>
+              <option>Large Option B</option>
+            </select>
+          </div>
+
+          <!-- Date Picker -->
+          <div class="ds-input-group">
+            <label>Date Picker</label>
+            <input type="date" class="ds-input" value="2026-06-02" title="Date Picker">
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation & Tabs -->
+      <div style="grid-column: 1 / -1;">
+        <h4 style="margin-bottom: 1.5rem; font-size: 1.1rem; color: var(--text-muted);">Navigation & Breadcrumbs</h4>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem;">
+          <!-- Breadcrumbs -->
+          <div>
+            <nav class="ds-breadcrumbs">
+              <ol>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Selected Work</a></li>
+                <li class="active">Project Detail</li>
+              </ol>
+            </nav>
+            <br>
+            <!-- Tabs -->
+            <div class="ds-tabs">
+              <button type="button" class="ds-tab active">Overview</button>
+              <button type="button" class="ds-tab">Strategy</button>
+              <button type="button" class="ds-tab">Results</button>
+            </div>
+          </div>
+
+          <!-- Pagination -->
+          <div>
+            <nav class="ds-pagination">
+              <ul>
+                <li><a href="#" class="prev" title="Previous"><i class="fas fa-chevron-left"></i></a></li>
+                <li><a href="#">1</a></li>
+                <li><a href="#" class="active">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#" class="next" title="Next"><i class="fas fa-chevron-right"></i></a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 07 GRID -->
+  <section class="ds-section" id="grid">
+    <div class="ds-section-title">07 — Layout</div>
+    <h2>12-Column Grid — 1320px Container</h2>
+    <p style="margin-bottom:2rem;">Bootstrap 5 grid foundation. 30px gutters. Architectural bg-lines at 10% intervals. Hover columns to interact.</p>
+    <div class="grid-demo">
+      <div class="grid-col">1</div><div class="grid-col">2</div><div class="grid-col">3</div><div class="grid-col">4</div>
+      <div class="grid-col">5</div><div class="grid-col">6</div><div class="grid-col">7</div><div class="grid-col">8</div>
+      <div class="grid-col">9</div><div class="grid-col">10</div><div class="grid-col">11</div><div class="grid-col">12</div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ==========================================
+     GLOBAL FOOTER
+     ========================================== -->
+<footer class="main-footer footer-two pt-75 rel z-1">
+    <div class="container">
+        <div class="row align-items-center justify-content-between">
+            <div class="col-lg-3 col-md-5">
+                <div class="footer-widget widget_logo text-center text-md-start wow fadeInUp delay-0-2s">
+                    <!-- Logo -->
+                    <div class="logo-outer">
+                        <div class="logo"><a href="index.html"><img src="./assets/images/logos/logo.webp" alt="Logo" title="Logo"></a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-7">
+                <div class="footer-widget widget_nav_menu me-0 wow fadeInUp delay-0-4s">
+                    <ul>
+                        <li><a href="works.html">Selected Works</a></li>
+                            <li><a href="ai-engine.html">The AI Engine</a></li>
+                            <li><a href="blog.html">Tafannon Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <hr class="mb-40" style="border-color: var(--border);">
+            </div>
+            <div class="col-xl-6 col-lg-7">
+                <div class="footer-widget widget_text text-center text-lg-start wow fadeInUp delay-0-2s">
+                    <div class="text pb-20">Integrating Macro-Impact Strategy, Behavioral Economics, and AI-Accelerated Craft to deliver billion-scale growth for visionary entities.</div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-5">
+                <div class="footer-widget widget_social text-center text-lg-end wow fadeInUp delay-0-4s">
+                    <div class="social-flow">
+                        <h4>Connect :</h4>
+                        <div class="social-style-one">
+                                    <a href="https://www.linkedin.com/in/mouazalsabbagh/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                    <a href="https://www.behance.net/mouazAlsabbagh" target="_blank"><i class="fab fa-behance"></i></a>
+                                    <a href="https://x.com/mouazalsabbagh/" target="_blank"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <hr class="mt-0" style="border-color: var(--border);">
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom pt-10 pb-15">
+        <div class="container">
+            <div class="copyright-text text-center">
+                <p>Copyright &copy; <span id="copyright-year"></span>, <a href="index.html" style="color: var(--primary);">Mouaz AlSabbagh</a>. All Rights Reserved.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Global: Scroll Top Button -->
+<button class="scroll-top scroll-to-target" data-target="html"><span class="fas fa-angle-double-up"></span></button>
+
+<script>
+/* ═══════ Scroll Observer — adds .visible to ds-section
+   (sticky-nav scroll behavior is handled by assets/js/script.js) ═══════ */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.ds-section').forEach(el => obs.observe(el));
+
+/* ═══════ Copy hex on swatch click ═══════ */
+const toast = document.getElementById('toast');
+let toastTimer;
+document.querySelectorAll('.color-swatch').forEach(sw => {
+  sw.addEventListener('click', () => {
+    const hex = sw.dataset.hex;
+    navigator.clipboard.writeText(hex).then(() => {
+      toast.textContent = `Copied ${hex}`;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
+    });
+  });
+});
+
+/* ═══════ Click-to-play animation boxes ═══════ */
+document.querySelectorAll('.anim-box').forEach(box => {
+  box.addEventListener('click', () => {
+    const cls = box.dataset.anim;
+    box.classList.remove(cls);
+    box.classList.add('playing');
+    void box.offsetWidth; // force reflow
+    box.classList.add(cls);
+    setTimeout(() => { box.classList.remove(cls, 'playing'); }, 1200);
+  });
+});
+
+/* ═══════ Counter animation for metrics ═══════ */
+const metricObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.counter-ds').forEach(c => {
+        const t = parseFloat(c.dataset.target), d = parseInt(c.dataset.decimals)||0, s = c.dataset.suffix||'';
+        const dur = 2000, st = performance.now();
+        function tick(n) {
+          const p = Math.min((n-st)/dur,1), ease = 1-Math.pow(1-p,3);
+          c.textContent = (t*ease).toFixed(d)+s;
+          if(p<1) requestAnimationFrame(tick); else c.textContent = t.toFixed(d)+s;
+        }
+        requestAnimationFrame(tick);
+      });
+      metricObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.metric-demo').forEach(el => metricObs.observe(el));
+
+/* ═══════ Draw easing curve on canvas ═══════ */
+const canvas = document.getElementById('easingCanvas');
+if (canvas) {
+  const ctx = canvas.getContext('2d');
+  const w = 200, h = 200, pad = 20;
+
+  function bezier(t, p1, p2, p3, p4) {
+    const u = 1 - t;
+    return u*u*u*p1 + 3*u*u*t*p2 + 3*u*t*t*p3 + t*t*t*p4;
+  }
+
+  // Draw grid
+  ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    const x = pad + (w - pad*2) * (i/4);
+    ctx.beginPath(); ctx.moveTo(x, pad); ctx.lineTo(x, h-pad); ctx.stroke();
+    const y = pad + (h - pad*2) * (i/4);
+    ctx.beginPath(); ctx.moveTo(pad, y); ctx.lineTo(w-pad, y); ctx.stroke();
+  }
+
+  // Draw curve: cubic-bezier(0.16, 1, 0.3, 1)
+  ctx.strokeStyle = '#A2FF00';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  const steps = 100;
+  for (let i = 0; i <= steps; i++) {
+    const t = i / steps;
+    const x = pad + t * (w - pad*2);
+    const yVal = bezier(t, 0, 1, 1, 1); // approximation of the y output
+    const y = h - pad - yVal * (h - pad*2);
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  // Control points
+  const cp1x = pad + 0.16 * (w-pad*2), cp1y = h - pad - 1*(h-pad*2);
+  const cp2x = pad + 0.3 * (w-pad*2), cp2y = h - pad - 1*(h-pad*2);
+  
+  ctx.strokeStyle = 'rgba(201,243,29,0.25)';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(pad, h-pad); ctx.lineTo(cp1x, cp1y); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(w-pad, pad); ctx.lineTo(cp2x, cp2y); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Control point dots
+  [{ x: cp1x, y: cp1y }, { x: cp2x, y: cp2y }].forEach(pt => {
+    ctx.fillStyle = '#A2FF00';
+    ctx.beginPath(); ctx.arc(pt.x, pt.y, 4, 0, Math.PI*2); ctx.fill();
+  });
+
+  // Animated dot traveling the curve
+  let animT = 0;
+  function animateDot() {
+    animT += 0.008;
+    if (animT > 1) animT = 0;
+    
+    const dotX = pad + animT * (w-pad*2);
+    const dotY = h - pad - bezier(animT, 0, 1, 1, 1) * (h-pad*2);
+    
+    // Redraw (simple approach: clear and redraw everything)
+    ctx.clearRect(0,0,w,h);
+    
+    // Grid
+    ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1;
+    for (let i = 0; i <= 4; i++) {
+      const gx = pad + (w-pad*2)*(i/4);
+      ctx.beginPath(); ctx.moveTo(gx,pad); ctx.lineTo(gx,h-pad); ctx.stroke();
+      const gy = pad + (h-pad*2)*(i/4);
+      ctx.beginPath(); ctx.moveTo(pad,gy); ctx.lineTo(w-pad,gy); ctx.stroke();
+    }
+    
+    // Curve
+    ctx.strokeStyle = '#A2FF00'; ctx.lineWidth = 2; ctx.beginPath();
+    for (let i = 0; i <= steps; i++) {
+      const t = i/steps, cx = pad+t*(w-pad*2), cy = h-pad-bezier(t,0,1,1,1)*(h-pad*2);
+      if(i===0) ctx.moveTo(cx,cy); else ctx.lineTo(cx,cy);
+    }
+    ctx.stroke();
+    
+    // Control lines
+    ctx.strokeStyle = 'rgba(201,243,29,0.25)'; ctx.lineWidth = 1; ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.moveTo(pad,h-pad); ctx.lineTo(cp1x,cp1y); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(w-pad,pad); ctx.lineTo(cp2x,cp2y); ctx.stroke();
+    ctx.setLineDash([]);
+    
+    // CP dots
+    [{x:cp1x,y:cp1y},{x:cp2x,y:cp2y}].forEach(pt => {
+      ctx.fillStyle = 'rgba(201,243,29,0.5)'; ctx.beginPath(); ctx.arc(pt.x,pt.y,3,0,Math.PI*2); ctx.fill();
+    });
+    
+    // Traveling dot
+    ctx.fillStyle = '#A2FF00'; ctx.beginPath(); ctx.arc(dotX,dotY,5,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(201,243,29,0.15)'; ctx.beginPath(); ctx.arc(dotX,dotY,12,0,Math.PI*2); ctx.fill();
+    
+    requestAnimationFrame(animateDot);
+  }
+  animateDot();
+}
+</script>
+
+<!-- ==========================================
+     VENDOR JS — required by .main-header sticky nav + footer animations
+     ========================================== -->
+<script src="assets/js/jquery-3.6.0.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/jquery.nice-select.min.js"></script>
+<script src="assets/js/wow.min.js"></script>
+<script src="assets/js/script.js"></script> <!-- sticky nav (>=50px) + scroll-to-top -->
+
+<!-- Populate footer copyright year -->
+<script>
+    document.getElementById('copyright-year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

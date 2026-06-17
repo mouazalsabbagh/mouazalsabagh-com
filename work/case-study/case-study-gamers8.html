@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gamers8 (G8) — Mouaz AlSabbagh</title>
+
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-card: #1c2128;
+  --text-primary: #f0f6fc;
+  --text-secondary: #8b949e;
+  --text-muted: #484f58;
+  --accent: #38bdf8;
+  --accent-dim: rgba(56,189,248,0.08);
+  --border: rgba(240,246,252,0.06);
+  --font-display: 'Outfit', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 1.25rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  background: rgba(13,17,23,0.6);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+
+nav.scrolled { padding: 0.8rem 3rem; background: rgba(13,17,23,0.92); }
+
+.nav-logo { font-weight: 900; font-size: 1.05rem; letter-spacing: -0.02em; cursor: pointer; }
+.nav-logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 2.25rem; align-items: center; }
+.nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.3s; font-family: var(--font-mono); }
+.nav-links a:hover, .nav-links a.active { color: var(--accent); }
+.nav-cta { display: inline-flex; align-items: center; padding: 0.5rem 1.2rem; background: var(--accent); color: var(--bg-primary); font-family: var(--font-mono); font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; border-radius: 3px; transition: all 0.3s; }
+.nav-cta:hover { background: #0ea5e9; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(56,189,248,0.2); }
+
+.hero {
+  padding: 12rem 3rem 6rem;
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -150px;
+  right: -150px;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(56,189,248,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-inner { max-width: 900px; position: relative; z-index: 2; }
+
+.hero-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.2s;
+}
+
+.hero-tag::before { content: ''; width: 50px; height: 1px; background: var(--accent); }
+
+.festival-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--accent-dim);
+  border: 1px solid rgba(56,189,248,0.3);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.3s;
+}
+
+.festival-badge::before { content: '🎮'; }
+
+.hero-title {
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.4s;
+}
+
+.hero-title em { font-style: normal; color: var(--accent); }
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  font-weight: 300;
+  max-width: 700px;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.6s;
+}
+
+.metrics-card {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 4rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.8s;
+}
+
+.metric { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 2rem 1.5rem; text-align: left; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.metric:hover { border-color: var(--accent); background: rgba(56,189,248,0.02); transform: translateY(-4px); }
+.metric-val { font-size: 2.5rem; font-weight: 900; color: var(--accent); margin-bottom: 0.5rem; font-family: var(--font-mono); }
+.metric-lbl { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0.05em; text-transform: uppercase; }
+
+.content-wrapper { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
+
+.section {
+  margin-bottom: 6rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 1rem;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: var(--accent);
+}
+
+.section-desc { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.8; max-width: 800px; margin-bottom: 2rem; font-weight: 300; }
+
+.challenge-solution { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+.challenge-box, .solution-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.challenge-box:hover, .solution-box:hover { border-color: var(--accent); transform: translateY(-4px); }
+
+.box-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; }
+.challenge-box .box-title { color: #ff6b6b; }
+.solution-box .box-title { color: var(--accent); }
+
+.box-content { font-size: 0.95rem; line-height: 1.7; color: var(--text-secondary); }
+.box-content ul { list-style: none; margin: 1rem 0 0 0; }
+.box-content li { margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; }
+.box-content li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: bold; }
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  font-size: 0.9rem;
+}
+
+.data-table thead {
+  background: rgba(56,189,248,0.05);
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.data-table td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.data-table tbody tr:hover {
+  background: rgba(56,189,248,0.02);
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.outcome-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.outcome-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.outcome-item:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 12px 32px rgba(56,189,248,0.1); }
+
+.outcome-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.outcome-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.75rem; }
+.outcome-desc { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+
+.visual-block {
+  width: 100%;
+  height: 400px;
+  background: linear-gradient(135deg, rgba(56,189,248,0.1) 0%, rgba(56,189,248,0.02) 100%);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 3rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.visual-block::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 36px, rgba(255,255,255,0.006) 36px, rgba(255,255,255,0.006) 37px), repeating-linear-gradient(90deg, transparent, transparent 36px, rgba(255,255,255,0.006) 36px, rgba(255,255,255,0.006) 37px);
+  pointer-events: none;
+}
+
+.visual-label { font-size: 3rem; font-weight: 900; opacity: 0.08; color: var(--text-primary); text-align: center; position: relative; z-index: 1; user-select: none; }
+
+.case-footer { background: var(--bg-secondary); padding: 4rem 3rem; margin-top: 6rem; border-top: 1px solid var(--border); text-align: center; }
+.footer-nav { display: flex; gap: 2rem; justify-content: center; margin-top: 2rem; }
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.3s;
+}
+
+.footer-link:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+.stat-highlight {
+  display: inline-block;
+  background: rgba(56,189,248,0.1);
+  border-left: 3px solid var(--accent);
+  padding: 0.75rem 1.25rem;
+  margin: 1rem 0;
+  border-radius: 3px;
+}
+
+.stat-highlight strong { color: var(--accent); }
+
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { gap: 1.5rem; }
+  .hero { padding: 8rem 1.5rem 3rem; }
+  .hero-title { font-size: 2.5rem; }
+  .hero-subtitle { font-size: 1rem; }
+  .content-wrapper { padding: 0 1.5rem; }
+  .challenge-solution { grid-template-columns: 1fr; }
+  .metrics-card { grid-template-columns: 1fr; }
+  .section-title { font-size: 1.5rem; }
+  .visual-block { height: 300px; }
+  .data-table { font-size: 0.8rem; }
+  .data-table th, .data-table td { padding: 0.6rem; }
+}
+
+/* Design System Overrides */
+:root {
+  --bg-primary: #131313 !important;
+  --bg-secondary: #070707 !important;
+  --bg-card: #1F1F1F !important;
+  --bg-card-hover: #282828 !important;
+  --text-primary: #FFFFFF !important;
+  --text-secondary: rgba(255,255,255,0.65) !important;
+  --text-muted: rgba(255,255,255,0.40) !important;
+  --accent: #C9F31D !important;
+  --accent-primary: #C9F31D !important;
+  --accent-secondary: #7c3aed !important;
+  --accent-tertiary: #C9F31D !important;
+  --accent-dim: rgba(201,243,29,0.08) !important;
+  --accent-glow: rgba(201,243,29,0.25) !important;
+  --gold: #C9F31D !important;
+  --gold-dim: rgba(201,243,29,0.08) !important;
+  --teal: #C9F31D !important;
+  --teal-dim: rgba(201,243,29,0.08) !important;
+  --blue: #C9F31D !important;
+  --blue-dim: rgba(201,243,29,0.08) !important;
+  --purple: #7c3aed !important;
+  --purple-dim: rgba(124,58,237,0.12) !important;
+  --border: rgba(255,255,255,0.10) !important;
+  --font-display: 'DM Sans', sans-serif !important;
+  --font-mono: 'Inter', sans-serif !important;
+}
+
+body {
+  font-family: 'Inter', sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6, .hero-title, .section-title, .box-title, .outcome-title {
+  font-family: 'DM Sans', sans-serif !important;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E") !important;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+</style>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-logo">mouaz<span>.</span></div>
+  <div class="nav-links">
+    <a href="../../index.html">Home</a>
+    <a href="../../works.html">Works</a>
+    <a href="#" class="active">Case Study</a>
+    <a href="../../about.html">About</a>
+    <a href="../../contact.html" class="nav-cta">Contact</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Global Gaming Festival</div>
+    <div class="festival-badge">8-Week International Mega-Event</div>
+    <h1 class="hero-title">Gamers<em>8</em></h1>
+    <p class="hero-subtitle">
+      Positioned Saudi Arabia as global esports capital through comprehensive visual strategy for 8-week mega-festival integrating competitive tournaments, international music concerts, and global gaming summits. Broke international streaming records while establishing unprecedented brand consistency across multi-lingual digital ecosystem.
+    </p>
+  </div>
+</div>
+
+<div class="content-wrapper">
+  <div class="metrics-card">
+    <div class="metric">
+      <div class="metric-val">8</div>
+      <div class="metric-lbl">Weeks Continuous Event</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">Record</div>
+      <div class="metric-lbl">Streaming Viewership</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">$30M+</div>
+      <div class="metric-lbl">Prize Pool Value</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">Multi-Lingual</div>
+      <div class="metric-lbl">Global Reach Strategy</div>
+    </div>
+  </div>
+</div>
+
+<div class="content-wrapper">
+  <section class="section reveal">
+    <h2 class="section-title">Campaign Challenge</h2>
+    <p class="section-desc">
+      The Gamers8 mega-festival faced a unique challenge: establishing Saudi Arabia as the undisputed global capital of esports while simultaneously appealing to hardcore competitive gamers, casual gaming audiences, music festival attendees, and mainstream families. The event needed to transition from regional scale to a worldwide spectacle with record-breaking prize pools and international viewership.
+    </p>
+    
+    <div class="challenge-solution">
+      <div class="challenge-box">
+        <div class="box-title">Strategic Challenges</div>
+        <div class="box-content">
+          <ul>
+            <li>Establish Saudi Arabia as legitimate esports capital globally</li>
+            <li>Appeal simultaneously to niche hardcore gamers and mainstream audiences</li>
+            <li>Manage 8-week continuous content delivery with consistent branding</li>
+            <li>Maintain brand coherence across Arabic and English audiences</li>
+            <li>Coordinate hundreds of assets across tournaments, concerts, summits</li>
+            <li>Break international records for streaming viewership and engagement</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="solution-box">
+        <div class="box-title">Creative Solution</div>
+        <div class="box-content">
+          <ul>
+            <li>Developed "Global Cyber-Spectacle" visual identity merging gaming and entertainment</li>
+            <li>Executed massive multi-lingual digital rollout (Arabic and English simultaneous)</li>
+            <li>Created agile asset production system enabling real-time tournament coverage</li>
+            <li>Positioned event at intersection of elite esports, music, gaming culture</li>
+            <li>Built comprehensive brand guidelines ensuring 8-week consistency</li>
+            <li>Engineered visual language bridging niche and mainstream appeal</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Visual Identity: "Global Cyber-Spectacle"</h2>
+    <p class="section-desc">
+      The visual direction leveraged high-energy, neon-infused palettes to bridge the gap between specialized gaming culture and mainstream entertainment appeal. The identity needed to communicate elite competitive intensity while remaining accessible to families and casual audiences.
+    </p>
+    
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">🎨</div>
+        <div class="outcome-title">Color System</div>
+        <div class="outcome-desc"><strong>Primary:</strong> Deep cyber-blues | <strong>Secondary:</strong> Vivid purples | <strong>Accents:</strong> Electric neon highlights | <strong>Background:</strong> Premium dark-mode base</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">⚡</div>
+        <div class="outcome-title">Energy & Motion</div>
+        <div class="outcome-desc">Dynamic angles inspired by esports arena energy. High-velocity typography designed for rapid consumption. Motion-oriented layouts reinforcing tournament intensity and real-time engagement.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🌐</div>
+        <div class="outcome-title">Global Accessibility</div>
+        <div class="outcome-desc">Strict legibility standards maintaining readability across Arabic and English. Premium corporate standards adapted for gaming culture. Dual-language asset templates ensuring consistency.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🎯</div>
+        <div class="outcome-title">Dual Audience Appeal</div>
+        <div class="outcome-desc">Premium execution maintaining esports credibility with hardcore gamers. Accessible visual language enabling mainstream family engagement. Unified aesthetic bridging both audiences seamlessly.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="visual-block">
+    <div class="visual-label">Global Cyber-Spectacle</div>
+  </div>
+
+  <section class="section reveal">
+    <h2 class="section-title">8-Week Content Architecture</h2>
+    <p class="section-desc">
+      The challenge of maintaining brand consistency across an 8-week mega-event required innovative content systems. High-impact tournaments, international music concerts, and gaming summits needed unified visual language despite operating simultaneously across multiple locations and formats.
+    </p>
+
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">🏆</div>
+        <div class="outcome-title">Tournament Coverage</div>
+        <div class="outcome-desc">High-impact digital graphics integrating global esports teams, real-time results, leaderboards, and tournament progression across multiple games and competitions.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🎵</div>
+        <div class="outcome-title">Music Concert Integration</div>
+        <div class="outcome-desc">Concert promotion assets featuring international artists. Dynamic stage lighting graphics. Real-time social updates during performances. Artist profile branding maintaining overall aesthetic.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">💬</div>
+        <div class="outcome-title">Gaming Summit Content</div>
+        <div class="outcome-desc">Industry panel graphics, speaker promotion, real-time session updates, networking event branding, keynote speaker positioning within overall festival context.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">📱</div>
+        <div class="outcome-title">Daily Social Rollout</div>
+        <div class="outcome-desc">Agile template system enabling rapid daily content updates. Real-time tournament results integration. Sponsor highlights. Fan engagement campaigns. Consistent templating reducing production friction.</div>
+      </div>
+    </div>
+
+    <div class="stat-highlight">
+      <strong>Production Scale:</strong> Gamers8 required thousands of assets spanning social media, broadcast graphics, print collaterals, digital signage, sponsorship materials, and interactive platforms—all maintained under unified visual direction across 8 weeks.
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Multi-Lingual Global Strategy</h2>
+    <p class="section-desc">
+      Executing simultaneous Arabic and English campaigns required more than simple translation. Visual systems needed to work culturally in both contexts while maintaining unified brand identity.
+    </p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Asset Category</th>
+          <th>Arabic Strategy</th>
+          <th>English Strategy</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Typography</strong></td>
+          <td>Modern Arabic typefaces maintaining gaming energy with proper script flow</td>
+          <td>Latin typefaces optimized for high-velocity readability in esports contexts</td>
+        </tr>
+        <tr>
+          <td><strong>Layout Directionality</strong></td>
+          <td>Right-to-left layouts with mirrored design systems ensuring visual balance</td>
+          <td>Left-to-right standard layouts optimized for Western audience expectations</td>
+        </tr>
+        <tr>
+          <td><strong>Cultural References</strong></td>
+          <td>Localized imagery resonating with Arabic esports community and families</td>
+          <td>Global references appealing to international competitive gaming audience</td>
+        </tr>
+        <tr>
+          <td><strong>Festival Positioning</strong></td>
+          <td>Emphasized Saudi Arabia's cultural leadership and Vision 2030 positioning</td>
+          <td>Focused on global competitiveness and international esports credibility</td>
+        </tr>
+        <tr>
+          <td><strong>Social Media Approach</strong></td>
+          <td>Carousel formats optimized for Arabic language and cultural norms</td>
+          <td>Dynamic story formats targeting global streaming platform audiences</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Key Deliverables & Asset System</h2>
+    <p class="section-desc">
+      The scale and scope of Gamers8 required systematic asset production enabling rapid deployment while maintaining premium visual standards across thousands of pieces.
+    </p>
+
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">📊</div>
+        <div class="outcome-title">Social Media Suites</div>
+        <div class="outcome-desc">Extensive multi-lingual Instagram carousels, stories, and grid layouts in both AR and EN formats. Dynamic templates tracking tournament progression throughout 8-week season. Real-time result integration systems.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">📺</div>
+        <div class="outcome-title">Broadcast Graphics</div>
+        <div class="outcome-desc">High-impact tournament overlays, team introductions, player profiles, score graphics, leaderboard displays, and transition animations optimized for streaming and broadcast distribution.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🎯</div>
+        <div class="outcome-title">Sponsorship Integration</div>
+        <div class="outcome-desc">Brand sponsor graphics, activation materials, promotional assets integrating partner logos while maintaining visual hierarchy and Gamers8 brand prominence throughout asset library.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">📈</div>
+        <div class="outcome-title">Performance Reports</div>
+        <div class="outcome-desc">Comprehensive digital performance report designs synthesizing complex viewership, engagement, and participation data into premium stakeholder presentations and industry documentation.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Record-Breaking Results</h2>
+    <p class="section-desc">
+      Gamers8's visual strategy and content execution achieved unprecedented results in esports history, establishing new benchmarks for event scale, viewership, and international reach.
+    </p>
+
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">📺</div>
+        <div class="outcome-title">Streaming Records</div>
+        <div class="outcome-desc">Broke international records for global streaming viewership across tournaments. Multi-platform simultaneous broadcasting in Arabic and English. Peak concurrent viewers establishing new esports benchmarks.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">💰</div>
+        <div class="outcome-title">Prize Pool Achievement</div>
+        <div class="outcome-desc">$30M+ prize pool establishing tournament as highest-value gaming event globally. Prize distribution across multiple competitive titles and tournament formats demonstrating commitment to diverse gaming communities.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🌍</div>
+        <div class="outcome-title">Global Participation</div>
+        <div class="outcome-desc">Teams and competitors from 100+ countries representing global esports community. International music artists performing alongside gaming championships. Global media coverage establishing Saudi Arabia's esports credibility.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">📈</div>
+        <div class="outcome-title">Industry Impact</div>
+        <div class="outcome-desc">Directly paved way for annual Esports World Cup establishment. Elevated Saudi Arabia's position in global gaming industry. Demonstrated capacity to host and execute world-class competitive gaming events at scale.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Strategic Positioning & Legacy</h2>
+    <p class="section-desc">
+      Beyond immediate event success, Gamers8 positioned Saudi Arabia as a serious contender in global esports governance and industry leadership—directly enabling future international gaming events and partnerships.
+    </p>
+
+    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; margin-top: 2rem;">
+      <ul style="list-style: none; padding-left: 0;">
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Esports Capital Positioning:</strong> Gamers8 established Saudi Arabia not as emerging market but as established esports authority capable of hosting premier international competitions. Visual consistency across all touchpoints reinforced institutional credibility.
+        </li>
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Audience Bridging Strategy:</strong> Successfully integrated niche esports culture with mainstream entertainment appeal through visual language transcending traditional gaming community boundaries. Families and casual viewers felt welcomed despite hardcore competitive context.
+        </li>
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Production at Scale:</strong> Demonstrated capacity to produce thousands of premium assets maintaining consistency over 8 continuous weeks. Agile systems enabled real-time responsiveness without sacrificing quality standards.
+        </li>
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Multi-Lingual Excellence:</strong> Proved that cultural and linguistic adaptation doesn't require sacrificing unified brand identity. Arabic and English executions enhanced rather than fragmented overall positioning.
+        </li>
+        <li style="margin-bottom: 0; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Vision 2030 Alignment:</strong> Directly advanced Saudi Vision 2030 entertainment and digital transformation objectives while establishing tangible international competitive advantages in emerging esports industry sector.
+        </li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<footer class="case-footer">
+  <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Explore More Performance & Growth Work</h3>
+  <p style="color: var(--text-secondary); margin-bottom: 2rem;">Other high-impact gaming and entertainment campaigns driving user acquisition and revenue</p>
+  <div class="footer-nav">
+    <a href="case-study-jaco-growth-trilogy.html" class="footer-link">← JACO Growth Trilogy</a>
+    <a href="../../works.html" class="footer-link">All Works</a>
+    <a href="case-study-ultimate-gamer.html" class="footer-link">#UltimateGamer →</a>
+  </div>
+</footer>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 50) {
+    nav.classList.add('scrolled');
+  } else {
+    nav.classList.remove('scrolled');
+  }
+});
+
+const reveals = document.querySelectorAll('.reveal');
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -100px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+reveals.forEach(reveal => observer.observe(reveal));
+</script>
+
+</body>
+</html>

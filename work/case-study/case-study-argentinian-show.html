@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Argentinian Show Case Study — Mouaz AlSabbagh</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg-primary: #0d1117; --bg-secondary: #161b22; --bg-card: #1c2128; --text-primary: #ffffff; --text-secondary: #8b949e; --accent-primary: #f59e0b; --accent-secondary: #7c3aed; --border: #30363d; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        header { border-bottom: 1px solid var(--border); padding: 2rem 0; margin-bottom: 4rem; position: sticky; top: 0; backdrop-filter: blur(10px); background: rgba(13, 17, 23, 0.8); z-index: 100; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.2rem; font-weight: 700; color: var(--accent-primary); text-decoration: none; transition: color 0.3s; }
+        .logo:hover { color: var(--accent-secondary); }
+        nav a { color: var(--text-secondary); text-decoration: none; margin-left: 2rem; transition: color 0.3s; font-size: 0.9rem; font-weight: 500; }
+        nav a:hover { color: var(--accent-primary); }
+        .hero { margin-bottom: 6rem; }
+        .pillar-badge { display: inline-block; background: var(--bg-card); border: 1px solid var(--border); padding: 0.5rem 1.2rem; border-radius: 6px; font-size: 0.8rem; color: var(--accent-primary); margin-bottom: 2rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+        h1 { font-size: 3.5rem; line-height: 1.2; margin-bottom: 1rem; background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .subtitle { font-size: 1.3rem; color: var(--text-secondary); margin-bottom: 1rem; font-weight: 300; }
+        .project-meta { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1.5rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+        .meta-item h3 { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; font-weight: 600; }
+        .meta-item p { font-size: 1.1rem; color: var(--text-primary); font-weight: 500; }
+        .content-section { margin-bottom: 5rem; }
+        .section-header { display: flex; align-items: center; margin-bottom: 2rem; gap: 1rem; }
+        .section-number { font-size: 2.5rem; font-weight: 700; color: var(--accent-primary); opacity: 0.3; }
+        h2 { font-size: 2rem; color: var(--text-primary); margin-bottom: 1.5rem; }
+        .text-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; margin-bottom: 2rem; }
+        .text-content p { margin-bottom: 1.2rem; color: var(--text-secondary); line-height: 1.8; }
+        .image-placeholder { background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%); border: 2px dashed var(--border); border-radius: 8px; padding: 3rem; text-align: center; margin: 2rem 0; min-height: 300px; display: flex; align-items: center; justify-content: center; }
+        .bottom-nav { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 2rem; margin-top: 4rem; }
+        .nav-link { color: var(--accent-primary); text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: all 0.3s; display: flex; align-items: center; gap: 0.5rem; }
+        .nav-link:hover { gap: 1rem; }
+        .arrow { font-size: 1.2rem; }
+        @media (max-width: 768px) { h1 { font-size: 2.5rem; } .project-meta { grid-template-columns: 1fr 1fr; } nav { display: none; } .bottom-nav { flex-direction: column; gap: 1.5rem; } .nav-link { width: 100%; justify-content: center; } }
+    
+/* Design System Overrides */
+:root {
+  --bg-primary: #131313 !important;
+  --bg-secondary: #070707 !important;
+  --bg-card: #1F1F1F !important;
+  --bg-card-hover: #282828 !important;
+  --text-primary: #FFFFFF !important;
+  --text-secondary: rgba(255,255,255,0.65) !important;
+  --text-muted: rgba(255,255,255,0.40) !important;
+  --accent: #C9F31D !important;
+  --accent-primary: #C9F31D !important;
+  --accent-secondary: #7c3aed !important;
+  --accent-tertiary: #C9F31D !important;
+  --accent-dim: rgba(201,243,29,0.08) !important;
+  --accent-glow: rgba(201,243,29,0.25) !important;
+  --gold: #C9F31D !important;
+  --gold-dim: rgba(201,243,29,0.08) !important;
+  --teal: #C9F31D !important;
+  --teal-dim: rgba(201,243,29,0.08) !important;
+  --blue: #C9F31D !important;
+  --blue-dim: rgba(201,243,29,0.08) !important;
+  --purple: #7c3aed !important;
+  --purple-dim: rgba(124,58,237,0.12) !important;
+  --border: rgba(255,255,255,0.10) !important;
+  --font-display: 'DM Sans', sans-serif !important;
+  --font-mono: 'Inter', sans-serif !important;
+}
+
+body {
+  font-family: 'Inter', sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6, .hero-title, .section-title, .box-title, .outcome-title {
+  font-family: 'DM Sans', sans-serif !important;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E") !important;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+</style>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="../../index.html" class="logo">mouaz.design</a>
+                <nav>
+                    <a href="../../index.html">Work</a>
+                    <a href="../../about.html">About</a>
+                    <a href="../../contact.html">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <div class="pillar-badge">Macro-Impact & Vision</div>
+            <h1>The Argentinian Show</h1>
+            <p class="subtitle">International Theatre Showcase and Cultural Exchange Promotion</p>
+            <div class="project-meta">
+                <div class="meta-item"><h3>Client</h3><p>Ministry of Culture</p></div>
+                <div class="meta-item"><h3>Partners</h3><p>TPAC & Dozan</p></div>
+                <div class="meta-item"><h3>Scope</h3><p>Show Promotion</p></div>
+                <div class="meta-item"><h3>Year</h3><p>2023–2024</p></div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="section-header"><span class="section-number">01</span><h2>Overview</h2></div>
+            <div class="text-content">
+                <p>The Argentinian Show positioned an international theatre production as a cultural moment that bridged Argentina and Saudi Arabia. Working with TPAC and Dozan, we created comprehensive promotional and brand materials that drove audience engagement for this significant cultural exchange event.</p>
+                <p>The campaign encompassed show branding, performer promotion, audience development, and digital marketing.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="section-header"><span class="section-number">02</span><h2>Deliverables</h2></div>
+            <div class="text-content">
+                <p>Show visual identity and promotional materials, performer highlight assets, audience engagement campaigns, ticketing promotion, and social media strategy that elevated the international production into a cultural event.</p>
+            </div>
+            <div class="image-placeholder"><div style="color: var(--text-secondary); font-style: italic;">🎬 Show promotional materials and event assets would appear here</div></div>
+        </section>
+
+                <div class="bottom-nav">
+            <a href="case-study-theatrical-amateurs.html" class="nav-link">← Theatrical Amateurs Festival</a>
+            <a href="case-study-jaco-growth-trilogy.html" class="nav-link">Next: JACO Growth Trilogy <span class="arrow">→</span></a>
+        </div>
+
+    </main>
+</body>
+</html>

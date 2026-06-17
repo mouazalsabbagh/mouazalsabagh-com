@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="description" content="Mouaz AlSabbagh - CV">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Title -->
+    <title>CV — Mouaz AlSabbagh</title>
+
+    <!-- Favicon Icon -->
+    <link rel="shortcut icon" href="./assets/images/favicon.webp" type="image/x-icon">
+
+    <!-- Vendor / template CSS -->
+    <link rel="stylesheet" href="./assets/css/flaticon.min.css">
+    <link rel="stylesheet" href="./assets/css/fontawesome-5.14.0.min.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/css/nice-select.min.css">
+    <link rel="stylesheet" href="./assets/css/animate.min.css">
+    <link rel="stylesheet" href="./assets/css/slick.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+
+    <!-- Custom Design System (Overrides Template Styles) -->
+    <link rel="stylesheet" href="./assets/css/design-system.css">
+
+    <!-- CV specific fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600&family=Outfit:wght@100;300;400;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-size:16px;line-height:1.75;overflow-x:hidden}
+
+/* ═══════ HERO BANNER ═══════ */
+.page-hero{
+  position:relative;z-index:1;
+  width:100%;
+  min-height:88vh;
+  display:flex;align-items:center;
+  border-bottom:1px solid var(--border);
+  overflow:hidden;
+}
+
+/* animated noise grain on hero */
+.page-hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 60% at 70% 50%, rgba(162, 255, 0, 0.04) 0%, transparent 65%),
+             radial-gradient(ellipse 40% 50% at 20% 80%, rgba(124,58,237,0.06) 0%, transparent 60%);
+  pointer-events:none;z-index:0;
+}
+
+.hero-content-wrapper{
+  max-width:1100px;margin:0 auto;padding:5rem 3rem;
+  width:100%;
+  display:grid;grid-template-columns:1fr 652px;
+  gap:4rem;align-items:center;
+  position:relative;z-index:1;
+}
+
+/* text side */
+.hero-text-area{display:flex;flex-direction:column;gap:1.6rem}
+
+.hero-divider{
+  width:40px;height:1px;background:var(--primary);
+  margin-bottom:0.4rem;
+}
+
+.hero-name{
+  font-family:'Outfit',sans-serif;
+  font-weight:600;
+  line-height:0.95;
+  display:flex;flex-direction:column;
+  gap:0;
+}
+.hero-first{
+  font-size:clamp(3rem,7vw,5.5rem);
+  color:var(--text-heading);
+  letter-spacing:-0.03em;
+}
+.hero-last{
+  font-size:clamp(3rem,7vw,5.5rem);
+  color:var(--primary);
+  letter-spacing:-0.03em;
+}
+
+.hero-titles{
+  display:flex;align-items:center;gap:1rem;
+  flex-wrap:wrap;
+}
+.hero-title-tag{
+  font-family:'Outfit',sans-serif;
+  font-size:clamp(0.75rem,1.4vw,0.9rem);
+  font-weight:300;
+  color:rgba(255,255,255,0.40);
+  text-transform:uppercase;
+  letter-spacing:0.18em;
+}
+.hero-title-sep{width:1px;height:14px;background:var(--border)}
+
+.hero-summary{
+  font-family:'Outfit',sans-serif;
+  font-size:clamp(0.95rem,1.6vw,1.1rem);
+  font-weight:300;
+  color:var(--text-body);
+  line-height:1.75;
+  max-width:520px;
+}
+.hero-summary em{font-style:normal;color:var(--primary);font-weight:400}
+
+/* image side */
+.hero-image-area{
+  position:relative;
+  display:flex;justify-content:flex-end;align-items:flex-end;
+  width:652px;
+}
+.hero-image-wrap{
+  position:relative;
+  display:block;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  border-radius:12px;
+}
+.hero-img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center 40%;
+  aspect-ratio:1565/1783;
+  display:block;
+  filter:brightness(0.95) contrast(1.05);
+  transition:filter 0.3s ease, transform 0.5s ease;
+  view-transition-name:hero-profile-image;
+}
+.hero-image-wrap:hover .hero-img{
+  filter:brightness(1) contrast(1.1);
+  transform:scale(1.05);
+}
+/* accent badge */
+.hero-img-badge{
+  position:absolute;
+  bottom:1.2rem;
+  left:1.2rem;
+  z-index:3;
+  padding:6px 12px;
+  background:var(--primary);
+  color:var(--bg-body);
+  font-family:'Outfit',sans-serif;
+  font-size:0.8rem;font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  border-radius:4px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.25);
+  white-space:nowrap;
+}
+
+.wrap{max-width:1100px;margin:0 auto;padding:0 3rem;position:relative;z-index:1}
+
+/* ═══════ SECTION TITLE PATTERN ═══════ */
+.sec{margin-bottom:5rem;opacity:0;transform:translateY(30px);transition:all 0.8s var(--ease)}
+.sec.vis{opacity:1;transform:translateY(0)}
+.sec-label{font-size:0.7rem;font-weight:600;color:var(--primary);text-transform:uppercase;letter-spacing:0.18em;display:flex;align-items:center;gap:12px;margin-bottom:0.6rem}
+.sec-label::after{content:'';width:30px;height:1px;background:var(--primary)}
+.sec h2{font-family:var(--font-heading);font-size:clamp(2rem,4vw,2.8rem);color:var(--text-heading);font-weight:700;margin-bottom:3rem}
+
+/* ═══════ CAREER TIMELINE ═══════ */
+.timeline{display:flex;flex-direction:column}
+.tl-item{display:grid;grid-template-columns:160px 1fr;gap:3rem;padding:2rem 0;border-bottom:1px solid var(--border);opacity:0;transform:translateY(15px);transition:all 0.6s var(--ease)}
+.sec.vis .tl-item{opacity:1;transform:translateY(0)}
+.sec.vis .tl-item:nth-child(1){transition-delay:0.05s}
+.sec.vis .tl-item:nth-child(2){transition-delay:0.1s}
+.sec.vis .tl-item:nth-child(3){transition-delay:0.15s}
+.sec.vis .tl-item:nth-child(4){transition-delay:0.2s}
+.sec.vis .tl-item:nth-child(5){transition-delay:0.25s}
+.sec.vis .tl-item:nth-child(6){transition-delay:0.3s}
+.tl-item:last-child{border-bottom:none}
+.tl-date{font-size:0.8rem;color:rgba(255,255,255,0.40);padding-top:0.15rem;white-space:nowrap}
+.tl-role{font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-heading);margin-bottom:0.2rem}
+.tl-company{font-size:0.85rem;color:var(--primary);font-weight:500;margin-bottom:0.15rem}
+.tl-location{font-size:0.75rem;color:rgba(255,255,255,0.40)}
+.tl-desc{font-size:0.85rem;color:var(--text-body);line-height:1.65;margin-top:0.55rem;max-width:520px}
+
+/* ═══════ ABOUT / SUMMARY ═══════ */
+.about-summary{font-size:1rem;color:var(--text-body);line-height:1.75;max-width:860px;margin-bottom:2.5rem;font-weight:300}
+.about-summary strong{color:var(--text-heading);font-weight:600}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;border:1px solid var(--border);margin-bottom:2.5rem;overflow:hidden}
+.stat-box{background:var(--bg-card);padding:1.5rem 1.75rem;transition:background 0.3s}
+.stat-box:hover{background:var(--bg-card-hover)}
+.stat-val{font-family:var(--font-heading);font-size:1.8rem;font-weight:700;color:var(--text-heading);letter-spacing:-0.03em}
+.stat-lbl{font-size:0.75rem;color:rgba(255,255,255,0.40);margin-top:0.3rem;line-height:1.4}
+.expertise-line{font-size:0.8rem;color:rgba(255,255,255,0.40);line-height:1.8;border-top:1px solid var(--border);padding-top:1.5rem}
+.expertise-line strong{color:var(--primary);font-weight:600;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase}
+
+/* ═══════ TOOLKIT GRID ═══════ */
+.toolkit{display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem 3rem}
+.tk-group{opacity:0;transform:translateY(15px);transition:all 0.6s var(--ease)}
+.sec.vis .tk-group{opacity:1;transform:translateY(0)}
+.sec.vis .tk-group:nth-child(1){transition-delay:0.05s}
+.sec.vis .tk-group:nth-child(2){transition-delay:0.1s}
+.sec.vis .tk-group:nth-child(3){transition-delay:0.15s}
+.sec.vis .tk-group:nth-child(4){transition-delay:0.2s}
+.sec.vis .tk-group:nth-child(5){transition-delay:0.25s}
+.sec.vis .tk-group:nth-child(6){transition-delay:0.3s}
+.tk-title{font-family:var(--font-heading);font-size:0.75rem;font-weight:700;color:var(--text-heading);margin-bottom:0.75rem}
+.tk-tags{display:flex;flex-wrap:wrap;gap:6px}
+.tk-tag{padding:5px 14px;background:var(--bg-card);border:1px solid var(--border);font-size:0.7rem;color:var(--text-body);transition:all 0.4s var(--ease);cursor:default}
+.tk-tag:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-dim)}
+
+/* ═══════ EDUCATION ═══════ */
+.edu-item{display:grid;grid-template-columns:160px 1fr;gap:3rem;padding:2rem 0;border-bottom:1px solid var(--border);opacity:0;transform:translateY(15px);transition:all 0.6s var(--ease)}
+.sec.vis .edu-item{opacity:1;transform:translateY(0)}
+.sec.vis .edu-item:nth-child(1){transition-delay:0.05s}
+.sec.vis .edu-item:nth-child(2){transition-delay:0.1s}
+.sec.vis .edu-item:nth-child(3){transition-delay:0.15s}
+.sec.vis .edu-item:nth-child(4){transition-delay:0.2s}
+.edu-item:last-child{border-bottom:none}
+.edu-date{font-size:0.8rem;color:rgba(255,255,255,0.40);padding:0.15rem 0}
+.edu-title{font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-heading);margin-bottom:0.2rem}
+.edu-inst{font-size:0.85rem;color:var(--primary);font-weight:500;margin-bottom:0.15rem}
+.edu-meta{font-size:0.7rem;color:rgba(255,255,255,0.40)}
+
+/* ═══════ AWARDS ═══════ */
+.awards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.award-card{background:var(--bg-card);border:1px solid var(--border);padding:1.75rem;transition:all 0.5s var(--ease);opacity:0;transform:translateY(15px)}
+.sec.vis .award-card{opacity:1;transform:translateY(0)}
+.sec.vis .award-card:nth-child(1){transition-delay:0.05s}
+.sec.vis .award-card:nth-child(2){transition-delay:0.1s}
+.sec.vis .award-card:nth-child(3){transition-delay:0.15s}
+.sec.vis .award-card:nth-child(4){transition-delay:0.2s}
+.award-card:hover{border-color:rgba(255,255,255,0.15);background:var(--bg-card-hover)}
+.award-badge{display:inline-block;font-size:0.55rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;padding:4px 10px;margin-bottom:1rem}
+.badge-winner{background:var(--primary);color:var(--bg-body)}
+.badge-shortlist{background:rgba(124,58,237,0.15);color:#a78bfa;border:1px solid rgba(124,58,237,0.2)}
+.badge-gold{background:rgba(245,158,11,0.12);color:#f59e0b;border:1px solid rgba(245,158,11,0.15)}
+.award-title{font-family:var(--font-heading);font-size:0.95rem;font-weight:700;color:var(--text-heading);margin-bottom:0.4rem;line-height:1.35}
+.award-project{font-size:0.8rem;color:var(--text-body);margin-bottom:0.6rem;line-height:1.5}
+.award-detail{font-size:0.7rem;color:rgba(255,255,255,0.40);line-height:1.55}
+
+/* ═══════ SPACER ═══════ */
+.page-top{height:80px}
+
+/* ═══════ RESPONSIVE ═══════ */
+@media(max-width:1100px){
+  .hero-content-wrapper{grid-template-columns:1fr;gap:3rem;padding:4rem 1.5rem}
+  .hero-image-area,.hero-image-wrap{width:100%;height:400px}
+  .hero-img{object-position:center 20%}
+}
+@media(max-width:768px){
+  .wrap{padding:0 1.5rem}
+  .tl-item,.edu-item{grid-template-columns:1fr;gap:0.5rem}
+  .tl-date,.edu-date{font-size:0.75rem}
+  .toolkit{grid-template-columns:1fr 1fr}
+  .awards-grid{grid-template-columns:1fr}
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:480px){
+  .toolkit{grid-template-columns:1fr}
+  .hero-first,.hero-last{font-size:2.8rem}
+}
+</style>
+</head>
+<body class="home-two">
+    <div class="page-wrapper">
+
+        <!-- Preloader -->
+        <div class="preloader"></div>
+
+        <!-- ==========================================
+             1. GLOBAL HEADER + STICKY GLASSMORPHISM NAV
+             ========================================== -->
+        <header class="main-header header-two">
+            <!--Header-Upper-->
+            <div class="header-upper">
+                <div class="container container-1620 clearfix">
+
+                    <div class="header-inner rel d-flex align-items-center">
+
+                        <!-- Logo -->
+                        <div class="logo-outer">
+                            <div class="logo"><a href="index.html"><img src="assets/images/logos/logo.webp" alt="Logo"
+                                        title="Logo"></a></div>
+                        </div>
+
+                        <!-- Sitemap Navigation -->
+                        <div class="nav-outer clearfix mx-auto">
+                            <!-- Main Menu -->
+                            <nav class="main-menu navbar-expand-lg">
+                                <div class="navbar-header">
+                                    <div class="mobile-logo my-15">
+                                        <a href="index.html">
+                                            <img src="./assets/images/logos/logo.webp" alt="Logo" title="Logo">
+                                        </a>
+                                    </div>
+
+                                    <!-- Toggle Button -->
+                                    <button type="button" class="navbar-toggle me-4" data-bs-toggle="collapse"
+                                        data-bs-target=".navbar-collapse">
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                </div>
+
+                                <div class="navbar-collapse collapse clearfix">
+                                    <ul class="navigation clearfix">
+                                        <li><a href="index.html">Home</a></li>
+
+                                        <li class="dropdown"><a href="#">Selected Work</a>
+                                            <ul>
+                                                <li><a href="works.html">Master Gallery</a></li>
+                                                <li><a href="works.html#value-creation">Macro-Impact & Vision</a></li>
+                                                <li><a href="works.html#performance-growth">Performance & Growth</a>
+                                                </li>
+                                                <li><a href="works.html#digital-experience">Digital Experience</a></li>
+                                                <li><a href="value-acceleration.html">AI & Gaming</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="dropdown"><a href="#">AI Engine</a>
+                                            <ul>
+                                                <li><a href="ai-engine.html">Human Engine</a></li>
+                                                <li><a href="ai-engine.html#innovation-lab">Innovation Lab</a></li>
+                                                <li><a href="ai-engine.html#ai-pipeline">4-Step AI Pipeline</a></li>
+                                                <li><a href="ai-engine.html#tech-stack">Tech Stack Matrix</a></li>
+                                                <li><a href="about.html">professional Timeline</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="dropdown"><a href="blog.html">Tafannon blog</a>
+                                            <ul>
+                                                <li><a href="blog.html">Art & Branding Insights</a></li>
+                                                <li><a href="blog.html">Thought-Leadership Notes</a></li>
+                                                <li><a href="blog.html">Editorial Masonry</a></li>
+                                            </ul>
+                                        </li>
+
+                                        <li class="dropdown"><a href="#">Contact</a>
+                                            <ul>
+                                                <li><a href="contact.html">Conversion Overlay</a></li>
+                                                <li><a href="contact.html#email">Email & Phone</a></li>
+                                                <li><a href="contact.html#social">Social Channels</a></li>
+                                                <li><a href="contact.html#downloads">Downloads</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                        <!-- Main Menu End-->
+
+                        <!-- Menu Button -->
+                        <div class="menu-btns">
+
+                            <a href="./contact.html" class="theme-btn">let,s talk</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--End Header Upper-->
+        </header>
+
+        <!-- ==========================================
+             2. PAGE CONTENT
+             ========================================== -->
+<div class="bg-lines"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+<!-- ═══════ HERO BANNER ═══════ -->
+<section class="page-hero">
+  <div class="hero-content-wrapper">
+    <div class="hero-text-area">
+      <div class="hero-divider"></div>
+      <div class="hero-name">
+        <span class="hero-first">Mouaz</span>
+        <span class="hero-last">AlSabbagh</span>
+      </div>
+      <div class="hero-titles">
+        <span class="hero-title-tag">Senior Art Director</span>
+        <span class="hero-title-sep"></span>
+        <span class="hero-title-tag">Creative Technologist</span>
+      </div>
+      <p class="hero-summary">
+        Bridging <em>creative vision</em> and <em>commercial results</em> across Saudi Arabia's governmental and private sectors — where strategic design meets measurable impact.
+      </p>
+    </div>
+    <div class="hero-image-area">
+      <div class="hero-image-wrap">
+        <img class="hero-img" src="./assets/images/image-mouazalsabbagh.webp" alt="Mouaz AlSabbagh"  decoding="async">
+        <span class="hero-img-badge">Riyadh, KSA</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+<div class="page-top"></div>
+
+<!-- ═══════ ABOUT / PROFESSIONAL SUMMARY ═══════ -->
+<section class="sec" id="about">
+  <div class="sec-label">About</div>
+  <h2>Professional Summary</h2>
+  <p class="about-summary">
+    <strong>Senior Art Director</strong> with 12+ years of strategic creative leadership transforming complex briefs into <strong>high-performance</strong> visual communications for governmental and private sector clients.<br><br>
+    Proven expertise bridging premium brand trust with aggressive commercial results through <strong>Generative AI integration, data-driven strategy, and 360-degree campaign execution</strong> across 6+ industries. Track record of architecting scalable creative systems enabling <strong>3× team capacity</strong> while maintaining premium quality standards. Demonstrated ability to generate <strong>$5M+ in documented revenue impact</strong> while leading institutional-scale positioning initiatives reaching 3B+ impressions.
+  </p>
+  <div class="stats-row">
+    <div class="stat-box">
+      <div class="stat-val">+3B</div>
+      <div class="stat-lbl">Total Visibility (20 Projects)</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-val">+5M $</div>
+      <div class="stat-lbl">Financial Impact</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-val">+140</div>
+      <div class="stat-lbl">Distinct Projects</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-val">+20</div>
+      <div class="stat-lbl">Case Studies Complete</div>
+    </div>
+  </div>
+  <div class="expertise-line">
+    <strong>Core Expertise:</strong> Creative Systems Architecture · Macro-Impact Institutional Positioning · Performance-Driven Design · AI-Integrated Workflows · Behavioural Economics · Social Impact Design · Multi-Platform Responsive Design · Mega-Event Creative Direction · Luxury &amp; Premium Positioning · Market Disruption Strategy · Banking &amp; Finance · Food &amp; Restaurant's · FMCG · Hospitality &amp; Medical · Maintenance &amp; Security · Car Services &amp; Automotive · Sport &amp; Gaming · Social Media &amp; Live Streaming
+  </div>
+</section>
+
+<!-- ═══════ CAREER TIMELINE ═══════ -->
+<section class="sec" id="career">
+  <div class="sec-label">Experience</div>
+  <h2>Career Timeline</h2>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-date">Dec 2024 — June 2026</div>
+      <div>
+        <div class="tl-role">Senior Art Director</div>
+        <div class="tl-company">JACO Arabia</div>
+        <div class="tl-location">Riyadh, KSA</div>
+        <div class="tl-desc">Spearheading creative vision and AI-accelerated production for MENA's top live-streaming platform. Merging premium art direction with performance data to drive high-ROI campaigns, billion-scale visibility, and direct revenue.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">Apr 2022 — Dec 2024</div>
+      <div>
+        <div class="tl-role">Art Director</div>
+        <div class="tl-company">Fitameen Creative Communication</div>
+        <div class="tl-location">Riyadh, KSA</div>
+        <div class="tl-desc">Commanded Fitameen's creative engine, tackling massive Vision 2030 goals. Powered an explosive 1.06B visibility for SMO and drove 1B SAR for the winning NDMC Sukuk with high velocity, clean design at scale.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">Nov 2020 — Apr 2022</div>
+      <div>
+        <div class="tl-role">Senior Graphic Designer</div>
+        <div class="tl-company">The Marketing Department (TMD)</div>
+        <div class="tl-location">Riyadh, KSA</div>
+        <div class="tl-desc">Designed high-converting 360° campaigns, merging premium aesthetics with data-driven strategy. Scaled visual production via AI workflows to drive massive brand visibility, engagement, and commercial ROI.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">Oct 2017 — Nov 2020</div>
+      <div>
+        <div class="tl-role">Senior Graphic Designer</div>
+        <div class="tl-company">Amer Al Aboud Group</div>
+        <div class="tl-location">Jeddah, KSA</div>
+        <div class="tl-desc">Fuelled Amer Al Aboud Group's visual output with athletic energy and clear, clean design. Executed high-velocity, data-driven campaigns to accelerate brand growth, driving massive engagement and commercial ROI.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">Jan 2013 — Jul 2016</div>
+      <div>
+        <div class="tl-role">Graphic Designer → Graphic Designer Supervisor (MENA)</div>
+        <div class="tl-company">Pinehill Arabia Food Ltd (HQ)</div>
+        <div class="tl-location">Jeddah, KSA</div>
+        <div class="tl-desc">Escalated to MENA Supervisor. Fuelled Pinehill's creative engine with athletic energy and clean, high-velocity FMCG campaigns at scale, driving massive regional visibility and accelerating brand dominance.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ TOOLKIT ═══════ -->
+<section class="sec" id="toolkit">
+  <div class="sec-label">Toolkit</div>
+  <h2>Technical &amp; Creative Skills</h2>
+  <div class="toolkit">
+    <div class="tk-group">
+      <div class="tk-title">AI &amp; Generative Platforms</div>
+      <div class="tk-tags">
+        <span class="tk-tag">Gemini</span><span class="tk-tag">Claude</span><span class="tk-tag">Adobe Firefly</span>
+        <span class="tk-tag">Midjourney</span><span class="tk-tag">Stable Diffusion</span>
+      </div>
+    </div>
+    <div class="tk-group">
+      <div class="tk-title">Design &amp; Creative Software</div>
+      <div class="tk-tags">
+        <span class="tk-tag">Photoshop</span><span class="tk-tag">Illustrator</span><span class="tk-tag">After Effects</span><span class="tk-tag">Figma</span>
+        <span class="tk-tag">Cinema 4D</span><span class="tk-tag">Premiere Pro</span>
+      </div>
+    </div>
+    <div class="tk-group">
+      <div class="tk-title">Tools &amp; Platforms</div>
+      <div class="tk-tags">
+        <span class="tk-tag">GitHub</span><span class="tk-tag">Figma</span><span class="tk-tag">Google AI Studio</span><span class="tk-tag">Notion</span>
+        <span class="tk-tag">Visual Studio Code</span>
+      </div>
+    </div>
+    <div class="tk-group">
+      <div class="tk-title">Code &amp; Development</div>
+      <div class="tk-tags">
+        <span class="tk-tag">HTML5</span><span class="tk-tag">CSS3</span><span class="tk-tag">JavaScript</span><span class="tk-tag">React</span>
+        <span class="tk-tag">Tailwind CSS</span><span class="tk-tag">Python</span><span class="tk-tag">Node.js</span><span class="tk-tag">PHP</span>
+      </div>
+    </div>
+    <div class="tk-group">
+      <div class="tk-title">Data &amp; Backend</div>
+      <div class="tk-tags">
+        <span class="tk-tag">SQL</span><span class="tk-tag">JSON</span><span class="tk-tag">Firebase</span><span class="tk-tag">REST APIs</span>
+      </div>
+    </div>
+    <div class="tk-group">
+      <div class="tk-title">Strategic &amp; Management</div>
+      <div class="tk-tags">
+        <span class="tk-tag">Brand Strategy</span><span class="tk-tag">Campaign Execution</span>
+        <span class="tk-tag">Data-Driven Design</span><span class="tk-tag">Team Leadership</span>
+        <span class="tk-tag">Project Management</span><span class="tk-tag">Performance Analytics</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ EDUCATION ═══════ -->
+<section class="sec" id="education">
+  <div class="sec-label">Education</div>
+  <h2>Certifications</h2>
+  <div>
+    <div class="edu-item">
+      <div class="edu-date">2008 — 2012</div>
+      <div>
+        <div class="edu-title">Bachelor's Degree, Graphic Design</div>
+        <div class="edu-inst">International University of Science &amp; Technology (IUST)</div>
+        <div class="edu-meta">Damascus, Syria</div>
+      </div>
+    </div>
+    <div class="edu-item">
+      <div class="edu-date">2025</div>
+      <div>
+        <div class="edu-title">AI Boost Bites: Your Edge in the AI-Powered World</div>
+        <div class="edu-inst">Google</div>
+        <div class="edu-meta">Skills Google, Hyper</div>
+      </div>
+    </div>
+    <div class="edu-item">
+      <div class="edu-date">2019</div>
+      <div>
+        <div class="edu-title">Fundamentals of Digital Marketing</div>
+        <div class="edu-inst">Google</div>
+        <div class="edu-meta">Skills Google, Hyper</div>
+      </div>
+    </div>
+    <div class="edu-item">
+      <div class="edu-date">2017</div>
+      <div>
+        <div class="edu-title">Social Media Marketing Agency &amp; Digital Marketing Business</div>
+        <div class="edu-inst">Udamy</div>
+        <div class="edu-meta">Hyper</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ AWARDS ═══════ -->
+<section class="sec" id="awards">
+  <div class="sec-label">Recognition</div>
+  <h2>Awards &amp; Honours</h2>
+  <div class="awards-grid">
+    <div class="award-card">
+      <div class="award-badge badge-winner">Athar Award 2024 — Winner</div>
+      <div class="award-title">Best Governmental Campaign</div>
+      <div class="award-project">SAH: The Path to Financial Empowerment — Fitameen Creative Communication for NDMC</div>
+    </div>
+    <div class="award-card">
+      <div class="award-badge badge-shortlist">Athar Awards 2024 &amp; 2025 — Shortlist</div>
+      <div class="award-title">JACO Growth Trilogy &amp; SAH</div>
+      <div class="award-project">Innovative Campaign, Cultural Impact, Business Growth &amp; Empowerment categories</div>
+    </div>
+    <div class="award-card">
+      <div class="award-badge badge-gold">MENA Digital Awards 2025 | Saudi Edition</div>
+      <div class="award-title">Gold, Silver, &amp; Bronze</div>
+      <div class="award-project">GOLD: Social Cause Marketing | SILVER: Best Use of Outdoor Media | BRONZE: Best Use of Digital (Banking &amp; Finance)</div>
+    </div>
+  </div>
+</section>
+
+<div style="height:4rem;"></div>
+</div>
+
+<script>
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('vis');obs.unobserve(x.target);}});},{threshold:0.08,rootMargin:'0px 0px -60px 0px'});
+document.querySelectorAll('.sec').forEach(s=>obs.observe(s));
+</script>
+
+        <!-- ==========================================
+             3. GLOBAL FOOTER
+             ========================================== -->
+        <footer class="main-footer footer-two pt-75 rel z-1" class="bg-deep">
+            <div class="container">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-lg-3 col-md-5">
+                        <div class="footer-widget widget_logo text-center text-md-start wow fadeInUp delay-0-2s">
+                            <!-- Logo -->
+                            <div class="logo-outer">
+                                <div class="logo"><a href="index.html"><img src="./assets/images/logos/logo.webp"
+                                            alt="Logo" title="Logo"></a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-7">
+                        <div class="footer-widget widget_nav_menu me-0 wow fadeInUp delay-0-4s">
+                            <ul>
+                                <li><a href="works.html">Selected Works</a></li>
+                                <li><a href="#">The AI Engine</a></li>
+                                <li><a href="#">Tafannon Blog</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <hr class="mb-40" class="border-var">
+                    </div>
+                    <div class="col-xl-6 col-lg-7">
+                        <div class="footer-widget widget_text text-center text-lg-start wow fadeInUp delay-0-2s">
+                            <div class="text pb-20">Integrating Macro-Impact Strategy, Behavioral Economics, and
+                                AI-Accelerated Craft to deliver billion-scale growth for visionary entities.</div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-5">
+                        <div class="footer-widget widget_social text-center text-lg-end wow fadeInUp delay-0-4s">
+                            <div class="social-flow">
+                                <h4>Connect :</h4>
+                                <div class="social-style-one">
+                                    <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                                    <a href="#" title="Behance"><i class="fab fa-behance"></i></a>
+                                    <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <hr class="mt-0" class="border-var">
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom pt-10 pb-15">
+                <div class="container">
+                    <div class="copyright-text text-center">
+                        <p>Copyright &copy; <span id="copyright-year"></span>, <a href="index.html"
+                                class="text-primary-var">Mouaz AlSabbagh</a>. All Rights Reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Global: Scroll Top Button -->
+        <button type="button" class="scroll-top scroll-to-target" data-target="html" title="Scroll to top"><span
+                class="fas fa-angle-double-up"></span></button>
+
+    </div>
+    <!--End pagewrapper-->
+
+    <!-- ==========================================
+         4. JAVASCRIPT
+         ========================================== -->
+    <script src="assets/js/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.nice-select.min.js"></script>
+    <script src="assets/js/wow.min.js"></script>
+    <script src="assets/js/script.js"></script> <!-- sticky nav (>=50px) + scroll-to-top -->
+
+    <!-- Populate footer copyright year -->
+    <script>
+        document.getElementById('copyright-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

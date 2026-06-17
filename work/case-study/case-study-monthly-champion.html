@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monthly Champion — Mouaz AlSabbagh</title>
+
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-card: #1c2128;
+  --text-primary: #f0f6fc;
+  --text-secondary: #8b949e;
+  --text-muted: #484f58;
+  --accent: #f59e0b;
+  --accent-dim: rgba(245,158,11,0.08);
+  --border: rgba(240,246,252,0.06);
+  --font-display: 'Outfit', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 1.25rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  background: rgba(13,17,23,0.6);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+
+nav.scrolled { padding: 0.8rem 3rem; background: rgba(13,17,23,0.92); }
+
+.nav-logo { font-weight: 900; font-size: 1.05rem; letter-spacing: -0.02em; cursor: pointer; }
+.nav-logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 2.25rem; align-items: center; }
+.nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.3s; font-family: var(--font-mono); }
+.nav-links a:hover, .nav-links a.active { color: var(--accent); }
+.nav-cta { display: inline-flex; align-items: center; padding: 0.5rem 1.2rem; background: var(--accent); color: var(--bg-primary); font-family: var(--font-mono); font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; border-radius: 3px; transition: all 0.3s; }
+.nav-cta:hover { background: #f0a81e; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(245,158,11,0.2); }
+
+.hero {
+  padding: 12rem 3rem 6rem;
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -150px;
+  right: -150px;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(245,158,11,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-inner { max-width: 900px; position: relative; z-index: 2; }
+
+.hero-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.2s;
+}
+
+.hero-tag::before { content: ''; width: 50px; height: 1px; background: var(--accent); }
+
+.event-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--accent-dim);
+  border: 1px solid rgba(245,158,11,0.3);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.3s;
+}
+
+.event-badge::before { content: '🏆'; }
+
+.hero-title {
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.4s;
+}
+
+.hero-title em { font-style: normal; color: var(--accent); }
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  font-weight: 300;
+  max-width: 700px;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.6s;
+}
+
+.metrics-card {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 4rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.8s;
+}
+
+.metric { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 2rem 1.5rem; text-align: left; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.metric:hover { border-color: var(--accent); background: rgba(245,158,11,0.02); transform: translateY(-4px); }
+.metric-val { font-size: 2.5rem; font-weight: 900; color: var(--accent); margin-bottom: 0.5rem; font-family: var(--font-mono); }
+.metric-lbl { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0.05em; text-transform: uppercase; }
+
+.content-wrapper { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
+
+.section {
+  margin-bottom: 6rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 1rem;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: var(--accent);
+}
+
+.section-desc { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.8; max-width: 800px; margin-bottom: 2rem; font-weight: 300; }
+
+.challenge-solution { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+.challenge-box, .solution-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.challenge-box:hover, .solution-box:hover { border-color: var(--accent); transform: translateY(-4px); }
+
+.box-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; }
+.challenge-box .box-title { color: #ff6b6b; }
+.solution-box .box-title { color: var(--accent); }
+
+.box-content { font-size: 0.95rem; line-height: 1.7; color: var(--text-secondary); }
+.box-content ul { list-style: none; margin: 1rem 0 0 0; }
+.box-content li { margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; }
+.box-content li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: bold; }
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  font-size: 0.9rem;
+}
+
+.data-table thead {
+  background: rgba(245,158,11,0.05);
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.data-table td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.data-table tbody tr:hover {
+  background: rgba(245,158,11,0.02);
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.outcome-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.outcome-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.outcome-item:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 12px 32px rgba(245,158,11,0.1); }
+
+.outcome-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.outcome-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.75rem; }
+.outcome-desc { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+
+.visual-block {
+  width: 100%;
+  height: 400px;
+  background: linear-gradient(135deg, rgba(245,158,11,0.1) 0%, rgba(245,158,11,0.02) 100%);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 3rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.visual-block::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 36px, rgba(255,255,255,0.006) 36px, rgba(255,255,255,0.006) 37px), repeating-linear-gradient(90deg, transparent, transparent 36px, rgba(255,255,255,0.006) 36px, rgba(255,255,255,0.006) 37px);
+  pointer-events: none;
+}
+
+.visual-label { font-size: 3rem; font-weight: 900; opacity: 0.08; color: var(--text-primary); text-align: center; position: relative; z-index: 1; user-select: none; }
+
+.case-footer { background: var(--bg-secondary); padding: 4rem 3rem; margin-top: 6rem; border-top: 1px solid var(--border); text-align: center; }
+.footer-nav { display: flex; gap: 2rem; justify-content: center; margin-top: 2rem; }
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.3s;
+}
+
+.footer-link:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+.stat-highlight {
+  display: inline-block;
+  background: rgba(245,158,11,0.1);
+  border-left: 3px solid var(--accent);
+  padding: 0.75rem 1.25rem;
+  margin: 1rem 0;
+  border-radius: 3px;
+}
+
+.stat-highlight strong { color: var(--accent); }
+
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { gap: 1.5rem; }
+  .hero { padding: 8rem 1.5rem 3rem; }
+  .hero-title { font-size: 2.5rem; }
+  .hero-subtitle { font-size: 1rem; }
+  .content-wrapper { padding: 0 1.5rem; }
+  .challenge-solution { grid-template-columns: 1fr; }
+  .metrics-card { grid-template-columns: 1fr; }
+  .section-title { font-size: 1.5rem; }
+  .visual-block { height: 300px; }
+  .data-table { font-size: 0.8rem; }
+  .data-table th, .data-table td { padding: 0.6rem; }
+}
+
+
+header {
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 0;
+    margin-bottom: 4rem;
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(10px);
+    background: rgba(13, 17, 23, 0.8);
+    z-index: 100;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.logo:hover {
+    color: var(--accent-secondary);
+}
+
+nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin-left: 2rem;
+    transition: color 0.3s;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+nav a:hover {
+    color: var(--accent-primary);
+}
+
+.bottom-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    padding-top: 2rem;
+    margin-top: 4rem;
+}
+
+.nav-link {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-link:hover {
+    gap: 1rem;
+}
+
+.arrow {
+    font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+    nav {
+        display: none;
+    }
+    
+    .bottom-nav {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .nav-link {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Design System Overrides */
+:root {
+  --bg-primary: #131313 !important;
+  --bg-secondary: #070707 !important;
+  --bg-card: #1F1F1F !important;
+  --bg-card-hover: #282828 !important;
+  --text-primary: #FFFFFF !important;
+  --text-secondary: rgba(255,255,255,0.65) !important;
+  --text-muted: rgba(255,255,255,0.40) !important;
+  --accent: #C9F31D !important;
+  --accent-primary: #C9F31D !important;
+  --accent-secondary: #7c3aed !important;
+  --accent-tertiary: #C9F31D !important;
+  --accent-dim: rgba(201,243,29,0.08) !important;
+  --accent-glow: rgba(201,243,29,0.25) !important;
+  --gold: #C9F31D !important;
+  --gold-dim: rgba(201,243,29,0.08) !important;
+  --teal: #C9F31D !important;
+  --teal-dim: rgba(201,243,29,0.08) !important;
+  --blue: #C9F31D !important;
+  --blue-dim: rgba(201,243,29,0.08) !important;
+  --purple: #7c3aed !important;
+  --purple-dim: rgba(124,58,237,0.12) !important;
+  --border: rgba(255,255,255,0.10) !important;
+  --font-display: 'DM Sans', sans-serif !important;
+  --font-mono: 'Inter', sans-serif !important;
+}
+
+body {
+  font-family: 'Inter', sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6, .hero-title, .section-title, .box-title, .outcome-title {
+  font-family: 'DM Sans', sans-serif !important;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E") !important;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+</style>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-logo">mouaz<span>.</span></div>
+  <div class="nav-links">
+    <a href="../../index.html">Home</a>
+    <a href="../../works.html">Works</a>
+    <a href="#" class="active">Case Study</a>
+    <a href="../../about.html">About</a>
+    <a href="../../contact.html" class="nav-cta">Contact</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Competitive Gaming Campaign</div>
+    <div class="event-badge">Recurring Competitive Tournament Event</div>
+    <h1 class="hero-title">Monthly <em>Champion</em></h1>
+    <p class="hero-subtitle">
+      Designed "Competitive Luxury" visual identity for JACO Arabia's signature recurring tournament event. Integrated AI-driven creator identification system with luxurious 3D cinematic aesthetics, thematic expansions (Ramadan integration), and multi-platform asset scaling across 7+ aspect ratios.
+    </p>
+  </div>
+</div>
+
+<div class="content-wrapper">
+  <div class="metrics-card">
+    <div class="metric">
+      <div class="metric-val">7+</div>
+      <div class="metric-lbl">Aspect Ratios Supported</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">100+</div>
+      <div class="metric-lbl">Creative Assets Produced</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">2</div>
+      <div class="metric-lbl">Thematic Expansions (Launch + Ramadan)</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">AI-Integrated</div>
+      <div class="metric-lbl">Creator Identification System</div>
+    </div>
+  </div>
+</div>
+
+<div class="content-wrapper">
+  <section class="section reveal">
+    <h2 class="section-title">Campaign Challenge</h2>
+    <p class="section-desc">
+      The Monthly Champion project required creating a prestigious, recurring tournament visual identity that would drive both creator competition and user monetization. The challenge was balancing luxury aspirational messaging with competitive gaming energy, while building a scalable system supporting rapid thematic iterations and multi-platform deployment.
+    </p>
+    
+    <div class="challenge-solution">
+      <div class="challenge-box">
+        <div class="box-title">Strategic Challenges</div>
+        <div class="box-content">
+          <ul>
+            <li>Establish prestige and competitive stakes without appearing exclusive</li>
+            <li>Communicate luxury aesthetic while maintaining gaming authenticity</li>
+            <li>Support multiple aspect ratios and platform-specific implementations</li>
+            <li>Integrate AI creator identification into visual design seamlessly</li>
+            <li>Enable rapid cultural theme adaptations (Ramadan, holidays)</li>
+            <li>Drive both creator monetization and new user acquisition</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="solution-box">
+        <div class="box-title">Creative Solution</div>
+        <div class="box-content">
+          <ul>
+            <li>Developed "Competitive Luxury" visual identity merging battlefield intensity with game show celebration</li>
+            <li>Created 8K photorealistic 3D cinematic aesthetic with Islamic art influences</li>
+            <li>Built master AI prompt engineering system for consistent asset generation</li>
+            <li>Implemented responsive scaling across 7+ aspect ratios and fixed pixel dimensions</li>
+            <li>Designed modular design system enabling rapid thematic expansions</li>
+            <li>Integrated AI creator identification into ranking visualization and leaderboard UI</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Visual Identity: "Competitive Luxury"</h2>
+    <p class="section-desc">
+      The core aesthetic merges the dark, intense atmosphere of a digital battlefield with explosive celebratory gold and neon lighting. This positioning establishes Monthly Champion as a prestigious tournament while maintaining the energy and accessibility of a gaming event.
+    </p>
+    
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">🎨</div>
+        <div class="outcome-title">Color System</div>
+        <div class="outcome-desc"><strong>Primary:</strong> Deep Midnight Blue (#0A1329) + Matte Black | <strong>Secondary:</strong> Liquid Gold (#F2C94C) + Rich Gold (#C69334) | <strong>Accents:</strong> Neon Purple (#9B51E0) + Neon Green (#27AE60)</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">💫</div>
+        <div class="outcome-title">Lighting Design</div>
+        <div class="outcome-desc">Dynamic dramatic lighting featuring volumetric light shafts, internal glows, and theatrical spotlights. Golden Hour positioning on central focal points with star-dusted cosmic atmosphere.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🏛️</div>
+        <div class="outcome-title">3D Architecture</div>
+        <div class="outcome-desc">Opulent floating platforms combining modern geometry with traditional arabesque motifs. Highly detailed 8K photorealistic rendering merging magical realism with Islamic art influences.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">✨</div>
+        <div class="outcome-title">Mood & Atmosphere</div>
+        <div class="outcome-desc">Incredibly luxurious, highly competitive, and celebratory feeling. Captures climax of epic digital tournament with tension and triumph balanced.</div>
+      </div>
+    </div>
+
+    <h3 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem;">Core Color Palette</h3>
+    
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Color Element</th>
+          <th>Hex Code</th>
+          <th>Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Deep Cosmic Blue</strong></td>
+          <td>#0A1329</td>
+          <td>Primary background - creates contrast and competitive intensity</td>
+        </tr>
+        <tr>
+          <td><strong>Gold Highlights</strong></td>
+          <td>#F2C94C</td>
+          <td>Primary accent - represents champion status and prestige</td>
+        </tr>
+        <tr>
+          <td><strong>Rich Gold</strong></td>
+          <td>#C69334</td>
+          <td>Secondary accent - depth and premium feel</td>
+        </tr>
+        <tr>
+          <td><strong>Deep Gold Shadow</strong></td>
+          <td>#8A5A1B</td>
+          <td>Shadow and dimension - 3D effect enhancement</td>
+        </tr>
+        <tr>
+          <td><strong>Warm Orange Glow</strong></td>
+          <td>#F2994A</td>
+          <td>Volumetric clouds - celebratory warmth</td>
+        </tr>
+        <tr>
+          <td><strong>Neon Purple</strong></td>
+          <td>#9B51E0</td>
+          <td>Accent highlights - energy and electricity</td>
+        </tr>
+        <tr>
+          <td><strong>Neon Green</strong></td>
+          <td>#27AE60</td>
+          <td>Live status indicator - activity signal</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">AI Integration: Master Prompt Engineering</h2>
+    <p class="section-desc">
+      A master AI prompt was developed to generate consistent foundational assets while enabling rapid iterations. The prompt serves as the creative blueprint, ensuring visual consistency across all AI-generated backgrounds and concept art while maintaining the "Competitive Luxury" aesthetic.
+    </p>
+
+    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; margin: 2rem 0;">
+      <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--accent);">Master Prompt Framework</h4>
+      <p style="font-size: 0.95rem; line-height: 1.8; color: var(--text-secondary);">
+        "A highly detailed, 8K resolution, photorealistic 3D cinematic scene merging magical realism with elegant Islamic art influences. The background is a deep, star-dusted cosmic blue sky (#0A1329) contrasting with vibrant, voluminous clouds rendered in hues of magenta, fuchsia, lavender, and warm orange glow (#F2994A). In the center, an opulent, floating architectural platform designed with modern geometry and traditional arabesque motifs, heavily accented with Liquid Gold highlights (#F2C94C), Rich Gold (#C69334), Neon Purple Glow (#9B51E0), and Neon Green Glow (#27AE60). Dynamic, dramatic lighting featuring volumetric light shafts, internal glowing elements, and sweeping theatrical spotlights. The atmosphere should feel incredibly luxurious, highly competitive, and celebratory, capturing the climax of an epic digital gaming tournament."
+      </p>
+    </div>
+
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">🤖</div>
+        <div class="outcome-title">AI Generation Advantage</div>
+        <div class="outcome-desc">Rapid background asset and concept art generation while maintaining stylistic consistency. Enables quick iteration and seasonal variations without long production cycles.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🔄</div>
+        <div class="outcome-title">Prompt Scalability</div>
+        <div class="outcome-desc">Master prompt can be modified for thematic expansions (Ramadan, holidays) by adding specific cultural motifs and lighting variations while preserving core "Competitive Luxury" aesthetic.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">✅</div>
+        <div class="outcome-title">Quality Consistency</div>
+        <div class="outcome-desc">AI integration with human creative direction ensures consistent, high-quality outputs. Designer refines and adapts AI-generated assets to maintain brand standards and platform requirements.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">⚡</div>
+        <div class="outcome-title">Production Velocity</div>
+        <div class="outcome-desc">AI-assisted generation reduces asset production time, enabling rapid response to campaign updates, seasonal changes, and real-time event requirements.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Asset Production & Multi-Platform Scaling</h2>
+    <p class="section-desc">
+      The Monthly Champion campaign required comprehensive asset library supporting multiple platforms, interface contexts, and user journey stages. Assets were optimized for 7+ aspect ratios and specific pixel dimensions to ensure seamless integration across JACO's UI ecosystem.
+    </p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Aspect Ratio</th>
+          <th>Pixel Dimensions</th>
+          <th>Primary Use Case</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>9:16 (Vertical)</td>
+          <td>1080×1920px</td>
+          <td>Full-screen mobile experience, in-app story cards</td>
+        </tr>
+        <tr>
+          <td>16:9 (Horizontal)</td>
+          <td>1920×1080px</td>
+          <td>Desktop/web experience, broadcast feed</td>
+        </tr>
+        <tr>
+          <td>3:4 (Portrait)</td>
+          <td>780×1040px</td>
+          <td>Portrait-oriented cards, notification banners</td>
+        </tr>
+        <tr>
+          <td>16:9 Compact</td>
+          <td>1242×900px</td>
+          <td>Discover page hero, featured event banners</td>
+        </tr>
+        <tr>
+          <td>Square (1:1)</td>
+          <td>1242×1242px</td>
+          <td>Profile themes, badge displays, social preview</td>
+        </tr>
+        <tr>
+          <td>Wide Banner</td>
+          <td>2000×400px</td>
+          <td>Header banners, leaderboard headers</td>
+        </tr>
+        <tr>
+          <td>Horizontal Card</td>
+          <td>1128×360px</td>
+          <td>Feed cards, promotional carousel</td>
+        </tr>
+        <tr>
+          <td>Thumbnail</td>
+          <td>300×108px</td>
+          <td>Event preview, navigation icons</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem;">Key Deliverable Categories</h3>
+
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">🎬</div>
+        <div class="outcome-title">In-App UI Integration</div>
+        <div class="outcome-desc">Comprehensive event screens, pop-ups, and banners. Discover page integration, LIVE feed placements, notification panels with consistent visual language.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">📊</div>
+        <div class="outcome-title">Dynamic Leaderboards</div>
+        <div class="outcome-desc">Custom-designed ranking interfaces with real-time display, milestones-specific closing screens, streamer progress visualization with AI-integrated creator identification.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">✨</div>
+        <div class="outcome-title">Cinematic Animation</div>
+        <div class="outcome-desc">Celestial Trophy Reveal animation flow - ethereal spark transformation into grand finale with fireworks and gold/silver confetti rain. Celebration effects and winner entrance sequences.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🎨</div>
+        <div class="outcome-title">Graphic Styles</div>
+        <div class="outcome-desc">Adobe Illustrator Graphic Styles including "Premium 3D Gold," "3D Teal Box," "3D Purple Box." Reusable styles enable fast, consistent 3D-style asset production.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="visual-block">
+    <div class="visual-label">Competitive Luxury Aesthetic</div>
+  </div>
+
+  <section class="section reveal">
+    <h2 class="section-title">Campaign Phases & Thematic Expansions</h2>
+    <p class="section-desc">
+      The Monthly Champion campaign was structured across distinct phases with tailored visual approaches. Thematic expansions (particularly Ramadan integration) demonstrated the design system's flexibility while maintaining the core "Competitive Luxury" identity.
+    </p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Campaign Phase</th>
+          <th>Visual Focus</th>
+          <th>Strategic Objective</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Launch Phase</strong></td>
+          <td>"The Empty Throne" teaser positioning single golden chair in dark arena. Spotlit, cinematic, competitive aesthetic</td>
+          <td>Establish prestige, signal prestigious tournament opportunity, open to all creators</td>
+        </tr>
+        <tr>
+          <td><strong>Gameplay Phase</strong></td>
+          <td>"The Ranking Ascension" - 3D stage visualization with elevated podiums, liquid energy bars showing top contender progress</td>
+          <td>Drive real-time engagement, visualize competition, reward streamer performance</td>
+        </tr>
+        <tr>
+          <td><strong>Reward Phase</strong></td>
+          <td>"Ultimate Glory" - 3D loot visualization, spinning badges, confetti effects, light bursts for exclusive benefits</td>
+          <td>Communicate prize value, celebrate winners, showcase special privileges</td>
+        </tr>
+        <tr>
+          <td><strong>Ramadan Integration</strong></td>
+          <td>Specialized Ramadan theme with celebratory lighting, Islamic geometric patterns, subtle fireworks capturing holiday joy</td>
+          <td>Cultural relevance, maintain engagement during holy month, seasonal brand evolution</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="stat-highlight">
+      <strong>Design System Flexibility:</strong> Thematic expansions adapted core "Competitive Luxury" elements (gold accents, theatrical lighting, 3D aesthetics) for cultural occasions while preserving visual identity and brand recognition.
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">AI Creator Identification & Ranking Integration</h2>
+    <p class="section-desc">
+      Machine learning models integrated into the visual design system to identify and highlight top-performing creators. The leaderboard UI dynamically rendered creator rankings with AI-optimized visibility and positioning logic.
+    </p>
+
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">🎯</div>
+        <div class="outcome-title">Creator Identification</div>
+        <div class="outcome-desc">ML models analyze creator performance metrics (engagement, monetization, audience growth) to identify tournament contenders. Visual prominence scaled to creator ranking.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">📈</div>
+        <div class="outcome-title">Dynamic Leaderboard</div>
+        <div class="outcome-desc">Real-time ranking visualization with smooth transitions. Energy bar animations showing creator progress toward champion status. Contextual avatar and profile theme integration.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🌟</div>
+        <div class="outcome-title">Prominence Scaling</div>
+        <div class="outcome-desc">Top creators receive elevated visual treatment - larger avatars, premium badge displays, spotlight effects. Encourages competitive engagement and recognizes high-impact streamers.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">⚡</div>
+        <div class="outcome-title">Real-Time Updates</div>
+        <div class="outcome-desc">Leaderboard responds to live events - rank shifts, milestone achievements, last-minute surges. Visual animations celebrate competitive moments and drive platform engagement.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Strategic Impact & Results</h2>
+    <p class="section-desc">
+      The Monthly Champion campaign established a prestigious, recurring tournament format that drives creator competition and monetization while maintaining accessibility to all streamers. The "Competitive Luxury" aesthetic positioned the event as a premium JACO experience.
+    </p>
+
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">👑</div>
+        <div class="outcome-title">Prestige Positioning</div>
+        <div class="outcome-desc">Golden Throne, dramatic lighting, luxury aesthetics establish Monthly Champion as premier JACO tournament. Aspired-to achievement for creators at all levels.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">💰</div>
+        <div class="outcome-title">Monetization Engine</div>
+        <div class="outcome-desc">Champion rewards (exclusive badges, global announcements, access privileges) drive new user acquisition. Limited-time recharge bonuses accelerate user monetization during event windows.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🚀</div>
+        <div class="outcome-title">Creator Engagement</div>
+        <div class="outcome-desc">Recurring tournament format drives consistent creator participation. Competitive stakes and prize pools motivate performance and content quality improvement.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🌍</div>
+        <div class="outcome-title">Cultural Adaptability</div>
+        <div class="outcome-desc">Thematic expansions (Ramadan, holidays) demonstrate design system flexibility. Seasonal variations maintain relevance and engagement throughout year.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Key Strategic Learnings</h2>
+    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; margin-top: 1.5rem;">
+      <ul style="list-style: none; padding-left: 0;">
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Visual luxury drives perceived value:</strong> "Competitive Luxury" aesthetic positioned event as prestigious achievement. Golden accents, theatrical lighting, and cinematic aesthetics made rewards feel genuinely valuable regardless of actual prize distribution.
+        </li>
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Modular design systems enable rapid iterations:</strong> Graphic Styles and component libraries allowed fast production of variations (Ramadan, holiday themes) without redesigning core systems. Scalability proved essential for recurring event format.
+        </li>
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>AI-human collaboration accelerates production:</strong> Master prompt engineering combined with human creative direction enabled rapid asset generation while maintaining brand consistency. AI as efficiency tool, not replacement for creative leadership.
+        </li>
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Multi-aspect-ratio scaling is non-negotiable:</strong> Supporting 7+ aspect ratios ensured seamless integration across all JACO interfaces. Single-ratio approach would have created visual fragmentation and platform inconsistency.
+        </li>
+        <li style="margin-bottom: 0; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Cultural authenticity drives engagement:</strong> Ramadan integration with Islamic geometric patterns and cultural sensitivity outperformed generic holiday messaging. Demonstrated that cultural respect and brand positioning are complementary, not competing goals.
+        </li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<footer class="case-footer">
+  <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Explore More JACO Arabia & Gaming Campaign Work</h3>
+  <p style="color: var(--text-secondary); margin-bottom: 2rem;">Other performance-driven gaming and competitive event campaigns</p>
+  <div class="footer-nav">
+    <a href="case-study-jaco-growth-trilogy.html" class="footer-link">← JACO Growth Trilogy</a>
+    <a href="../../works.html" class="footer-link">All Works</a>
+    <a href="case-study-ultimate-gamer.html" class="footer-link">#UltimateGamer →</a>
+  </div>
+</footer>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 50) {
+    nav.classList.add('scrolled');
+  } else {
+    nav.classList.remove('scrolled');
+  }
+});
+
+const reveals = document.querySelectorAll('.reveal');
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -100px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+reveals.forEach(reveal => observer.observe(reveal));
+</script>
+
+  <!-- FOOTER NAVIGATION -->
+  <div class="bottom-nav">
+    <a href="case-study-riyadh-school-hittin.html" class="nav-link">← Riyadh School Hittin</a>
+    <a href="case-study-lvmh.html" class="nav-link">Next: LVMH Snapchat <span class="arrow">→</span></a>
+  </div>
+
+  <!-- FOOTER NAVIGATION -->
+  <div class="bottom-nav">
+    <a href="case-study-unknown-soldier.html" class="nav-link">← Unknown Soldier League</a>
+    <a href="case-study-legacy-land.html" class="nav-link">Next: Legacy Land <span class="arrow">→</span></a>
+  </div>
+
+</body>
+</html>

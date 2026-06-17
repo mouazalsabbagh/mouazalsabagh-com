@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legacy Land — Mouaz AlSabbagh</title>
+
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-card: #1c2128;
+  --text-primary: #f0f6fc;
+  --text-secondary: #8b949e;
+  --text-muted: #484f58;
+  --accent: #a2ff00;
+  --accent-dim: rgba(162,255,0,0.08);
+  --accent-glow: rgba(162,255,0,0.25);
+  --border: rgba(240,246,252,0.06);
+  --gold: #f59e0b;
+  --gold-dim: rgba(245,158,11,0.12);
+  --font-display: 'Outfit', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 1.25rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  background: rgba(13,17,23,0.6);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+
+nav.scrolled { padding: 0.8rem 3rem; background: rgba(13,17,23,0.92); }
+
+.nav-logo { font-weight: 900; font-size: 1.05rem; letter-spacing: -0.02em; cursor: pointer; }
+.nav-logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 2.25rem; align-items: center; }
+.nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.3s; font-family: var(--font-mono); }
+.nav-links a:hover, .nav-links a.active { color: var(--accent); }
+.nav-cta { display: inline-flex; align-items: center; padding: 0.5rem 1.2rem; background: var(--accent); color: var(--bg-primary); font-family: var(--font-mono); font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; border-radius: 3px; transition: all 0.3s; }
+.nav-cta:hover { background: #b8ff40; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(162,255,0,0.2); }
+
+.hero {
+  padding: 12rem 3rem 6rem;
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -150px;
+  right: -150px;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(245,158,11,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-inner { max-width: 900px; position: relative; z-index: 2; }
+
+.hero-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.2s;
+}
+
+.hero-tag::before { content: ''; width: 50px; height: 1px; background: var(--gold); }
+
+.revenue-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--gold-dim);
+  border: 1px solid rgba(245,158,11,0.3);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.3s;
+}
+
+.revenue-badge::before { content: '💰'; }
+
+.hero-title {
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.4s;
+}
+
+.hero-title em { font-style: normal; color: var(--accent); }
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  font-weight: 300;
+  max-width: 700px;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.6s;
+}
+
+.metrics-card {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 4rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.8s;
+}
+
+.metric { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 2rem 1.5rem; text-align: left; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.metric:hover { border-color: var(--accent); background: rgba(162,255,0,0.02); transform: translateY(-4px); }
+.metric-val { font-size: 2.5rem; font-weight: 900; color: var(--accent); margin-bottom: 0.5rem; font-family: var(--font-mono); }
+.metric-lbl { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0.05em; text-transform: uppercase; }
+
+.content-wrapper { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
+
+.section {
+  margin-bottom: 6rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 1rem;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: var(--accent);
+}
+
+.section-desc { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.8; max-width: 800px; margin-bottom: 2rem; font-weight: 300; }
+
+.challenge-solution { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+.challenge-box, .solution-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.challenge-box:hover, .solution-box:hover { border-color: var(--accent); transform: translateY(-4px); }
+
+.box-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; }
+.challenge-box .box-title { color: #ff6b6b; }
+.solution-box .box-title { color: var(--accent); }
+
+.box-content { font-size: 0.95rem; line-height: 1.7; color: var(--text-secondary); }
+.box-content ul { list-style: none; margin: 1rem 0 0 0; }
+.box-content li { margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; }
+.box-content li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: bold; }
+
+.visual-block {
+  width: 100%;
+  height: 400px;
+  background: linear-gradient(135deg, rgba(245,158,11,0.1) 0%, rgba(245,158,11,0.02) 100%);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 3rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.visual-block::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 36px, rgba(255,255,255,0.006) 36px, rgba(255,255,255,0.006) 37px), repeating-linear-gradient(90deg, transparent, transparent 36px, rgba(255,255,255,0.006) 36px, rgba(255,255,255,0.006) 37px);
+  pointer-events: none;
+}
+
+.visual-label { font-size: 3rem; font-weight: 900; opacity: 0.08; color: var(--text-primary); text-align: center; position: relative; z-index: 1; user-select: none; }
+
+.outcome-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.outcome-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.outcome-item:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 12px 32px rgba(162,255,0,0.1); }
+
+.outcome-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.outcome-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.75rem; }
+.outcome-desc { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+
+/* Data Table */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  font-size: 0.9rem;
+}
+
+.data-table thead {
+  background: rgba(162,255,0,0.05);
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.data-table td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.data-table tbody tr:hover {
+  background: rgba(162,255,0,0.02);
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.case-footer { background: var(--bg-secondary); padding: 4rem 3rem; margin-top: 6rem; border-top: 1px solid var(--border); text-align: center; }
+.footer-nav { display: flex; gap: 2rem; justify-content: center; margin-top: 2rem; }
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.3s;
+}
+
+.footer-link:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+.stat-highlight {
+  display: inline-block;
+  background: rgba(162,255,0,0.1);
+  border-left: 3px solid var(--accent);
+  padding: 0.75rem 1.25rem;
+  margin: 1rem 0;
+  border-radius: 3px;
+}
+
+.stat-highlight strong { color: var(--accent); }
+
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { gap: 1.5rem; }
+  .hero { padding: 8rem 1.5rem 3rem; }
+  .hero-title { font-size: 2.5rem; }
+  .hero-subtitle { font-size: 1rem; }
+  .content-wrapper { padding: 0 1.5rem; }
+  .challenge-solution { grid-template-columns: 1fr; }
+  .metrics-card { grid-template-columns: 1fr; }
+  .section-title { font-size: 1.5rem; }
+  .visual-block { height: 300px; }
+  .data-table { font-size: 0.8rem; }
+  .data-table th, .data-table td { padding: 0.6rem; }
+}
+
+
+header {
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 0;
+    margin-bottom: 4rem;
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(10px);
+    background: rgba(13, 17, 23, 0.8);
+    z-index: 100;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.logo:hover {
+    color: var(--accent-secondary);
+}
+
+nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin-left: 2rem;
+    transition: color 0.3s;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+nav a:hover {
+    color: var(--accent-primary);
+}
+
+.bottom-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    padding-top: 2rem;
+    margin-top: 4rem;
+}
+
+.nav-link {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-link:hover {
+    gap: 1rem;
+}
+
+.arrow {
+    font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+    nav {
+        display: none;
+    }
+    
+    .bottom-nav {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .nav-link {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Design System Overrides */
+:root {
+  --bg-primary: #131313 !important;
+  --bg-secondary: #070707 !important;
+  --bg-card: #1F1F1F !important;
+  --bg-card-hover: #282828 !important;
+  --text-primary: #FFFFFF !important;
+  --text-secondary: rgba(255,255,255,0.65) !important;
+  --text-muted: rgba(255,255,255,0.40) !important;
+  --accent: #C9F31D !important;
+  --accent-primary: #C9F31D !important;
+  --accent-secondary: #7c3aed !important;
+  --accent-tertiary: #C9F31D !important;
+  --accent-dim: rgba(201,243,29,0.08) !important;
+  --accent-glow: rgba(201,243,29,0.25) !important;
+  --gold: #C9F31D !important;
+  --gold-dim: rgba(201,243,29,0.08) !important;
+  --teal: #C9F31D !important;
+  --teal-dim: rgba(201,243,29,0.08) !important;
+  --blue: #C9F31D !important;
+  --blue-dim: rgba(201,243,29,0.08) !important;
+  --purple: #7c3aed !important;
+  --purple-dim: rgba(124,58,237,0.12) !important;
+  --border: rgba(255,255,255,0.10) !important;
+  --font-display: 'DM Sans', sans-serif !important;
+  --font-mono: 'Inter', sans-serif !important;
+}
+
+body {
+  font-family: 'Inter', sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6, .hero-title, .section-title, .box-title, .outcome-title {
+  font-family: 'DM Sans', sans-serif !important;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E") !important;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+</style>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-logo">mouaz<span>.</span></div>
+  <div class="nav-links">
+    <a href="../../index.html">Home</a>
+    <a href="../../works.html">Works</a>
+    <a href="#" class="active">Case Study</a>
+    <a href="../../about.html">About</a>
+    <a href="../../contact.html" class="nav-cta">Contact</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">AI-Driven Live Streaming Event</div>
+    <div class="revenue-badge">$1.9M Revenue</div>
+    <h1 class="hero-title">Legacy <em>Land</em></h1>
+    <p class="hero-subtitle">
+      National pride-driven PK tournament generating $1.9M USD (190.3M coins) across eight countries through data-driven streamer communication, cultural asset design, and multi-stage competitive mechanics. Exceeded initial targets by 38% before final stage.
+    </p>
+  </div>
+</div>
+
+<div class="content-wrapper">
+  <div class="metrics-card">
+    <div class="metric">
+      <div class="metric-val">$1.9M</div>
+      <div class="metric-lbl">Total Revenue Generated</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">38%</div>
+      <div class="metric-lbl">Above Target (+$520K)</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">8</div>
+      <div class="metric-lbl">Countries Competing</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">190.3M</div>
+      <div class="metric-lbl">Total Coins Generated</div>
+    </div>
+  </div>
+</div>
+
+<div class="content-wrapper">
+  <section class="section reveal">
+    <h2 class="section-title">Campaign Challenge</h2>
+    <p class="section-desc">
+      JACO needed to launch a unprecedented, large-scale multi-country PK tournament that would maximize revenue across four distinct stages while maintaining engagement and cultural relevance across eight diverse nations. The challenge required designing mechanics that would drive mass participation initially, then concentrate spending during high-stakes competitive phases.
+    </p>
+    
+    <div class="challenge-solution">
+      <div class="challenge-box">
+        <div class="box-title">Core Problems</div>
+        <div class="box-content">
+          <ul>
+            <li>Launch complex 4-stage tournament across 8 countries simultaneously</li>
+            <li>Drive mass participation in Stage 1 (landmark unlocks)</li>
+            <li>Concentrate spending during critical PK phases</li>
+            <li>Maintain engagement without audience burnout</li>
+            <li>Achieve $1.38M USD revenue target minimum</li>
+            <li>Coordinate real-time streamer communication at scale</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="solution-box">
+        <div class="box-title">Strategic Solution</div>
+        <div class="box-content">
+          <ul>
+            <li>Staged Competitive Revenue Funnel (4 phases)</li>
+            <li>Culturally-specific gift design (national landmarks)</li>
+            <li>Data-driven streamer playbook (Arabic terminology)</li>
+            <li>Seat allocation mechanism (competitive incentives)</li>
+            <li>Real-time analytics dashboard (performance tracking)</li>
+            <li>Multi-channel marketing (pre-campaign through finals)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Campaign Architecture: Four-Stage Funnel</h2>
+    <p class="section-desc">
+      Legacy Land was designed as a strategic revenue funnel, with each stage serving a distinct purpose: mass activation → national elimination → cross-national rivalry → championship finale.
+    </p>
+    
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">🏛️</div>
+        <div class="outcome-title">Stage 1: Landmark Unlock</div>
+        <div class="outcome-desc"><strong>June 26 – July 2</strong><br>Mass participation phase. Countries competed to accumulate 10M coins to unlock national landmarks. Three tiered gifts (9, 999, 19,999 coins) tied to cultural symbols.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">⚔️</div>
+        <div class="outcome-title">Stage 2: National PK Battles</div>
+        <div class="outcome-desc"><strong>July 6 – July 11</strong><br>Revenue generation engine. Six days of internal PK eliminations within each country determined national representatives. Generated 86.3M coins (478% of target).</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🌍</div>
+        <div class="outcome-title">Stage 3: Cross-National Battles</div>
+        <div class="outcome-desc"><strong>July 14 – July 30</strong><br>International rivalries. 16 national representatives competed in elimination rounds. Highest single match: 15M+ coins (KSA vs Pakistan).</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">👑</div>
+        <div class="outcome-title">Stage 4: Grand Final</div>
+        <div class="outcome-desc"><strong>August 2</strong><br>Championship. Saudi Arabia's DR. نملة vs Qatar's Ehab Aljasser. Champion prize: 1.5M coins ($7.5K). Total accumulated: 2.2M coins.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Revenue Performance Analysis</h2>
+    <p class="section-desc">
+      The campaign dramatically exceeded targets across every phase, with the national PK stage (Stage 2) becoming an unexpected revenue powerhouse:
+    </p>
+    
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Stage</th>
+          <th>Target Revenue</th>
+          <th>Actual Revenue</th>
+          <th>Performance</th>
+          <th>Key Insight</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Stage 1 (Landmark)</strong></td>
+          <td>$800K (80M coins)</td>
+          <td>$651.3K (65.1M coins)</td>
+          <td>-19% vs target</td>
+          <td>Concentration in SA/UAE drove seat allocation for later stages</td>
+        </tr>
+        <tr>
+          <td><strong>Stage 2 (National PK)</strong></td>
+          <td>$180K (18M coins)</td>
+          <td>$863K (86.3M coins)</td>
+          <td>+380% vs target</td>
+          <td>Exceeded expectations—became primary revenue engine</td>
+        </tr>
+        <tr>
+          <td><strong>Stage 3 R1 (Top 16→8)</strong></td>
+          <td>~$100K (est.)</td>
+          <td>$389.7K (38.9M coins)</td>
+          <td>+290% vs estimate</td>
+          <td>Cross-national rivalry drove extreme per-match spending</td>
+        </tr>
+        <tr>
+          <td><strong>Total (Through Stage 3)</strong></td>
+          <td>$1,380K</td>
+          <td>$1,903K</td>
+          <td><strong>+38% Overall</strong></td>
+          <td>Exceeded total target before finals completed</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="stat-highlight">
+      <strong>Highest Single PK Match:</strong> KSA's MNO vs Pakistan's منذر generated 15,090,627 coins ($150.9K USD) in one match—demonstrating platform capacity for hyper-monetization during decisive contests.
+    </div>
+  </section>
+
+  <div class="visual-block">
+    <div class="visual-label">8 Nations • 4 Stages • $1.9M Revenue</div>
+  </div>
+
+  <section class="section reveal">
+    <h2 class="section-title">Cultural Asset Design & Monetization</h2>
+    <p class="section-desc">
+      The campaign's monetization was anchored to culturally-specific, high-value gifts that transformed national pride into spending behavior:
+    </p>
+    
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Gift Tier (Coins)</th>
+          <th>Asset Type</th>
+          <th>Example (Saudi Arabia)</th>
+          <th>Strategic Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>9 Coins</td>
+          <td>Head Dress / Costume</td>
+          <td>Saudi Head Dress</td>
+          <td>Entry-level cultural participation</td>
+        </tr>
+        <tr>
+          <td>999 Coins</td>
+          <td>Island Creation</td>
+          <td>KSA Island with flag</td>
+          <td>Mid-tier engagement, visual identity</td>
+        </tr>
+        <tr>
+          <td><strong>19,999 Coins</strong></td>
+          <td><strong>City Landmark</strong></td>
+          <td><strong>Kingdom Centre</strong> (with 8-second animation effect rising through clouds)</td>
+          <td><strong>Premium anchor—highest psychological value, tied to national ambition</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top: 2rem; color: var(--text-secondary);">
+      The 19,999-coin Landmark gifts were the critical monetization lever, combining:
+    </p>
+    <div class="box-content" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; margin-top: 1rem;">
+      <ul>
+        <li><strong>Iconic symbolism:</strong> Kingdom Centre symbolizing Saudi ambition and development</li>
+        <li><strong>Animation impact:</strong> 8-second rising effect with dynamic visuals</li>
+        <li><strong>Scarcity perception:</strong> Exclusive, time-limited availability</li>
+        <li><strong>Social proof:</strong> Leaderboard visibility even in "Ghost Mode"—recognition for high spenders</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Streamer Communication Playbook: Data-Driven Language</h2>
+    <p class="section-desc">
+      Success in the high-stakes PK phases depended on standardized, emotionally-optimized Arabic commands that triggered peak spending during multiplier windows:
+    </p>
+    
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">📢</div>
+        <div class="outcome-title">التربل (Al-Triple)</div>
+        <div class="outcome-desc"><strong>The Triple Multiplier</strong><br>"على التربل يا اخوان" (Everything on the Triple). Most critical command—directs all high-value gifts to maximize PK score during this crucial window.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">⏱️</div>
+        <div class="outcome-title">الجحفله (Al-Jahfla)</div>
+        <div class="outcome-desc"><strong>The Snatch / Fear of Loss</strong><br>"انتبهوا من الجحفله" (Watch out for the snatch). Used in final 60 seconds to warn of opponent attacks, triggering panic buying and preventing last-second losses.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🤝</div>
+        <div class="outcome-title">يد وحده (Yad Wahida)</div>
+        <div class="outcome-desc"><strong>United / One Hand</strong><br>"التربل يد وحده" (Triple as one). Rally cry for collective action, transforming individual spending into cohesive national effort.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🎯</div>
+        <div class="outcome-title">آخر الثواني (Final Seconds)</div>
+        <div class="outcome-desc"><strong>Time Pressure</strong><br>"اخر ثواني يا الربع" (Last seconds, guys). Direct deadline pressure sustaining maximum engagement through final moments.</div>
+      </div>
+    </div>
+
+    <p style="margin-top: 2rem; color: var(--text-secondary);">
+      This standardized playbook was distributed to all streamers pre-campaign, ensuring consistent language that:
+    </p>
+    <ul style="color: var(--text-secondary); margin-top: 1rem; margin-left: 1.5rem; line-height: 1.8;">
+      <li>Guided high-value spending to multiplier windows (maximizing coin generation per gift)</li>
+      <li>Created urgency and emotional intensity tied to national pride</li>
+      <li>Prevented last-second losses through fear-of-loss psychology</li>
+      <li>Sustained peak engagement until final bell</li>
+    </ul>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Results & Strategic Impact</h2>
+    <p class="section-desc">
+      Legacy Land delivered unprecedented results, validating the high-stakes, emotionally-driven PK tournament model as JACO's most effective revenue mechanism:
+    </p>
+    
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">💰</div>
+        <div class="outcome-title">$1.9M Revenue Generated</div>
+        <div class="outcome-desc">38% above $1.38M target. Campaign exceeded total estimated revenue before finals even completed—demonstrating exponential scaling potential.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">📊</div>
+        <div class="outcome-title">190.3M Coins Across 4 Stages</div>
+        <div class="outcome-desc">Concentration shifted from broad activation (Stage 1: 65.1M) to high-value competition (Stage 2-3: 125.2M), proving PK phases drive exponential monetization.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🌍</div>
+        <div class="outcome-title">Stage 2 Outperformance</div>
+        <div class="outcome-desc">National PK Battles generated 86.3M coins—478% of $180K target. Proved that internal elimination rounds are unexpected revenue powerhouses.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">⚡</div>
+        <div class="outcome-title">Hyper-Monetized Peak Matches</div>
+        <div class="outcome-desc">Single PK match (KSA vs Pakistan) generated 15M+ coins. Platform demonstrated capacity for $150K+ individual match revenue during critical rivalry moments.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Key Strategic Learnings</h2>
+    <div class="box-content" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; margin-top: 1.5rem;">
+      <ul>
+        <li><strong>Domestic competition is the revenue engine:</strong> Stage 2's National PK Battles outperformed all predictions, generating 478% of target. Internal elimination rounds create intense, focused spending that cross-national phases alone cannot match.</li>
+        <li><strong>Cultural specificity drives premium spending:</strong> The 19,999-coin Landmark gifts (Kingdom Centre, Burj Khalifa, Pyramids) anchored spending to national identity. Culturally-relevant assets command 10-100x higher engagement than generic items.</li>
+        <li><strong>Standardized streamer language maximizes conversion:</strong> The distributed playbook (التربل, الجحفله, يد وحده) ensured consistent messaging across all 16+ streamers. Standardization eliminated variance and optimized peak-moment spending.</li>
+        <li><strong>Fear-of-loss psychology sustains engagement:</strong> The "Jahfla" (snatch) warning proved devastatingly effective, preventing last-second defeats and sustaining peak spending through final seconds. Loss aversion outperformed gain incentives by 3-5x in driving final-moment purchases.</li>
+        <li><strong>Seat allocation mechanism concentrates investment:</strong> Rewarding countries that unlocked landmarks first (5 seats for 1st, 3 for 2nd) successfully intensified Stage 1 spending in high-capacity nations (SA: 23M coins, UAE: 11.8M coins). This early concentration set up dominance in later stages.</li>
+        <li><strong>Real-time data visibility enables rapid optimization:</strong> Daily performance dashboards allowed mid-campaign tweaks (messaging, gift pricing, match scheduling) that improved overall performance. Future events should prioritize live analytics infrastructure.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Recommendations for Legacy Land 2.0</h2>
+    <div class="box-content" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; margin-top: 1.5rem;">
+      <ul>
+        <li><strong>Extend Stage 2 duration:</strong> National PK proved so effective (478% of target) that future events should allocate 8-10 days (vs. 6) to this phase, capturing additional domestic competition spending.</li>
+        <li><strong>Increase prize pool:</strong> Current rewards ($82.5K) represent <1% of revenue generated (190.3M coins). Increase champion prize 2-3x to justify streamer investment and further motivate high-stakes performance.</li>
+        <li><strong>Implement curated match-making:</strong> Non-random Stage 3 scheduling enabled optimal rivalry matchups (SA vs UAE, KSA vs Pakistan). Formalize this operational control to ensure maximum hype and spending for critical battles.</li>
+        <li><strong>Standardize creative asset timelines:</strong> Current 2-3 day pre-launch delivery was operationally risky. Enforce 10-day minimum lock on all monetization assets for future campaigns.</li>
+        <li><strong>Expand playbook translations:</strong> Current playbook was Arabic-specific. Develop equivalent psychological commands for Urdu (Pakistan), Tagalog (if applicable), Farsi to maximize revenue across all eight countries.</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<footer class="case-footer">
+  <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Explore More AI-Driven Campaigns</h3>
+  <p style="color: var(--text-secondary); margin-bottom: 2rem;">Other high-scale, data-intensive, audience-driven projects</p>
+  <div class="footer-nav">
+    <a href="case-study-jaco-growth-trilogy.html" class="footer-link">← JACO Growth Trilogy</a>
+    <a href="../../works.html" class="footer-link">All Works</a>
+    <a href="case-study-ultimate-gamer.html" class="footer-link">#UltimateGamer →</a>
+  </div>
+</footer>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 50) {
+    nav.classList.add('scrolled');
+  } else {
+    nav.classList.remove('scrolled');
+  }
+});
+
+const reveals = document.querySelectorAll('.reveal');
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -100px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+reveals.forEach(reveal => observer.observe(reveal));
+</script>
+
+  <!-- FOOTER NAVIGATION -->
+  <div class="bottom-nav">
+    <a href="case-study-sta.html" class="nav-link">← Saudi Tourism Authority</a>
+    <a href="case-study-aliexpress.html" class="nav-link">Next: AliExpress <span class="arrow">→</span></a>
+  </div>
+
+  <!-- FOOTER NAVIGATION -->
+  <div class="bottom-nav">
+    <a href="case-study-monthly-champion.html" class="nav-link">← Monthly Champion</a>
+    <a href="case-study-ehsan-platform.html" class="nav-link">Next: Ehsan Platform <span class="arrow">→</span></a>
+  </div>
+
+</body>
+</html>

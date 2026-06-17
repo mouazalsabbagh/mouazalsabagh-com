@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ehsan Platform — Mouaz AlSabbagh</title>
+
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-card: #1c2128;
+  --text-primary: #f0f6fc;
+  --text-secondary: #8b949e;
+  --text-muted: #484f58;
+  --accent: #14b8a6;
+  --accent-dim: rgba(20,184,166,0.08);
+  --border: rgba(240,246,252,0.06);
+  --font-display: 'Outfit', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 1.25rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  background: rgba(13,17,23,0.6);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+
+nav.scrolled { padding: 0.8rem 3rem; background: rgba(13,17,23,0.92); }
+
+.nav-logo { font-weight: 900; font-size: 1.05rem; letter-spacing: -0.02em; cursor: pointer; }
+.nav-logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 2.25rem; align-items: center; }
+.nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.3s; font-family: var(--font-mono); }
+.nav-links a:hover, .nav-links a.active { color: var(--accent); }
+.nav-cta { display: inline-flex; align-items: center; padding: 0.5rem 1.2rem; background: var(--accent); color: var(--bg-primary); font-family: var(--font-mono); font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; border-radius: 3px; transition: all 0.3s; }
+.nav-cta:hover { background: #0d9488; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(20,184,166,0.2); }
+
+.hero {
+  padding: 12rem 3rem 6rem;
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -150px;
+  right: -150px;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(20,184,166,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-inner { max-width: 900px; position: relative; z-index: 2; }
+
+.hero-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.2s;
+}
+
+.hero-tag::before { content: ''; width: 50px; height: 1px; background: var(--accent); }
+
+.charity-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--accent-dim);
+  border: 1px solid rgba(20,184,166,0.3);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.3s;
+}
+
+.charity-badge::before { content: '❤️'; }
+
+.hero-title {
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.4s;
+}
+
+.hero-title em { font-style: normal; color: var(--accent); }
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  font-weight: 300;
+  max-width: 700px;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.6s;
+}
+
+.metrics-card {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 4rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.8s;
+}
+
+.metric { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 2rem 1.5rem; text-align: left; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.metric:hover { border-color: var(--accent); background: rgba(20,184,166,0.02); transform: translateY(-4px); }
+.metric-val { font-size: 2.5rem; font-weight: 900; color: var(--accent); margin-bottom: 0.5rem; font-family: var(--font-mono); }
+.metric-lbl { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0.05em; text-transform: uppercase; }
+
+.content-wrapper { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
+
+.section {
+  margin-bottom: 6rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 1rem;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: var(--accent);
+}
+
+.section-desc { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.8; max-width: 800px; margin-bottom: 2rem; font-weight: 300; }
+
+.challenge-solution { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+.challenge-box, .solution-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.challenge-box:hover, .solution-box:hover { border-color: var(--accent); transform: translateY(-4px); }
+
+.box-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; }
+.challenge-box .box-title { color: #ff6b6b; }
+.solution-box .box-title { color: var(--accent); }
+
+.box-content { font-size: 0.95rem; line-height: 1.7; color: var(--text-secondary); }
+.box-content ul { list-style: none; margin: 1rem 0 0 0; }
+.box-content li { margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; }
+.box-content li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: bold; }
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  font-size: 0.9rem;
+}
+
+.data-table thead {
+  background: rgba(20,184,166,0.05);
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.data-table td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.data-table tbody tr:hover {
+  background: rgba(20,184,166,0.02);
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.outcome-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.outcome-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.outcome-item:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 12px 32px rgba(20,184,166,0.1); }
+
+.outcome-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.outcome-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.75rem; }
+.outcome-desc { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+
+.visual-block {
+  width: 100%;
+  height: 400px;
+  background: linear-gradient(135deg, rgba(20,184,166,0.1) 0%, rgba(20,184,166,0.02) 100%);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 3rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.visual-block::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 36px, rgba(255,255,255,0.006) 36px, rgba(255,255,255,0.006) 37px), repeating-linear-gradient(90deg, transparent, transparent 36px, rgba(255,255,255,0.006) 36px, rgba(255,255,255,0.006) 37px);
+  pointer-events: none;
+}
+
+.visual-label { font-size: 3rem; font-weight: 900; opacity: 0.08; color: var(--text-primary); text-align: center; position: relative; z-index: 1; user-select: none; }
+
+.case-footer { background: var(--bg-secondary); padding: 4rem 3rem; margin-top: 6rem; border-top: 1px solid var(--border); text-align: center; }
+.footer-nav { display: flex; gap: 2rem; justify-content: center; margin-top: 2rem; }
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.3s;
+}
+
+.footer-link:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+.stat-highlight {
+  display: inline-block;
+  background: rgba(20,184,166,0.1);
+  border-left: 3px solid var(--accent);
+  padding: 0.75rem 1.25rem;
+  margin: 1rem 0;
+  border-radius: 3px;
+}
+
+.stat-highlight strong { color: var(--accent); }
+
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { gap: 1.5rem; }
+  .hero { padding: 8rem 1.5rem 3rem; }
+  .hero-title { font-size: 2.5rem; }
+  .hero-subtitle { font-size: 1rem; }
+  .content-wrapper { padding: 0 1.5rem; }
+  .challenge-solution { grid-template-columns: 1fr; }
+  .metrics-card { grid-template-columns: 1fr; }
+  .section-title { font-size: 1.5rem; }
+  .visual-block { height: 300px; }
+  .data-table { font-size: 0.8rem; }
+  .data-table th, .data-table td { padding: 0.6rem; }
+}
+
+
+header {
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 0;
+    margin-bottom: 4rem;
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(10px);
+    background: rgba(13, 17, 23, 0.8);
+    z-index: 100;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.logo:hover {
+    color: var(--accent-secondary);
+}
+
+nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin-left: 2rem;
+    transition: color 0.3s;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+nav a:hover {
+    color: var(--accent-primary);
+}
+
+.bottom-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    padding-top: 2rem;
+    margin-top: 4rem;
+}
+
+.nav-link {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-link:hover {
+    gap: 1rem;
+}
+
+.arrow {
+    font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+    nav {
+        display: none;
+    }
+    
+    .bottom-nav {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .nav-link {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Design System Overrides */
+:root {
+  --bg-primary: #131313 !important;
+  --bg-secondary: #070707 !important;
+  --bg-card: #1F1F1F !important;
+  --bg-card-hover: #282828 !important;
+  --text-primary: #FFFFFF !important;
+  --text-secondary: rgba(255,255,255,0.65) !important;
+  --text-muted: rgba(255,255,255,0.40) !important;
+  --accent: #C9F31D !important;
+  --accent-primary: #C9F31D !important;
+  --accent-secondary: #7c3aed !important;
+  --accent-tertiary: #C9F31D !important;
+  --accent-dim: rgba(201,243,29,0.08) !important;
+  --accent-glow: rgba(201,243,29,0.25) !important;
+  --gold: #C9F31D !important;
+  --gold-dim: rgba(201,243,29,0.08) !important;
+  --teal: #C9F31D !important;
+  --teal-dim: rgba(201,243,29,0.08) !important;
+  --blue: #C9F31D !important;
+  --blue-dim: rgba(201,243,29,0.08) !important;
+  --purple: #7c3aed !important;
+  --purple-dim: rgba(124,58,237,0.12) !important;
+  --border: rgba(255,255,255,0.10) !important;
+  --font-display: 'DM Sans', sans-serif !important;
+  --font-mono: 'Inter', sans-serif !important;
+}
+
+body {
+  font-family: 'Inter', sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6, .hero-title, .section-title, .box-title, .outcome-title {
+  font-family: 'DM Sans', sans-serif !important;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E") !important;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+</style>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-logo">mouaz<span>.</span></div>
+  <div class="nav-links">
+    <a href="../../index.html">Home</a>
+    <a href="../../works.html">Works</a>
+    <a href="#" class="active">Case Study</a>
+    <a href="../../about.html">About</a>
+    <a href="../../contact.html" class="nav-cta">Contact</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">National Philanthropy Platform</div>
+    <div class="charity-badge">Record-Breaking Charitable Giving</div>
+    <h1 class="hero-title">Ehsan <em>Platform</em></h1>
+    <p class="hero-subtitle">
+      Transformed digital philanthropy through "Transparent Compassion" positioning. Drove record-breaking charitable giving reaching billions of Riyals by shifting traditional offline philanthropic behaviors to secure, modern digital ecosystem. Established Ehsan as trusted daily lifestyle habit for charitable work across Saudi Arabia.
+    </p>
+  </div>
+</div>
+
+<div class="content-wrapper">
+  <div class="metrics-card">
+    <div class="metric">
+      <div class="metric-val">Billions</div>
+      <div class="metric-lbl">Riyals Donated</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">National</div>
+      <div class="metric-lbl">Campaign Scope</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">Royal</div>
+      <div class="metric-lbl">Endorsements</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">Frictionless</div>
+      <div class="metric-lbl">Donation Experience</div>
+    </div>
+  </div>
+</div>
+
+<div class="content-wrapper">
+  <section class="section reveal">
+    <h2 class="section-title">Campaign Challenge</h2>
+    <p class="section-desc">
+      The Ehsan Platform faced a critical challenge: digitizing charitable giving during key religious seasons (Ramadan, Dhul-Hijjah) while establishing absolute trust in a newly unified national platform. The core difficulty was shifting deeply ingrained traditional, offline philanthropic behaviors to a secure, modern digital ecosystem without sacrificing the emotional resonance that drives charitable action.
+    </p>
+    
+    <div class="challenge-solution">
+      <div class="challenge-box">
+        <div class="box-title">Strategic Challenges</div>
+        <div class="box-content">
+          <ul>
+            <li>Shift offline charitable behaviors to digital platform</li>
+            <li>Establish absolute trust in newly unified national system</li>
+            <li>Maintain emotional resonance throughout digitization</li>
+            <li>Overcome skepticism around digital payment security</li>
+            <li>Maximize giving during concentrated seasonal windows</li>
+            <li>Create daily lifestyle habit beyond seasonal campaigns</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="solution-box">
+        <div class="box-title">Creative Solution</div>
+        <div class="box-content">
+          <ul>
+            <li>Developed "Transparent Compassion" visual identity</li>
+            <li>Launched high-profile national campaigns with Royal Family endorsements</li>
+            <li>Executed emotionally resonant top-tier video production</li>
+            <li>Designed frictionless UI/UX enabling seconds-to-donation</li>
+            <li>Integrated trusted payment methods (Apple Pay, Mada)</li>
+            <li>Created comprehensive data visualization for transparency</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Visual Identity: "Transparent Compassion"</h2>
+    <p class="section-desc">
+      The visual strategy balanced solemnity and dignity of charitable work with modern, premium digital aesthetics. The identity needed to communicate security and trust while remaining emotionally resonant and accessible to all demographics.
+    </p>
+    
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">🎨</div>
+        <div class="outcome-title">Color System</div>
+        <div class="outcome-desc"><strong>Primary:</strong> Deep, trustworthy blues (security, stability) | <strong>Secondary:</strong> Vibrant teals (accessibility, warmth) | <strong>Emotional:</strong> Warm earth tones connecting to human stories</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">📸</div>
+        <div class="outcome-title">Authentic Storytelling</div>
+        <div class="outcome-desc">Photography and cinematography focused strictly on authentic, human-centric narratives. Avoided overly staged imagery. Featured real beneficiaries and donors creating genuine emotional connections.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">✨</div>
+        <div class="outcome-title">Premium Minimalism</div>
+        <div class="outcome-desc">Extreme clarity, warmth, and minimalism across all touchpoints. Design language emphasized that giving felt both profound and completely effortless. Premium execution without complexity.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🤝</div>
+        <div class="outcome-title">Trust Building</div>
+        <div class="outcome-desc">Every design element reinforced platform security and transparency. Visual hierarchy emphasized beneficiary stories over transaction mechanics. Holistic experience building emotional confidence.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="visual-block">
+    <div class="visual-label">Transparent Compassion</div>
+  </div>
+
+  <section class="section reveal">
+    <h2 class="section-title">Campaign Architecture: Seasonal Maximization</h2>
+    <p class="section-desc">
+      Ehsan's strategy leveraged key religious seasons with tailored campaigns while building year-round engagement. The "National Campaign for Charitable Work" and "Dhul-Hijjah Campaign" demonstrated how strategic timing multiplies impact.
+    </p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Campaign</th>
+          <th>Timing</th>
+          <th>Strategic Focus</th>
+          <th>Impact Approach</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Ramadan Campaign</strong></td>
+          <td>Holy Month (High Giving)</td>
+          <td>Spiritual motivation at peak engagement</td>
+          <td>Emotional video narratives, Royal endorsements, real beneficiary stories</td>
+        </tr>
+        <tr>
+          <td><strong>Dhul-Hijjah Campaign</strong></td>
+          <td>Hajj Season (Religious Peak)</td>
+          <td>Pilgrimage-connected giving impulse</td>
+          <td>Premium performance reporting, transparency communication, gratitude narratives</td>
+        </tr>
+        <tr>
+          <td><strong>Year-Round Engagement</strong></td>
+          <td>Daily Lifestyle Integration</td>
+          <td>Habit formation beyond seasonal spikes</td>
+          <td>Regular beneficiary stories, impact updates, community celebrating giving</td>
+        </tr>
+        <tr>
+          <td><strong>National Awareness</strong></td>
+          <td>Continuous DOOH & Media</td>
+          <td>Mass accessibility and cultural normalization</td>
+          <td>Large-scale billboards, social media integration, national media partnerships</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Key Deliverables & Asset System</h2>
+    <p class="section-desc">
+      The Ehsan Platform required comprehensive creative executions across emotional resonance, trust building, and operational transparency to establish itself as Saudi Arabia's unified charitable giving ecosystem.
+    </p>
+
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">🎬</div>
+        <div class="outcome-title">Campaign Videos</div>
+        <div class="outcome-desc">High-impact, emotionally resonant video production tailored for religious seasons. Featured real beneficiaries and donors. Top-tier cinematography with authentic storytelling. Social media motion graphics optimized for viral reach.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">📊</div>
+        <div class="outcome-title">Data Visualization</div>
+        <div class="outcome-desc">Premium data visualization synthesizing donation metrics into compelling narratives. Comprehensive performance reports for stakeholders. Editorial design translating complex data into human-understandable impact stories.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🎯</div>
+        <div class="outcome-title">UI/UX Design</div>
+        <div class="outcome-desc">Trust-building digital assets and seamless donation flow. Frictionless payment integration (Apple Pay, Mada). Visual hierarchy emphasizing beneficiary stories. Accessibility features ensuring inclusive experience.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">📺</div>
+        <div class="outcome-title">DOOH & Billboards</div>
+        <div class="outcome-desc">Large-scale Digital Out-Of-Home billboards deployed nationally. Real-time donation milestones and impact metrics. Rotating beneficiary stories creating ongoing engagement. Premium creative execution at scale.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Record-Breaking Impact & Results</h2>
+    <p class="section-desc">
+      The Ehsan Platform's "Transparent Compassion" positioning achieved historic donation milestones, establishing the platform as more than a transactional service—as a deeply trusted, daily lifestyle habit for charitable work.
+    </p>
+
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">💰</div>
+        <div class="outcome-title">Record Donations</div>
+        <div class="outcome-desc">Achieved historic, record-breaking donation milestones reaching into billions of Riyals. Exceeded campaign targets during peak religious seasons. Demonstrated national appetite for digital philanthropy.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">👑</div>
+        <div class="outcome-title">Royal Endorsement</div>
+        <div class="outcome-desc">High-profile Royal Family backing established institutional credibility. Top-tier endorsements communicated national importance. Positioned giving as culturally valued and socially prestigious.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">📈</div>
+        <div class="outcome-title">Habit Formation</div>
+        <div class="outcome-desc">Transformed seasonal campaigns into year-round behavioral integration. Created psychological habit loop: receive story → feel compassion → donate → see impact → return. Daily platform engagement.</div>
+      </div>
+      <div class="outcome-item">
+        <div class="outcome-icon">🌍</div>
+        <div class="outcome-title">National Reach</div>
+        <div class="outcome-desc">Established Ehsan as unified national philanthropy platform. Digital + DOOH integration reaching all demographics. Normalized digital giving across age groups and technical proficiency levels.</div>
+      </div>
+    </div>
+
+    <div class="stat-highlight">
+      <strong>Strategic Achievement:</strong> Ehsan successfully repositioned charitable giving from offline, seasonal behavior to integrated digital lifestyle habit. Platform became trusted infrastructure for national philanthropy under Saudi Vision 2030 social development goals.
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Strategic Positioning & Vision 2030 Alignment</h2>
+    <p class="section-desc">
+      Beyond transaction maximization, Ehsan's positioning supported broader Vision 2030 objectives around social development, digital transformation, and community engagement.
+    </p>
+
+    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; margin-top: 2rem;">
+      <ul style="list-style: none; padding-left: 0;">
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Digital Transformation Leadership:</strong> Ehsan exemplified Saudi Arabia's digital infrastructure advancement. Unified national platform demonstrated government capacity to digitize complex social behaviors at scale.
+        </li>
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Social Development Integration:</strong> Charitable infrastructure directly supported Vision 2030 social welfare and community development objectives. Platform democratized giving access across all demographics.
+        </li>
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Emotional Design Excellence:</strong> "Transparent Compassion" visual identity demonstrated that premium digital design could serve social good. Premium execution serving community outcomes, not just commercial goals.
+        </li>
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Trust Infrastructure:</strong> Successfully built national trust in digital platform through authentic storytelling and security communication. Established pattern for future digital social infrastructure.
+        </li>
+        <li style="margin-bottom: 0; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Behavioral Economics at Scale:</strong> Demonstrated how design and emotional resonance can shift national behaviors from offline to digital. Model for future government digital transitions.
+        </li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<footer class="case-footer">
+  <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Explore More Institutional & Social Impact Work</h3>
+  <p style="color: var(--text-secondary); margin-bottom: 2rem;">Other Vision 2030 aligned projects driving social development and digital transformation</p>
+  <div class="footer-nav">
+    <a href="case-study-ministry-of-culture.html" class="footer-link">← Ministry of Culture</a>
+    <a href="../../works.html" class="footer-link">All Works</a>
+    <a href="case-study-ndmc-sukuk.html" class="footer-link">NDMC Sukuk →</a>
+  </div>
+</footer>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 50) {
+    nav.classList.add('scrolled');
+  } else {
+    nav.classList.remove('scrolled');
+  }
+});
+
+const reveals = document.querySelectorAll('.reveal');
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -100px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+reveals.forEach(reveal => observer.observe(reveal));
+</script>
+
+  <!-- FOOTER NAVIGATION -->
+  <div class="bottom-nav">
+    <a href="case-study-lvmh.html" class="nav-link">← LVMH Snapchat</a>
+    <a href="case-study-ninja-app.html" class="nav-link">Next: Ninja App <span class="arrow">→</span></a>
+  </div>
+
+  <!-- FOOTER NAVIGATION -->
+  <div class="bottom-nav">
+    <a href="case-study-legacy-land.html" class="nav-link">← Legacy Land</a>
+    <a href="case-study-riyadh-school-hittin.html" class="nav-link">Next: Riyadh School Hittin <span class="arrow">→</span></a>
+  </div>
+
+</body>
+</html>

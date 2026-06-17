@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ministry of Culture — Mouaz AlSabbagh</title>
+
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-card: #1c2128;
+  --text-primary: #f0f6fc;
+  --text-secondary: #8b949e;
+  --text-muted: #484f58;
+  --accent: #f59e0b;
+  --accent-dim: rgba(245,158,11,0.08);
+  --border: rgba(240,246,252,0.06);
+  --font-display: 'Outfit', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 1.25rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  background: rgba(13,17,23,0.6);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+
+nav.scrolled { padding: 0.8rem 3rem; background: rgba(13,17,23,0.92); }
+
+.nav-logo { font-weight: 900; font-size: 1.05rem; letter-spacing: -0.02em; cursor: pointer; }
+.nav-logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 2.25rem; align-items: center; }
+.nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.3s; font-family: var(--font-mono); }
+.nav-links a:hover, .nav-links a.active { color: var(--accent); }
+.nav-cta { display: inline-flex; align-items: center; padding: 0.5rem 1.2rem; background: var(--accent); color: var(--bg-primary); font-family: var(--font-mono); font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; border-radius: 3px; transition: all 0.3s; }
+.nav-cta:hover { background: #f0a81e; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(245,158,11,0.2); }
+
+.hero {
+  padding: 12rem 3rem 6rem;
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -150px;
+  right: -150px;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(245,158,11,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-inner { max-width: 900px; position: relative; z-index: 2; }
+
+.hero-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.2s;
+}
+
+.hero-tag::before { content: ''; width: 50px; height: 1px; background: var(--accent); }
+
+.vision-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--accent-dim);
+  border: 1px solid rgba(245,158,11,0.3);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.3s;
+}
+
+.vision-badge::before { content: '🎭'; }
+
+.hero-title {
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.4s;
+}
+
+.hero-title em { font-style: normal; color: var(--accent); }
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  font-weight: 300;
+  max-width: 700px;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.6s;
+}
+
+.metrics-card {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 4rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.8s;
+}
+
+.metric { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 2rem 1.5rem; text-align: left; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.metric:hover { border-color: var(--accent); background: rgba(245,158,11,0.02); transform: translateY(-4px); }
+.metric-val { font-size: 2.5rem; font-weight: 900; color: var(--accent); margin-bottom: 0.5rem; font-family: var(--font-mono); }
+.metric-lbl { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0.05em; text-transform: uppercase; }
+
+.content-wrapper { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
+
+.section {
+  margin-bottom: 6rem;
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 1rem;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: var(--accent);
+}
+
+.section-desc { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.8; max-width: 800px; margin-bottom: 2rem; font-weight: 300; }
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.project-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2rem;
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+
+.project-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 12px 32px rgba(245,158,11,0.1); }
+
+.project-icon { font-size: 3rem; margin-bottom: 1rem; }
+.project-name { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
+.project-concept { font-size: 0.9rem; color: var(--accent); margin-bottom: 1rem; font-weight: 600; }
+.project-desc { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem; }
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  font-size: 0.9rem;
+}
+
+.data-table thead {
+  background: rgba(245,158,11,0.05);
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.data-table td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.data-table tbody tr:hover {
+  background: rgba(245,158,11,0.02);
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.outcome-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.outcome-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.outcome-item:hover { border-color: var(--accent); transform: translateY(-4px); }
+
+.outcome-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.outcome-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.75rem; }
+.outcome-desc { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+
+.visual-block {
+  width: 100%;
+  height: 400px;
+  background: linear-gradient(135deg, rgba(245,158,11,0.1) 0%, rgba(245,158,11,0.02) 100%);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 3rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.visual-block::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 36px, rgba(255,255,255,0.006) 36px, rgba(255,255,255,0.006) 37px), repeating-linear-gradient(90deg, transparent, transparent 36px, rgba(255,255,255,0.006) 36px, rgba(255,255,255,0.006) 37px);
+  pointer-events: none;
+}
+
+.visual-label { font-size: 3rem; font-weight: 900; opacity: 0.08; color: var(--text-primary); text-align: center; position: relative; z-index: 1; user-select: none; }
+
+.case-footer { background: var(--bg-secondary); padding: 4rem 3rem; margin-top: 6rem; border-top: 1px solid var(--border); text-align: center; }
+.footer-nav { display: flex; gap: 2rem; justify-content: center; margin-top: 2rem; }
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.3s;
+}
+
+.footer-link:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+.stat-highlight {
+  display: inline-block;
+  background: rgba(245,158,11,0.1);
+  border-left: 3px solid var(--accent);
+  padding: 0.75rem 1.25rem;
+  margin: 1rem 0;
+  border-radius: 3px;
+}
+
+.stat-highlight strong { color: var(--accent); }
+
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { gap: 1.5rem; }
+  .hero { padding: 8rem 1.5rem 3rem; }
+  .hero-title { font-size: 2.5rem; }
+  .hero-subtitle { font-size: 1rem; }
+  .content-wrapper { padding: 0 1.5rem; }
+  .metrics-card { grid-template-columns: 1fr; }
+  .section-title { font-size: 1.5rem; }
+  .visual-block { height: 300px; }
+  .projects-grid { grid-template-columns: 1fr; }
+}
+
+/* Design System Overrides */
+:root {
+  --bg-primary: #131313 !important;
+  --bg-secondary: #070707 !important;
+  --bg-card: #1F1F1F !important;
+  --bg-card-hover: #282828 !important;
+  --text-primary: #FFFFFF !important;
+  --text-secondary: rgba(255,255,255,0.65) !important;
+  --text-muted: rgba(255,255,255,0.40) !important;
+  --accent: #C9F31D !important;
+  --accent-primary: #C9F31D !important;
+  --accent-secondary: #7c3aed !important;
+  --accent-tertiary: #C9F31D !important;
+  --accent-dim: rgba(201,243,29,0.08) !important;
+  --accent-glow: rgba(201,243,29,0.25) !important;
+  --gold: #C9F31D !important;
+  --gold-dim: rgba(201,243,29,0.08) !important;
+  --teal: #C9F31D !important;
+  --teal-dim: rgba(201,243,29,0.08) !important;
+  --blue: #C9F31D !important;
+  --blue-dim: rgba(201,243,29,0.08) !important;
+  --purple: #7c3aed !important;
+  --purple-dim: rgba(124,58,237,0.12) !important;
+  --border: rgba(255,255,255,0.10) !important;
+  --font-display: 'DM Sans', sans-serif !important;
+  --font-mono: 'Inter', sans-serif !important;
+}
+
+body {
+  font-family: 'Inter', sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6, .hero-title, .section-title, .box-title, .outcome-title {
+  font-family: 'DM Sans', sans-serif !important;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E") !important;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+</style>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-logo">mouaz<span>.</span></div>
+  <div class="nav-links">
+    <a href="../../index.html">Home</a>
+    <a href="../../works.html">Works</a>
+    <a href="#" class="active">Case Study</a>
+    <a href="../../about.html">About</a>
+    <a href="../../contact.html" class="nav-cta">Contact</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Saudi Vision 2030 Cultural Commissions</div>
+    <div class="vision-badge">Multi-Commission Strategic Leadership</div>
+    <h1 class="hero-title">Ministry of <em>Culture</em></h1>
+    <p class="hero-subtitle">
+      Led comprehensive creative strategy across five major Ministry of Culture commissions, transforming Saudi cultural landscape through grassroots theatrical movements, international cultural exchange, experiential literature, professional translation infrastructure, and premium heritage preservation. Strategic positioning aligned with Vision 2030 cultural diversification goals.
+    </p>
+  </div>
+</div>
+
+<div class="content-wrapper">
+  <div class="metrics-card">
+    <div class="metric">
+      <div class="metric-val">5</div>
+      <div class="metric-lbl">Major Commissions</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">8</div>
+      <div class="metric-lbl">Strategic Initiatives</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">Millions</div>
+      <div class="metric-lbl">Visitors & Impact</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">100%</div>
+      <div class="metric-lbl">Vision 2030 Alignment</div>
+    </div>
+  </div>
+</div>
+
+<div class="content-wrapper">
+  <section class="section reveal">
+    <h2 class="section-title">Portfolio Overview</h2>
+    <p class="section-desc">
+      Served as Senior Art Director for the Ministry of Culture, executing strategic creative direction across five distinct commissions under Saudi Vision 2030. Each initiative transformed institutional challenges into cultural catalysts through visual identity, experiential design, and digital strategy.
+    </p>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Five Strategic Commission Projects</h2>
+    <p class="section-desc">
+      Comprehensive creative leadership across performing arts, literature, heritage, and professional development initiatives.
+    </p>
+    
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-icon">🎭</div>
+        <div class="project-name">TPAC - Theater Amateurs</div>
+        <div class="project-concept">Accessible Spotlight</div>
+        <div class="project-desc">Grassroots theatrical movement platform for amateur & aspiring Saudi talent. Launched comprehensive community-driven ecosystem with accessible workshops, local staging, mentorship programs.</div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-icon">🎪</div>
+        <div class="project-name">Argentinian Shows</div>
+        <div class="project-concept">Dynamic Cultural Exchange</div>
+        <div class="project-desc">World-class international performing arts campaign. High-energy spectacular shows sold out multiple venues, enriched cultural calendar, proved demand for diverse theatrical productions.</div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-icon">📚</div>
+        <div class="project-name">Riyadh Book Fair</div>
+        <div class="project-concept">Experiential Literature</div>
+        <div class="project-desc">Transformed traditional marketplace into vibrant lifestyle festival. Record-breaking attendance with millions of visitors, generated millions in publishing sales, revitalized youth reading culture.</div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-icon">🌐</div>
+        <div class="project-name">Translation Guides</div>
+        <div class="project-concept">Structured Clarity</div>
+        <div class="project-desc">Professionalized translation sector through comprehensive career guides. Empowered thousands of local translators with clear career trajectories, standardized industry practices.</div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-icon">🎨</div>
+        <div class="project-name">Banan Exhibition</div>
+        <div class="project-concept">Premium Heritage</div>
+        <div class="project-desc">Heritage preservation platform treating traditional crafts as high fashion. Elevated socio-economic status of Saudi artisans, ensured cultural continuity, transformed craftsmanship into valued art.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="visual-block">
+    <div class="visual-label">Five Commissions • One Vision</div>
+  </div>
+
+  <section class="section reveal">
+    <h2 class="section-title">Strategic Framework Across Commissions</h2>
+    <p class="section-desc">
+      Each commission operated with distinct creative positioning aligned to strategic objectives and audience engagement models.
+    </p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Commission</th>
+          <th>Concept</th>
+          <th>Primary Challenge</th>
+          <th>Strategic Impact</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>TPAC</strong></td>
+          <td>Accessible Spotlight</td>
+          <td>Grassroots theater platform accessibility</td>
+          <td>New generation of Saudi talent + community engagement</td>
+        </tr>
+        <tr>
+          <td><strong>Argentinian Shows</strong></td>
+          <td>Dynamic Cultural Exchange</td>
+          <td>International cultural diversification</td>
+          <td>Sold-out venues + international prestige</td>
+        </tr>
+        <tr>
+          <td><strong>Book Fair</strong></td>
+          <td>Experiential Literature</td>
+          <td>Modern reading/literature rebranding</td>
+          <td>Millions in attendance + publishing revenue</td>
+        </tr>
+        <tr>
+          <td><strong>Translation Guides</strong></td>
+          <td>Structured Clarity</td>
+          <td>Professional translation infrastructure</td>
+          <td>Professionalized sector + career pathways</td>
+        </tr>
+        <tr>
+          <td><strong>Banan Exhibition</strong></td>
+          <td>Premium Heritage</td>
+          <td>Traditional craft preservation & elevation</td>
+          <td>Cultural continuity + artisan socio-economic status</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Creative Executions & Deliverables</h2>
+    <p class="section-desc">
+      Comprehensive creative direction produced distinct deliverables optimized for each commission's audience and platform ecosystem.
+    </p>
+
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">🎯</div>
+        <div class="outcome-title">TPAC Assets</div>
+        <div class="outcome-desc">Brand identity design, digital registration UI/UX, social media campaigns with motion graphics, on-ground event branding with stage backdrops and directional signage.</div>
+      </div>
+
+      <div class="outcome-item">
+        <div class="outcome-icon">📺</div>
+        <div class="outcome-title">Argentinian Shows</div>
+        <div class="outcome-desc">High-impact DOOH animated billboards, cinematic promotional videos, ticketing platform assets, immersive venue entrance branding with atmospheric digital displays.</div>
+      </div>
+
+      <div class="outcome-item">
+        <div class="outcome-icon">🌟</div>
+        <div class="outcome-title">Book Fair</div>
+        <div class="outcome-desc">Mega-event spatial branding, 3D booth conceptualization, interactive AR wayfinding, extensive digital marketing suite, exhibition catalogues, VIP invitation packages.</div>
+      </div>
+
+      <div class="outcome-item">
+        <div class="outcome-icon">📖</div>
+        <div class="outcome-title">Translation Guides</div>
+        <div class="outcome-desc">Multi-page editorial design, custom icon suites, data visualization infographics, digital landing pages, "snackable" social media carousels summarizing career chapters.</div>
+      </div>
+
+      <div class="outcome-item">
+        <div class="outcome-icon">✨</div>
+        <div class="outcome-title">Banan Exhibition</div>
+        <div class="outcome-desc">Premium visual identity & logotype, high-end print collaterals with textures and gold foil, sensory video teasers with macro-shots, documentary-style interview graphics.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Thematic Coherence Across Commissions</h2>
+    <p class="section-desc">
+      Despite distinct creative concepts for each commission, unified approach to cultural elevation, accessibility, and Vision 2030 alignment emerged across all initiatives.
+    </p>
+
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">🌍</div>
+        <div class="outcome-title">Cultural Democratization</div>
+        <div class="outcome-desc">TPAC and Book Fair transformed professional cultural access from exclusive to grassroots. Argentinian Shows and Banan emphasized accessibility despite premium positioning.</div>
+      </div>
+
+      <div class="outcome-item">
+        <div class="outcome-icon">🎨</div>
+        <div class="outcome-title">Aesthetic Elevation</div>
+        <div class="outcome-desc">Each commission treated its domain (theater, literature, heritage, translation) as deserving premium visual language. Concept design elevated institutional perception across sectors.</div>
+      </div>
+
+      <div class="outcome-item">
+        <div class="outcome-icon">📈</div>
+        <div class="outcome-title">Ecosystem Building</div>
+        <div class="outcome-desc">Beyond individual campaigns, work built sustainable infrastructure: TPAC created talent pipelines, Translation Guides professionalized entire sector, Banan established heritage economy.</div>
+      </div>
+
+      <div class="outcome-item">
+        <div class="outcome-icon">🎯</div>
+        <div class="outcome-title">Vision 2030 Integration</div>
+        <div class="outcome-desc">All five initiatives directly advanced Vision 2030 cultural diversification, professional development, and international positioning goals through distinct strategic pathways.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Strategic Impact & Outcomes</h2>
+    <p class="section-desc">
+      Ministry of Culture commission work established creative leadership across Saudi cultural institutions while driving measurable audience engagement, industry professionalization, and Vision 2030 alignment.
+    </p>
+
+    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; margin-top: 2rem;">
+      <ul style="list-style: none; padding-left: 0;">
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Grassroots Cultural Movement:</strong> TPAC catalyzed theatrical movement discovering new generation of Saudi actors, directors, playwrights with sustained community engagement infrastructure.
+        </li>
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>International Prestige:</strong> Argentinian Shows demonstrated Kingdom's cultural sophistication and international engagement capability through sold-out venues and international-caliber productions.
+        </li>
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Youth Cultural Engagement:</strong> Book Fair transformation from traditional marketplace to lifestyle festival achieved millions in attendance and revitalized reading culture among Saudi youth.
+        </li>
+        <li style="margin-bottom: 1rem; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Sector Professionalization:</strong> Translation Guides professionalized fragmented sector, empowering thousands of local translators with standardized practices and clear career pathways.
+        </li>
+        <li style="margin-bottom: 0; padding-left: 1.5rem; position: relative;">
+          <span style="position: absolute; left: 0; color: var(--accent); font-weight: bold;">→</span>
+          <strong>Heritage Economy:</strong> Banan Exhibition transformed traditional craftsmanship preservation challenge into thriving heritage economy elevating artisan socio-economic status while ensuring cultural continuity.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2 class="section-title">Portfolio Positioning</h2>
+    <p class="section-desc">
+      Ministry of Culture work demonstrates comprehensive creative leadership across institutional scale cultural initiatives aligned with national strategic objectives.
+    </p>
+
+    <div class="outcome-grid">
+      <div class="outcome-item">
+        <div class="outcome-icon">🏛️</div>
+        <div class="outcome-title">Institutional Positioning</div>
+        <div class="outcome-desc">Strategic creative direction for governmental cultural institutions at macro scale, aligned with Vision 2030 and national cultural policy objectives.</div>
+      </div>
+
+      <div class="outcome-item">
+        <div class="outcome-icon">🎭</div>
+        <div class="outcome-title">Cultural Strategy</div>
+        <div class="outcome-desc">Translating complex cultural policy into accessible, engaging creative experiences across diverse audiences and demographics.</div>
+      </div>
+
+      <div class="outcome-item">
+        <div class="outcome-icon">📊</div>
+        <div class="outcome-title">Ecosystem Building</div>
+        <div class="outcome-desc">Creating sustainable infrastructure beyond individual campaigns: talent pipelines, professional frameworks, heritage economies, audience engagement systems.</div>
+      </div>
+
+      <div class="outcome-item">
+        <div class="outcome-icon">🌟</div>
+        <div class="outcome-title">Impact Scale</div>
+        <div class="outcome-desc">Measurable outcomes from millions in attendance to professionalized sectors to international prestige to intergenerational cultural continuity.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer class="case-footer">
+  <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Explore More Vision 2030 & Macro-Impact Work</h3>
+  <p style="color: var(--text-secondary); margin-bottom: 2rem;">Other institutional branding and governmental cultural positioning projects</p>
+  <div class="footer-nav">
+    <a href="case-study-smo-vision-2030.html" class="footer-link">← SMO Vision 2030</a>
+    <a href="../../works.html" class="footer-link">All Works</a>
+    <a href="case-study-ministry-of-energy.html" class="footer-link">Ministry of Energy →</a>
+  </div>
+</footer>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 50) {
+    nav.classList.add('scrolled');
+  } else {
+    nav.classList.remove('scrolled');
+  }
+});
+
+const reveals = document.querySelectorAll('.reveal');
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -100px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+reveals.forEach(reveal => observer.observe(reveal));
+</script>
+
+</body>
+</html>

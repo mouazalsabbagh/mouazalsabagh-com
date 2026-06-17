@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flynas Case Study — Mouaz AlSabbagh</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-card: #1c2128;
+            --text-primary: #ffffff;
+            --text-secondary: #8b949e;
+            --accent-primary: #a2ff00;
+            --accent-secondary: #7c3aed;
+            --accent-tertiary: #14b8a6;
+            --accent-gold: #f59e0b;
+            --border: #30363d;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        header {
+            border-bottom: 1px solid var(--border);
+            padding: 2rem 0;
+            margin-bottom: 4rem;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(10px);
+            background: rgba(13, 17, 23, 0.8);
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-left: 2rem;
+            transition: color 0.3s;
+            font-size: 0.9rem;
+        }
+
+        nav a:hover {
+            color: var(--accent-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-bottom: 6rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .hero-content {
+            max-width: 900px;
+        }
+
+        .pillar-badge {
+            display: inline-block;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 0.5rem 1.2rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .project-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .meta-item h3 {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .meta-item p {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .content-section {
+            margin-bottom: 5rem;
+            opacity: 0;
+            animation: slideUp 0.8s ease-out forwards;
+        }
+
+        .content-section:nth-child(1) { animation-delay: 0.2s; }
+        .content-section:nth-child(2) { animation-delay: 0.4s; }
+        .content-section:nth-child(3) { animation-delay: 0.6s; }
+        .content-section:nth-child(4) { animation-delay: 0.8s; }
+        .content-section:nth-child(5) { animation-delay: 1s; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            gap: 1rem;
+        }
+
+        .section-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            opacity: 0.3;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .text-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .text-content p {
+            margin-bottom: 1.2rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .text-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .challenge, .solution, .impact {
+            margin-bottom: 1.5rem;
+        }
+
+        .challenge-label, .solution-label, .impact-label {
+            font-weight: 700;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .metric-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .metric-card:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-4px);
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        /* Image Placeholder */
+        .image-placeholder {
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            padding: 3rem;
+            text-align: center;
+            margin: 2rem 0;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .image-placeholder-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        /* Lists */
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        ul li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--accent-gold);
+            font-weight: bold;
+        }
+
+        /* Deliverables */
+        .deliverables {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .deliverable-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .deliverable-item:hover {
+            border-color: var(--accent-gold);
+            background: rgba(245, 158, 11, 0.05);
+        }
+
+        .deliverable-title {
+            color: var(--accent-gold);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .deliverable-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Bottom Section */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            padding-top: 2rem;
+            margin-top: 4rem;
+        }
+
+        .nav-link {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover {
+            gap: 1rem;
+        }
+
+        .arrow {
+            font-size: 1.2rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .project-meta {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .deliverables {
+                grid-template-columns: 1fr;
+            }
+
+            nav {
+                display: none;
+            }
+        }
+    
+/* Design System Overrides */
+:root {
+  --bg-primary: #131313 !important;
+  --bg-secondary: #070707 !important;
+  --bg-card: #1F1F1F !important;
+  --bg-card-hover: #282828 !important;
+  --text-primary: #FFFFFF !important;
+  --text-secondary: rgba(255,255,255,0.65) !important;
+  --text-muted: rgba(255,255,255,0.40) !important;
+  --accent: #C9F31D !important;
+  --accent-primary: #C9F31D !important;
+  --accent-secondary: #7c3aed !important;
+  --accent-tertiary: #C9F31D !important;
+  --accent-dim: rgba(201,243,29,0.08) !important;
+  --accent-glow: rgba(201,243,29,0.25) !important;
+  --gold: #C9F31D !important;
+  --gold-dim: rgba(201,243,29,0.08) !important;
+  --teal: #C9F31D !important;
+  --teal-dim: rgba(201,243,29,0.08) !important;
+  --blue: #C9F31D !important;
+  --blue-dim: rgba(201,243,29,0.08) !important;
+  --purple: #7c3aed !important;
+  --purple-dim: rgba(124,58,237,0.12) !important;
+  --border: rgba(255,255,255,0.10) !important;
+  --font-display: 'DM Sans', sans-serif !important;
+  --font-mono: 'Inter', sans-serif !important;
+}
+
+body {
+  font-family: 'Inter', sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6, .hero-title, .section-title, .box-title, .outcome-title {
+  font-family: 'DM Sans', sans-serif !important;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E") !important;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+</style>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+        <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="../../index.html" class="logo">mouaz.design</a>
+                <nav>
+                    <a href="../../index.html">Work</a>
+                    <a href="../../about.html">About</a>
+                    <a href="../../contact.html">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="pillar-badge">Performance & Growth</div>
+            <h1>Flynas</h1>
+            <p class="subtitle">Global Market Expansion Through Destination-Driven Creative Production</p>
+
+            <div class="project-meta">
+                <div class="meta-item">
+                    <h3>Client</h3>
+                    <p>Flynas Airlines</p>
+                </div>
+                <div class="meta-item">
+                    <h3>Category</h3>
+                    <p>Performance Marketing</p>
+                </div>
+                <div class="meta-item">
+                    <h3>Scope</h3>
+                    <p>Video, Motion Graphics, PMax</p>
+                </div>
+                <div class="meta-item">
+                    <h3>Year</h3>
+                    <p>2023–2024</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Challenge Section -->
+        <section class="content-section">
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <h2>Challenge</h2>
+            </div>
+            <div class="text-content">
+                <div class="challenge">
+                    <span class="challenge-label">The Problem</span>
+                    <p>Flynas faced aggressive growth targets for seasonal campaigns (Summer and Winter expansions) and strategic domestic partnerships (ACP partnerships in Al-Ula and Abha). The airline needed to penetrate new international markets—Moscow, Nairobi, Pristina—while scaling creative assets for automated performance marketing systems like Google's PMax.</p>
+                    <p>The core challenge: <strong>produce massive volumes of high-impact visual assets at premium quality while maintaining consistency across destination-specific narratives</strong> for diverse, rapidly changing campaign windows.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solution Section -->
+        <section class="content-section">
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <h2>Solution & Approach</h2>
+            </div>
+            <div class="text-content">
+                <div class="solution">
+                    <span class="solution-label">Strategic Execution</span>
+                    <p>We executed an <strong>end-to-end creative production strategy</strong> combining high-end video editing, dynamic motion graphics, and premium image design. The approach was built on scalability without sacrificing quality.</p>
+
+                    <p><strong>Core Strategic Elements:</strong></p>
+                    <ul>
+                        <li><strong>Destination-Specific Narratives:</strong> Each market (Moscow, Nairobi, Pristina, Al-Ula, Abha) received tailored visual stories that resonated locally while maintaining Flynas brand consistency</li>
+                        <li><strong>"Dynamic Travel Lifestyles" Concept:</strong> A flexible visual language blending high-energy motion graphics with premium destination footage</li>
+                        <li><strong>Seasonal Mood Shifts:</strong> Summer campaigns leveraged sun-drenched, aspirational vibes; Winter campaigns shifted to crisp, striking atmospheres</li>
+                        <li><strong>PMax-Optimized Assets:</strong> All creative designed for rapid digital consumption—responsive web banners, vertical videos, story-format guides</li>
+                        <li><strong>Automated Marketing Integration:</strong> Assets engineered for seamless scaling across Google's algorithmic bidding systems</li>
+                    </ul>
+
+                    <p>The art direction maintained Flynas's vibrant brand palette while adapting aesthetics to regional preferences, ensuring relevance without diluting brand identity across diverse markets.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Impact Section -->
+        <section class="content-section">
+            <div class="section-header">
+                <span class="section-number">03</span>
+                <h2>Impact & Results</h2>
+            </div>
+            <div class="text-content">
+                <div class="impact">
+                    <span class="impact-label">Business Outcomes</span>
+                    <p>The scalable creative production strategy directly enabled Flynas to expand into new international markets and strengthen domestic partnerships during critical Q4 and Q1 campaign windows.</p>
+
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">5+ Markets</div>
+                            <div class="metric-label">New Destinations</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">1000+</div>
+                            <div class="metric-label">Creative Assets</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">24-48H</div>
+                            <div class="metric-label">Asset Turnaround</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">PMax Optimized</div>
+                            <div class="metric-label">Algorithmic Ready</div>
+                        </div>
+                    </div>
+
+                    <p>By creating a scalable, destination-responsive visual system, Flynas was able to launch aggressive market-penetration campaigns across five new international routes while simultaneously powering domestic partnership growth in Al-Ula and Abha. The portfolio of PMax-optimized assets directly enhanced campaign performance metrics, maximizing reach and booking conversions during peak travel windows.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Deliverables Section -->
+        <section class="content-section">
+            <div class="section-header">
+                <span class="section-number">04</span>
+                <h2>Key Deliverables</h2>
+            </div>
+
+            <div class="deliverables">
+                <div class="deliverable-item">
+                    <div class="deliverable-title">International Campaign Videos</div>
+                    <div class="deliverable-desc">Promotional videos for Winter campaigns targeting Moscow, Nairobi, and Pristina with destination-specific narratives</div>
+                </div>
+                <div class="deliverable-item">
+                    <div class="deliverable-title">Domestic Partnership Assets</div>
+                    <div class="deliverable-desc">Targeted image designs and visual storytelling for ACP partnerships (Al-Ula & Abha)</div>
+                </div>
+                <div class="deliverable-item">
+                    <div class="deliverable-title">PMax-Optimized Suite</div>
+                    <div class="deliverable-desc">Responsive web banners, vertical promotional reels, and adaptive asset formats for Google's automated bidding</div>
+                </div>
+                <div class="deliverable-item">
+                    <div class="deliverable-title">Story Trip Guides</div>
+                    <div class="deliverable-desc">Comprehensive multimedia guides (Vienna Story Trip, etc.) showcasing destination experiences and travel stories</div>
+                </div>
+                <div class="deliverable-item">
+                    <div class="deliverable-title">Year-End Recaps</div>
+                    <div class="deliverable-desc">End-of-year visual narratives and performance-driven promotional graphics</div>
+                </div>
+                <div class="deliverable-item">
+                    <div class="deliverable-title">Motion Graphics Library</div>
+                    <div class="deliverable-desc">Modular animation system enabling rapid asset variation without quality loss</div>
+                </div>
+            </div>
+
+            <div class="image-placeholder">
+                <div class="image-placeholder-text">
+                    ✈️ Responsive PMax banner adaptations, vertical promotional reels, and story trip guide mockups would appear here
+                </div>
+            </div>
+        </section>
+
+        <!-- Visual Concept Section -->
+        <section class="content-section">
+            <div class="section-header">
+                <span class="section-number">05</span>
+                <h2>Visual Strategy</h2>
+            </div>
+            <div class="text-content">
+                <p><strong>Core Concept: "Dynamic Travel Lifestyles"</strong></p>
+                <p>The art direction fused high-energy motion graphics with premium destination footage, creating an instantly recognizable visual language that remained flexible across markets and campaigns. While maintaining Flynas's vibrant brand palette, the aesthetic adapted seamlessly—from sun-drenched summer vibes to crisp winter atmospheres.</p>
+                <p>Every asset was engineered as a <strong>scroll-stopping visual hook</strong> optimized for digital-first consumption. Typography, color, and pacing were calibrated for rapid engagement on social media, stories, and PMax formats—ensuring maximum impact in the fragmented attention economy.</p>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+                        <div class="bottom-nav">
+            <a href="case-study-balady-app.html" class="nav-link">← Balady App</a>
+            <a href="case-study-smo-vision-2030.html" class="nav-link">Next: SMO Vision 2030 <span class="arrow">→</span></a>
+        </div>
+
+    </main>
+
+    <script>
+        // Scroll reveal animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.content-section').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
