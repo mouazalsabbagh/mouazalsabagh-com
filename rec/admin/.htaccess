@@ -1,0 +1,44 @@
+# Admin Dashboard Security
+# Protect the admin area and ensure proper access
+
+# Deny direct access to lib.php and other includes
+<FilesMatch "^(lib|api|admin)\.php$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>
+
+# Protect uploads directory
+<Directory "uploads">
+    # Allow images and videos only
+    <FilesMatch "\.(webp|png|jpg|jpeg|gif|mp4|webm|pdf)$">
+        Allow from all
+    </FilesMatch>
+    
+    # Deny PHP execution in uploads
+    <FilesMatch "\.php$">
+        Order Allow,Deny
+        Deny from all
+    </FilesMatch>
+</Directory>
+
+# Prevent directory listing
+Options -Indexes
+
+# Force HTTPS on production
+# Uncomment these lines after SSL certificate is installed:
+# <IfModule mod_rewrite.c>
+#     RewriteEngine On
+#     RewriteCond %{HTTPS} off
+#     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# </IfModule>
+
+# Cache busting for assets
+<FilesMatch "\.(js|css|woff2)$">
+    Header set Cache-Control "public, max-age=604800"
+</FilesMatch>
+
+# Set security headers
+Header set X-Content-Type-Options "nosniff"
+Header set X-Frame-Options "SAMEORIGIN"
+Header set X-XSS-Protection "1; mode=block"
+Header set Referrer-Policy "strict-origin-when-cross-origin"
