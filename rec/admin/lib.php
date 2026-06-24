@@ -101,13 +101,24 @@ function initAdminTables() {
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
     
     // Recommendations table enhancements (compatibility with existing)
-    $db->exec("ALTER TABLE recommendations ADD COLUMN IF NOT EXISTS 
-        tags VARCHAR(255),
-        ai_draft LONGTEXT,
-        reviewed_by INT,
-        reviewed_at DATETIME,
-        notes TEXT,
-        rating INT DEFAULT 5");
+    try {
+        $db->exec("ALTER TABLE recommendations ADD COLUMN tags VARCHAR(255)");
+    } catch (PDOException $e) { /* ignore if column exists */ }
+    try {
+        $db->exec("ALTER TABLE recommendations ADD COLUMN ai_draft LONGTEXT");
+    } catch (PDOException $e) { }
+    try {
+        $db->exec("ALTER TABLE recommendations ADD COLUMN reviewed_by INT");
+    } catch (PDOException $e) { }
+    try {
+        $db->exec("ALTER TABLE recommendations ADD COLUMN reviewed_at DATETIME");
+    } catch (PDOException $e) { }
+    try {
+        $db->exec("ALTER TABLE recommendations ADD COLUMN notes TEXT");
+    } catch (PDOException $e) { }
+    try {
+        $db->exec("ALTER TABLE recommendations ADD COLUMN rating INT DEFAULT 5");
+    } catch (PDOException $e) { }
 }
 
 // ── SESSION & AUTH ────────────────────────────────────────────────────────────

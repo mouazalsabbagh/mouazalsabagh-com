@@ -174,6 +174,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'login') {
     if (password_verify($pass, ADMIN_PASS_HASH)) {
         session_regenerate_id(true);
         $_SESSION['admin_auth'] = true;
+        $_SESSION['admin_username'] = 'admin';
+        $_SESSION['admin_role'] = 'admin';
         header('Location: collect.php?action=admin');
     } else {
         header('Location: collect.php?action=admin&error=1');
