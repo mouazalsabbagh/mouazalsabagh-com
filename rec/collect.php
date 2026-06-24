@@ -103,6 +103,50 @@ function isAdmin() {
 // ── ROUTING ───────────────────────────────────────────────────────────────────
 $action = $_GET['action'] ?? '';
 
+// ADMIN STATUS (used by front-end to show edit links when an admin is logged in)
+if ($action === 'admin_status') {
+  header('Content-Type: application/json');
+  session_start();
+  $is = isset($_SESSION['admin_auth']) && $_SESSION['admin_auth'] === true;
+  echo json_encode(['admin' => $is]);
+  exit;
+}
+
+// ADMIN EDIT REDIRECT: resolve a public page slug to the admin editor URL
+if ($action === 'admin_edit') {
+  session_start();
+  if (!isset($_SESSION['admin_auth']) || $_SESSION['admin_auth'] !== true) {
+    // Not authenticated — send to admin login
+    header('Location: collect.php?action=admin');
+    exit;
+  }
+
+  $slug = $_GET['slug'] ?? '';
+  $slug = preg_replace('/\.html?$/i', '', trim($slug));
+  if ($slug === '') {
+    header('Location: /rec/admin/?page=pages');
+    exit;
+  }
+
+  // Lookup portfolio item by slug and redirect to edit if found
+  try {
+    $db = getDB();
+    $stmt = $db->prepare("SELECT id FROM portfolio_items WHERE slug = ? LIMIT 1");
+    $stmt->execute([$slug]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($row && !empty($row['id'])) {
+      header('Location: /rec/admin/?page=pages&action=edit&id=' . intval($row['id']));
+      exit;
+    }
+  } catch (Exception $e) {
+    // ignore and fall through to search page
+  }
+
+  // Fallback: open pages list with search populated
+  header('Location: /rec/admin/?page=pages&search=' . urlencode($slug));
+  exit;
+}
+
 // SAVE SUBMISSION
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'save') {
     header('Content-Type: application/json');

@@ -329,3 +329,52 @@
 })();
 
 /* ============================================================ */
+
+/* ============================================================
+   Admin edit quick-link: if an admin session is active, show a
+   small floating button that opens the Pages manager with the
+   current page slug pre-filled in the search box.
+   This avoids changing static page templates.
+   ============================================================ */
+(function adminEditLink() {
+    function init() {
+        fetch('/rec/collect.php?action=admin_status', { credentials: 'include' })
+            .then(function (res) { return res.json(); })
+            .then(function (json) {
+                if (!json || !json.admin) return;
+                var path = window.location.pathname || '/';
+                var filename = (path === '/' || path === '') ? 'index' : path.split('/').pop();
+                var slug = filename.replace(/\.html?$/i, '');
+                var adminUrl = '/rec/collect.php?action=admin_edit&slug=' + encodeURIComponent(slug);
+
+                var btn = document.createElement('a');
+                btn.href = adminUrl;
+                btn.target = '_blank';
+                btn.rel = 'noopener noreferrer';
+                btn.textContent = 'Edit (admin)';
+                btn.setAttribute('aria-label', 'Edit this page in admin');
+                btn.style.cssText = 'position:fixed;right:14px;bottom:14px;background:#111;color:#fff;padding:8px 10px;border-radius:8px;z-index:99999;box-shadow:0 6px 18px rgba(0,0,0,0.2);font-weight:700;text-decoration:none;font-family:Inter, Arial, sans-serif;font-size:13px;';
+                document.body.appendChild(btn);
+
+                // Also inject a compact inline admin link into the page header if present
+                try {
+                    var header = document.querySelector('header.main-header');
+                    if (header) {
+                        var inline = document.createElement('a');
+                        inline.href = adminUrl;
+                        inline.target = '_blank';
+                        inline.rel = 'noopener noreferrer';
+                        inline.textContent = 'Admin';
+                        inline.setAttribute('aria-label', 'Open admin dashboard');
+                        inline.className = 'admin-inline-link';
+                        inline.style.cssText = 'margin-left:12px;background:transparent;border:1px solid rgba(255,255,255,0.06);color:#fff;padding:6px 8px;border-radius:6px;font-size:13px;text-decoration:none;font-weight:700;';
+                        // Place it in the header's inner container if available
+                        var targetInsert = header.querySelector('.header-inner') || header;
+                        targetInsert.appendChild(inline);
+                    }
+                } catch (e) { /* ignore DOM errors */ }
+            })
+            .catch(function () { /* silent */ });
+    }
+    if (document.readyState !== 'loading') init(); else document.addEventListener('DOMContentLoaded', init);
+})();
